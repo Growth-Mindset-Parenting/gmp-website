@@ -45,6 +45,7 @@ export default function WritingPiecePage({ params }) {
     headline: letter.title,
     description: letter.excerpt || letter.dek,
     datePublished: letter.date,
+    dateModified: letter.date,
     author: {
       '@type': 'Person',
       name: 'Sean Kane',

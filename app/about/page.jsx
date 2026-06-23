@@ -10,6 +10,11 @@ export const metadata = {
   title: 'About Sean Kane',
   description:
     'Fourteen years teaching middle school. Three sons. The same six skills, in two different rooms.',
+  openGraph: {
+    title: 'About Sean Kane',
+    description: 'Fourteen years teaching middle school. Three sons. The same six skills, in two different rooms.',
+    images: [{ url: '/images/sean-hero.jpg' }],
+  },
 };
 
 const PERSON_FULL_SCHEMA = {
