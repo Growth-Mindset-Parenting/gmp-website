@@ -44,8 +44,8 @@ export default function WritingPiecePage({ params }) {
     '@type': 'BlogPosting',
     headline: letter.title,
     description: letter.excerpt || letter.dek,
-    datePublished: letter.date,
-    dateModified: letter.date,
+    datePublished: `${letter.date}T00:00:00Z`,
+    dateModified: `${letter.date}T00:00:00Z`,
     author: {
       '@type': 'Person',
       name: 'Sean Kane',
@@ -64,7 +64,7 @@ export default function WritingPiecePage({ params }) {
   };
 
   return (
-    <article className="v6-page theme-terracotta" itemScope itemType="https://schema.org/BlogPosting">
+    <article className="v6-page theme-terracotta">
       <JsonLd data={ARTICLE_SCHEMA} />
       <Nav active="/writing" />
 
@@ -77,8 +77,8 @@ export default function WritingPiecePage({ params }) {
             {new Date(letter.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
           </time>
         </div>
-        <h1 className="v6-article-h1" itemProp="headline">{letter.title}</h1>
-        {letter.dek && <p className="v6-article-dek" itemProp="description">{letter.dek}</p>}
+        <h1 className="v6-article-h1">{letter.title}</h1>
+        {letter.dek && <p className="v6-article-dek">{letter.dek}</p>}
         <Link href="/about/" className="v6-article-byline" style={{ textDecoration: 'none', color: 'inherit' }}>
           <img
             className="v6-article-byline-avatar"
@@ -89,7 +89,7 @@ export default function WritingPiecePage({ params }) {
             loading="lazy"
           />
           <div>
-            <div className="v6-article-byline-name" itemProp="author">Sean Kane</div>
+            <div className="v6-article-byline-name">Sean Kane</div>
             <div className="v6-article-byline-meta">Fourteen years in the classroom. Three sons at the kitchen table.</div>
           </div>
         </Link>
@@ -109,7 +109,7 @@ export default function WritingPiecePage({ params }) {
       )}
 
       <div className="v6-article-layout">
-        <div className="v6-article-body" itemProp="articleBody">
+        <div className="v6-article-body">
           {(letter.body || []).map((para, i) => {
             const parts = para.split(/(\*\*[^*]+\*\*)/g);
             return (

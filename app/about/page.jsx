@@ -44,7 +44,7 @@ const PERSON_FULL_SCHEMA = {
 
 export default function AboutPage() {
   return (
-    <article className="v6-page theme-terracotta" itemScope itemType="https://schema.org/Person">
+    <article className="v6-page theme-terracotta">
       <JsonLd data={PERSON_FULL_SCHEMA} />
       <Nav active="/about" />
 
@@ -84,7 +84,7 @@ export default function AboutPage() {
           </nav>
         </aside>
 
-        <div className="v6-about-prose" itemProp="description">
+        <div className="v6-about-prose">
 
           {/* Section 1 */}
           <h2 id="room-201">Room 201.</h2>
@@ -193,7 +193,7 @@ export default function AboutPage() {
           {/* Stats block */}
           <div className="v6-about-stats" role="list">
             <div className="v6-about-stat" role="listitem">
-              <b itemProp="yearsOfExperience">14</b>
+              <b>14</b>
               <div className="v6-about-stat-l">yrs &middot; Teaching middle school</div>
             </div>
             <div className="v6-about-stat" role="listitem">
