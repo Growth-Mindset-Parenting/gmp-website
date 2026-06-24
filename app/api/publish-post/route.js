@@ -155,6 +155,68 @@ function htmlSuccess(title, slug, siteUrl) {
 </html>`;
 }
 
+// ── Script Log write-back ─────────────────────────────────────────────────────
+
+const SCRIPT_LOG_SPREADSHEET_ID = '1kAAn0jLBqxy15raMg50tz43Fhmavv6af8idTSoYKMT8';
+const SCRIPT_LOG_SHEET = 'Script Log';
+
+/**
+ * Find all rows in the Script Log where Theme #1 (col E), Theme #2 (col F),
+ * or Theme #3 (col G) matches scriptLogTheme, then write the published URL
+ * to column N for each matching row.
+ */
+async function writeUrlToScriptLog(scriptLogTheme, publishedUrl, auth) {
+  const sheets = google.sheets({ version: 'v4', auth });
+
+  // Read Theme columns (E, F, G) and Blog URL column (N) for all rows
+  const readRes = await sheets.spreadsheets.values.get({
+    spreadsheetId: SCRIPT_LOG_SPREADSHEET_ID,
+    range: `'${SCRIPT_LOG_SHEET}'!A:N`,
+  });
+
+  const rows = readRes.data.values || [];
+  if (rows.length === 0) return;
+
+  // Column indices (0-based): E=4, F=5, G=6, N=13
+  const THEME1_COL = 4;
+  const THEME2_COL = 5;
+  const THEME3_COL = 6;
+  const BLOG_COL = 13;
+
+  // Find matching rows (1-indexed for Sheets API, row 1 is likely header)
+  const updateData = [];
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const t1 = (row[THEME1_COL] || '').trim();
+    const t2 = (row[THEME2_COL] || '').trim();
+    const t3 = (row[THEME3_COL] || '').trim();
+
+    if (t1 === scriptLogTheme || t2 === scriptLogTheme || t3 === scriptLogTheme) {
+      // Rows are 1-indexed in Sheets, and row 1 is header, so data starts at row 2
+      const sheetRow = i + 1;
+      updateData.push({
+        range: `'${SCRIPT_LOG_SHEET}'!N${sheetRow}`,
+        values: [[publishedUrl]],
+      });
+    }
+  }
+
+  if (updateData.length === 0) {
+    console.log(`[publish-post] No Script Log rows found for theme "${scriptLogTheme}"`);
+    return;
+  }
+
+  await sheets.spreadsheets.values.batchUpdate({
+    spreadsheetId: SCRIPT_LOG_SPREADSHEET_ID,
+    requestBody: {
+      valueInputOption: 'RAW',
+      data: updateData,
+    },
+  });
+
+  console.log(`[publish-post] Wrote blog URL to ${updateData.length} Script Log row(s) for theme "${scriptLogTheme}"`);
+}
+
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function GET(request) {
@@ -214,7 +276,10 @@ export async function GET(request) {
 
     const auth = new google.auth.GoogleAuth({
       credentials: JSON.parse(keyJson),
-      scopes: ['https://www.googleapis.com/auth/documents.readonly'],
+      scopes: [
+        'https://www.googleapis.com/auth/documents.readonly',
+        'https://www.googleapis.com/auth/spreadsheets',
+      ],
     });
     const docs = google.docs({ version: 'v1', auth });
 
@@ -306,8 +371,19 @@ export async function GET(request) {
       githubPat
     );
 
-    // 9. Return HTML success page
+    // 9. Write published URL back to Script Log column N for matching scripts
     const siteUrl = process.env.SITE_URL ?? 'https://growthmindsetparenting.com';
+    const publishedUrl = `${siteUrl}/writing/${entry.slug}`;
+    if (entry.scriptLogTheme && process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
+      try {
+        await writeUrlToScriptLog(entry.scriptLogTheme, publishedUrl, auth);
+      } catch (sheetErr) {
+        // Non-fatal — the post is live even if the sheet update fails
+        console.warn('[publish-post] Script Log update failed:', sheetErr.message);
+      }
+    }
+
+    // 10. Return HTML success page
     return htmlResponse(htmlSuccess(entry.title, entry.slug, siteUrl), 200);
 
   } catch (err) {

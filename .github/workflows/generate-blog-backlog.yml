@@ -1,0 +1,45 @@
+name: Generate Blog Backlog (All Pending)
+
+on:
+  workflow_dispatch: # Manual trigger only — run once to generate all 10 posts
+
+permissions:
+  contents: write
+
+jobs:
+  generate-all:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate all pending blog posts
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BLOG_DRAFT_DOC_ID: ${{ secrets.BLOG_DRAFT_DOC_ID }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          PUBLISH_SECRET: ${{ secrets.PUBLISH_SECRET }}
+          SITE_URL: https://growthmindsetparenting.com
+          GENERATE_ALL: 'true'
+        run: node scripts/generate-blog-post.mjs
+
+      - name: Commit updated blog-queue.json
+        run: |
+          git config user.email "blog-generator@growthmindsetparenting.com"
+          git config user.name "Blog Generator Bot"
+          git add content/blog-queue.json
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "Mark all blog posts generated (backlog run)"
+          git push

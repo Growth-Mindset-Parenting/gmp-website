@@ -242,4 +242,19 @@ async function main() {
   console.log(`Publish URL: ${publishUrl}`);
 }
 
-main().catch(e => { console.error(e.message); process.exit(1); });
+// When GENERATE_ALL=true, loop until every pending topic is generated
+if (process.env.GENERATE_ALL === 'true') {
+  (async () => {
+    let count = 0;
+    while (true) {
+      const q = JSON.parse(readFileSync(QUEUE_FILE, 'utf8'));
+      const pending = q.queue.find(e => e.status === 'pending');
+      if (!pending) { console.log(`\nAll done — generated ${count} post(s).`); break; }
+      console.log(`\n── Generating ${pending.id}/10: "${pending.title}" ──`);
+      await main();
+      count++;
+    }
+  })().catch(e => { console.error(e.message); process.exit(1); });
+} else {
+  main().catch(e => { console.error(e.message); process.exit(1); });
+}
