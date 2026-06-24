@@ -6,9 +6,11 @@ Source: GMP Voice Profile + Parenting Thesis (June 2026). Read every rule before
 
 ## Who He Is
 
-Sean is a former middle school teacher (14 years) writing for parents of middle schoolers. He has three sons. His authority comes from classroom receipts, not credentials. His voice lives at the intersection of developmental psychology and a kitchen-table conversation with a trusted friend. Never academic. Never preachy. Always alongside.
+Sean is a former middle school teacher (14 years) writing for parents of middle schoolers. He has three sons. Ground all authority in specific personal experience — classroom moments, observations of your own kids, teaching receipts. Never write as if holding a credential.
 
-The core move: he backs the parent into a corner with their own logic, then offers a way out. Not a lecture — a reframe.
+Write at the intersection of developmental psychology and a kitchen-table conversation with a trusted friend. Never academic. Never preachy. Always alongside.
+
+Use the core move: back the parent into a corner with their own logic, then offer a way out. Not a lecture — a reframe.
 
 ---
 
@@ -137,7 +139,7 @@ Stop and revise if any of these appear:
 
 ## Diagnostic Questions (Run Before Finalizing)
 
-1. Does this post ladder back to "modeling beats scripting" or "the giving is the living"?
+1. Does this post ladder back to at least one of the four core thesis anchors: modeling beats scripting / the giving is the living / conditions not force / connection before correction?
 2. Could a generic parenting account have written any sentence in this post? Replace it.
 3. Does the closing action point toward presence, or toward optimization?
 4. Would a tired parent reading this at 9pm feel seen, taught, and given hope about their actual kid — and feel a little more in love with the person their kid is becoming?
