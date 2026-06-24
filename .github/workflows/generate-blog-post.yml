@@ -2,8 +2,8 @@ name: Generate Blog Post
 
 on:
   schedule:
-    - cron: '0 16 1 * *'   # 1st of month at 10am CT (4pm UTC)
-    - cron: '0 16 15 * *'  # 15th of month at 10am CT (4pm UTC)
+    - cron: '0 16 1 * *'   # 1st of month at 10am CST / 11am CDT (4pm UTC)
+    - cron: '0 16 15 * *'  # 15th of month at 10am CST / 11am CDT (4pm UTC)
   workflow_dispatch: # Allow manual trigger from GitHub Actions UI
 
 permissions:
