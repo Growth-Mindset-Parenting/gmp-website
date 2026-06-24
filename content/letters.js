@@ -415,7 +415,7 @@ export const LETTERS = [
     title: "Your kid already knows.",
     date: '2026-05-16',
     type: 'essay',
-    topic: 'communication',
+    topic: 'reflection',
     tag: 'Essay · 2 min read',
     readTime: '2 min read',
     excerpt: "Every time you try to prove you're right or drive the point home, you're robbing them of the chance to draw that conclusion themselves.",

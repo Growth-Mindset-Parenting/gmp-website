@@ -29,7 +29,7 @@ const SKILL_SLUGS = {
   'reflection': 'reflection',
   'relationship': 'relationship',
   'autonomy': 'autonomy',
-  'communication': 'communication',
+  'adaptation': 'adaptation',
 };
 
 const DATE_TAB_RE = /^(\d{1,2})\.(\d{1,2})$/;
