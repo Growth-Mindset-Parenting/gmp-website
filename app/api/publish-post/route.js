@@ -48,7 +48,7 @@ function letterToJsBlock(l) {
     title: ${JSON.stringify(l.title)},
     date: '${l.date}',
     type: '${l.type}',
-    topic: '${l.topic}',
+    topic: ${JSON.stringify(l.topic)},
     tag: '${l.tag}',
     readTime: '${l.readTime}',
     excerpt: ${JSON.stringify(l.excerpt)},
@@ -123,10 +123,11 @@ const HTML_409 = `<!DOCTYPE html>
 </head><body><h1>This post has already been published.</h1></body></html>`;
 
 function html500(message) {
+  const escapedMessage = message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><title>Error</title>
 <style>body{font-family:system-ui,sans-serif;max-width:480px;margin:80px auto;padding:0 24px;color:#1a1a1a}</style>
-</head><body><h1>Something went wrong: ${message}</h1></body></html>`;
+</head><body><h1>Something went wrong: ${escapedMessage}</h1></body></html>`;
 }
 
 function htmlSuccess(title, slug, siteUrl) {
