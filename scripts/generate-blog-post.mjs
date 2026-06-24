@@ -46,6 +46,12 @@ async function main() {
   const voiceRules = readFileSync(VOICE_RULES_FILE, 'utf8');
   const seoGuidelines = readFileSync(SEO_GUIDELINES_FILE, 'utf8');
 
+  // ── 2b. Load writing examples from letters.js ────────────────────────────────
+  const { LETTERS } = await import(join(ROOT, 'content/letters.js'));
+  const exampleTexts = LETTERS.slice(0, 3)
+    .map(letter => letter.body.join('\n\n'))
+    .join('\n\n');
+
   // ── 3. Build prompts ─────────────────────────────────────────────────────────
   const systemPrompt = [
     'You are a ghost-writer for Sean Kane, creator of Growth Mindset Parenting.',
@@ -64,6 +70,12 @@ async function main() {
     `Title: ${topic.title}`,
     `Primary keyword: ${topic.keyword}`,
     `Skill tag: ${topic.topic}`,
+    '',
+    "Here are recent examples of Sean's writing to match his voice:",
+    '',
+    '---',
+    exampleTexts,
+    '---',
     '',
     'Requirements:',
     '- 1,500–2,500 words',
@@ -171,7 +183,8 @@ async function main() {
   console.log('blog-queue.json updated.');
 
   // ── 7. Build publish URL ─────────────────────────────────────────────────────
-  const publishSecret = process.env.PUBLISH_SECRET ?? '';
+  if (!process.env.PUBLISH_SECRET) throw new Error('PUBLISH_SECRET env var is not set');
+  const publishSecret = process.env.PUBLISH_SECRET;
   const hmac = createHmac('sha256', publishSecret).update(String(topic.id)).digest('hex');
   const publishUrl = `${SITE_URL}/api/publish-post?id=${topic.id}&token=${hmac}`;
   const draftDocUrl = `https://docs.google.com/document/d/${docId}/edit`;
@@ -209,7 +222,7 @@ async function main() {
         body: JSON.stringify({
           from: 'The Blogger <blogger@growthmindsetparenting.com>',
           to: notificationEmail,
-          subject: `Blog draft ready: ${topic.title}`,
+          subject: `New blog draft ready: ${topic.title}`,
           text: emailText,
         }),
       });
