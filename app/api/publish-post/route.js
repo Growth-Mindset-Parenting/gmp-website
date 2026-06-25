@@ -10,7 +10,6 @@
  * Env vars required:
  *   PUBLISH_SECRET              — shared secret used to sign publish tokens
  *   GOOGLE_SERVICE_ACCOUNT_KEY  — JSON string of service account credentials
- *   BLOG_DRAFT_DOC_ID           — Google Doc ID for blog drafts
  *   GITHUB_PAT                  — fine-grained PAT with contents:write on gmp-website
  */
 
@@ -272,8 +271,6 @@ export async function GET(request) {
     const keyJson = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
     if (!keyJson) throw new Error('GOOGLE_SERVICE_ACCOUNT_KEY env var is not set');
 
-    const docId = process.env.BLOG_DRAFT_DOC_ID || '1Mh5FR_j_FdDJ8Ec5PQFxvnSzxsFGKkY1jfQpKz81ows';
-
     const auth = new google.auth.GoogleAuth({
       credentials: JSON.parse(keyJson),
       scopes: [
@@ -283,19 +280,11 @@ export async function GET(request) {
     });
     const docs = google.docs({ version: 'v1', auth });
 
-    const docRes = await docs.documents.get({
-      documentId: docId,
-      includeTabsContent: true,
-    });
+    const draftDocId = entry.draftDocId;
+    if (!draftDocId) throw new Error('No draftDocId found for this entry — was it generated?');
 
-    const tabs = docRes.data.tabs || [];
-    const matchingTab = tabs.find(t => t.tabProperties?.title === entry.draftTabTitle);
-
-    if (!matchingTab) {
-      throw new Error(`Tab "${entry.draftTabTitle}" not found in blog draft doc`);
-    }
-
-    const tabContent = matchingTab.documentTab?.body?.content ?? [];
+    const docRes = await docs.documents.get({ documentId: draftDocId });
+    const tabContent = docRes.data.body?.content ?? [];
     const rawText = extractText(tabContent);
 
     // 5. Build letters.js entry
