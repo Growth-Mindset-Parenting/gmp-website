@@ -285,32 +285,49 @@ export async function GET(request) {
 
     const docRes = await docs.documents.get({ documentId: draftDocId });
     const tabContent = docRes.data.body?.content ?? [];
-    const rawText = extractText(tabContent);
+    const fullText = extractText(tabContent);
 
-    // 5. Build letters.js entry
-    // Split on blank lines; lines starting with ## are headings (kept as-is)
-    const paragraphs = rawText
+    // 5. Parse metadata block and body
+    // Doc format: metadata lines, then ---, then body content
+    const separatorIdx = fullText.indexOf('\n---\n');
+    if (separatorIdx === -1) throw new Error('No --- separator found in doc. Make sure the draft has the metadata block followed by ---.');
+
+    const metaBlock = fullText.slice(0, separatorIdx);
+    const bodyText = fullText.slice(separatorIdx + 5); // skip '\n---\n'
+
+    const getMeta = (key) => {
+      const match = metaBlock.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+      return match ? match[1].trim() : null;
+    };
+
+    const today = new Date().toISOString().slice(0, 10);
+    const rawDate = getMeta('DATE');
+    const date = (rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)) ? rawDate : today;
+    const topic = getMeta('SKILL') || entry.topic;
+    const rawReadTime = getMeta('READ TIME');
+    const metaExcerpt = getMeta('EXCERPT');
+
+    const paragraphs = bodyText
       .split(/\n\n+/)
       .map(p => p.trim())
       .filter(p => p.length > 0);
 
-    if (!paragraphs.length) throw new Error('No content found in blog draft tab');
+    if (!paragraphs.length) throw new Error('No body content found after --- separator.');
 
-    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
     const wordCount = paragraphs.join(' ').split(/\s+/).filter(Boolean).length;
-    const mins = Math.max(5, Math.round(wordCount / 200));
-
-    // Excerpt: first 160 chars of first paragraph (strip markdown bold markers)
-    const excerpt = paragraphs[0].replace(/\*\*/g, '').slice(0, 160);
+    const calcMins = Math.max(5, Math.round(wordCount / 200));
+    const readTime = rawReadTime || `${calcMins} min read`;
+    const minsNum = parseInt(readTime) || calcMins;
+    const excerpt = metaExcerpt || paragraphs[0].replace(/\*\*/g, '').slice(0, 160);
 
     const letterEntry = {
       slug: entry.slug,
       title: entry.title,
-      date: today,
+      date,
       type: 'blog',
-      topic: entry.topic,
-      tag: `Blog Post · ${mins} min read`,
-      readTime: `${mins} min read`,
+      topic,
+      tag: `Blog Post · ${minsNum} min read`,
+      readTime,
       excerpt,
       dek: excerpt,
       img: null,

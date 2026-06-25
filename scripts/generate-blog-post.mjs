@@ -64,12 +64,14 @@ async function main() {
     seoGuidelines,
   ].join('\n');
 
+  const validSkills = ['emotional-literacy', 'resilience', 'reflection', 'relationship', 'autonomy', 'adaptation'];
+
   const userPrompt = [
     'Write a blog post for growthmindsetparenting.com on this topic:',
     '',
     `Title: ${topic.title}`,
     `Primary keyword: ${topic.keyword}`,
-    `Skill tag: ${topic.topic}`,
+    `Primary skill tag: ${topic.topic}`,
     '',
     "Here are recent examples of Sean's writing to match his voice:",
     '',
@@ -81,10 +83,20 @@ async function main() {
     '- 1,500–2,500 words',
     "- Follow Sean's voice exactly (see system prompt)",
     '- Follow SEO guidelines (see system prompt)',
-    '- Output format: Return ONLY the blog post content as paragraphs separated by blank lines.',
-    '  Start with a scene-opening paragraph (no title heading — the title is separate).',
-    '  Use ## for H2 subheadings and ### for H3 subheadings where appropriate.',
-    '  Do not include a title line at the top.',
+    '',
+    'Output format — follow EXACTLY, no deviations:',
+    '',
+    'DATE: YYYY-MM-DD',
+    `SKILL: ${topic.topic}`,
+    `SKILL2: (optional — one of: ${validSkills.join(', ')} — only include if a second skill genuinely applies; otherwise leave blank)`,
+    'EXCERPT: One or two sentences written as a hook — make a parent desperately want to read this. Not a summary.',
+    'READ TIME: X min read',
+    '',
+    '---',
+    '',
+    '[blog post body — start with a scene-opening paragraph, no title heading at the top]',
+    '[Use ## for H2 subheadings where appropriate]',
+    '[Every paragraph separated by a blank line]',
   ].join('\n');
 
   // ── 4. Call Anthropic API ────────────────────────────────────────────────────
