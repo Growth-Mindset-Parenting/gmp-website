@@ -285,16 +285,7 @@ export async function GET(request) {
 
     const docRes = await docs.documents.get({ documentId: draftDocId });
     const tabContent = docRes.data.body?.content ?? [];
-    const fullText = extractText(tabContent);
-
-    // Extract this post's section using its ID marker
-    const marker = `[POST-${entry.id}]`;
-    const markerIdx = fullText.indexOf(marker);
-    if (markerIdx === -1) throw new Error(`Marker "${marker}" not found in draft doc`);
-    const titleLineEnd = fullText.indexOf('\n', markerIdx);
-    const contentStart = titleLineEnd + 1;
-    const nextMarker = fullText.indexOf('\n[POST-', contentStart);
-    const rawText = fullText.slice(contentStart, nextMarker === -1 ? undefined : nextMarker);
+    const rawText = extractText(tabContent);
 
     // 5. Build letters.js entry
     // Split on blank lines; lines starting with ## are headings (kept as-is)

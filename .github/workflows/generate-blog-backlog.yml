@@ -28,6 +28,7 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           BLOG_DRAFT_DOC_ID: ${{ secrets.BLOG_DRAFT_DOC_ID }}
+          BLOG_DRAFT_FOLDER_ID: ${{ secrets.BLOG_DRAFT_FOLDER_ID }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           PUBLISH_SECRET: ${{ secrets.PUBLISH_SECRET }}

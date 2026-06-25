@@ -128,35 +128,52 @@ async function main() {
 
   const auth = new google.auth.GoogleAuth({
     credentials: JSON.parse(keyJson),
-    scopes: ['https://www.googleapis.com/auth/documents'],
+    scopes: [
+      'https://www.googleapis.com/auth/documents',
+      'https://www.googleapis.com/auth/drive',
+    ],
   });
   const docs = google.docs({ version: 'v1', auth });
+  const drive = google.drive({ version: 'v3', auth });
 
-  // Append this post to the shared draft doc with a unique ID marker
-  console.log(`Appending "${topic.title}" to draft doc ${docId}...`);
-  const separator = `[POST-${topic.id}] ${topic.title}`;
-  const fullText = `\n\n${separator}\n\n${blogPost.trim()}\n`;
+  // Create a new Google Doc for this post
+  console.log(`Creating Google Doc "${topic.title}"...`);
+  const createRes = await docs.documents.create({
+    requestBody: { title: topic.title },
+  });
+  const newDocId = createRes.data.documentId;
+  if (!newDocId) throw new Error('Failed to create Google Doc');
 
+  // Write the blog post content
   await docs.documents.batchUpdate({
-    documentId: docId,
+    documentId: newDocId,
     requestBody: {
-      requests: [
-        {
-          insertText: {
-            endOfSegmentLocation: {},
-            text: fullText,
-          },
-        },
-      ],
+      requests: [{ insertText: { location: { index: 1 }, text: blogPost.trim() } }],
     },
   });
-  console.log('Content appended to doc.');
+
+  // Move doc into the shared blog drafts folder
+  const folderId = process.env.BLOG_DRAFT_FOLDER_ID;
+  if (folderId) {
+    const fileRes = await drive.files.get({ fileId: newDocId, fields: 'parents' });
+    const prevParents = (fileRes.data.parents || []).join(',');
+    await drive.files.update({
+      fileId: newDocId,
+      addParents: folderId,
+      removeParents: prevParents,
+      fields: 'id, parents',
+    });
+    console.log(`Doc moved to folder ${folderId}`);
+  } else {
+    console.warn('BLOG_DRAFT_FOLDER_ID not set — doc not moved to shared folder');
+  }
+  console.log(`Doc ready: https://docs.google.com/document/d/${newDocId}/edit`);
 
   // ── 6. Update blog-queue.json ────────────────────────────────────────────────
   const generatedAt = new Date().toISOString();
   topic.status = 'generated';
   topic.generatedAt = generatedAt;
-  topic.draftDocId = docId;
+  topic.draftDocId = newDocId;
   writeFileSync(QUEUE_FILE, JSON.stringify(queueData, null, 2) + '\n');
   console.log('blog-queue.json updated.');
 
@@ -165,7 +182,7 @@ async function main() {
   const publishSecret = process.env.PUBLISH_SECRET;
   const hmac = createHmac('sha256', publishSecret).update(String(topic.id)).digest('hex');
   const publishUrl = `${SITE_URL}/api/publish-post?id=${topic.id}&token=${hmac}`;
-  const draftDocUrl = `https://docs.google.com/document/d/${docId}/edit`;
+  const draftDocUrl = `https://docs.google.com/document/d/${newDocId}/edit`;
 
   // ── 8. Send notification email (optional) ────────────────────────────────────
   const resendApiKey = process.env.RESEND_API_KEY;
