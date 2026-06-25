@@ -15,8 +15,6 @@
 
 import { NextResponse } from 'next/server';
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { google } from 'googleapis';
 
 const REPO = 'Growth-Mindset-Parenting/gmp-website';
@@ -252,9 +250,12 @@ export async function GET(request) {
       return htmlResponse(HTML_401, 401);
     }
 
-    // 3. Read blog-queue.json from filesystem
-    const queuePath = join(process.cwd(), 'content', 'blog-queue.json');
-    const queueData = JSON.parse(readFileSync(queuePath, 'utf8'));
+    // 3. Read blog-queue.json from GitHub API (filesystem is a stale snapshot on Vercel)
+    const githubPat = process.env.GITHUB_PAT;
+    if (!githubPat) throw new Error('GITHUB_PAT env var is not set');
+
+    const queueFileInfo = await githubGetFile('content/blog-queue.json', githubPat);
+    const queueData = JSON.parse(Buffer.from(queueFileInfo.content.replace(/\n/g, ''), 'base64').toString('utf8'));
     const entry = queueData.queue.find(e => String(e.id) === String(id));
 
     if (!entry || entry.status === 'pending') {
@@ -336,9 +337,9 @@ export async function GET(request) {
       body: paragraphs,
     };
 
-    // 6. Prepend to letters.js (same replace pattern as sync-newsletters.mjs)
-    const lettersPath = join(process.cwd(), 'content', 'letters.js');
-    const existingLetters = readFileSync(lettersPath, 'utf8');
+    // 6. Prepend to letters.js — read from GitHub API (same replace pattern as sync-newsletters.mjs)
+    const lettersFileInfo = await githubGetFile('content/letters.js', githubPat);
+    const existingLetters = Buffer.from(lettersFileInfo.content.replace(/\n/g, ''), 'base64').toString('utf8');
     const newJsBlock = letterToJsBlock(letterEntry);
     const updatedLetters = existingLetters.replace(
       'export const LETTERS = [',
@@ -350,16 +351,7 @@ export async function GET(request) {
     entry.publishedAt = new Date().toISOString();
     const updatedQueue = JSON.stringify(queueData, null, 2) + '\n';
 
-    // 8. Commit both files via GitHub Contents API
-    const githubPat = process.env.GITHUB_PAT;
-    if (!githubPat) throw new Error('GITHUB_PAT env var is not set');
-
-    // Fetch current SHAs in parallel
-    const [lettersFileInfo, queueFileInfo] = await Promise.all([
-      githubGetFile('content/letters.js', githubPat),
-      githubGetFile('content/blog-queue.json', githubPat),
-    ]);
-
+    // 8. Commit both files via GitHub Contents API (SHAs already fetched in steps 3 and 6)
     // PUT letters.js first, then blog-queue.json
     await githubPutFile(
       'content/letters.js',
