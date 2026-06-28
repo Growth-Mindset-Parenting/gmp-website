@@ -148,7 +148,7 @@ const FAQS = [
   },
 ];
 
-const LAUNCH_DATE = 'October 2026';
+const LAUNCH_DATE = 'Fall 2026';
 const PRICE_FOUNDING = '$499';
 const PRICE_LAUNCH = '$599';
 const PRICE_SPLIT = '2 × $269';
