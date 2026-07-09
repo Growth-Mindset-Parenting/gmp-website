@@ -6,7 +6,7 @@ import KitchenTableVariant from './KitchenTableVariant';
 
 export async function generateMetadata({ params }) {
   const freebie = getFreebie(params.slug);
-  if (!freebie) return {};
+  if (!freebie || !freebie.kitFormId) return {};
   return {
     title: freebie.metaTitle,
     description: freebie.metaDescription,
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
 
 export default function FreebiePage({ params }) {
   const freebie = getFreebie(params.slug);
-  if (!freebie) notFound();
+  if (!freebie || !freebie.kitFormId) notFound();
 
   // Set by middleware; visible on first render thanks to the forwarded-request
   // pattern. Fallback only covers cookie-less edge cases (some crawlers).
