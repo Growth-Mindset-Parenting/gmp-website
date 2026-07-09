@@ -7,7 +7,7 @@
 export const FREEBIES = {
   '4s-flowchart': {
     slug: '4s-flowchart',
-    kitFormId: '9609498',
+    kitFormId: null, // TODO: new Kit form (old 9609498 was deleted); page 404s until set
     title: 'The 4S Flowchart',
     heroHeadline: 'Your kid actually talks to you on the car ride home.',
     heroHeadlineItalic: 'car ride home',
@@ -44,7 +44,7 @@ export const FREEBIES = {
 
   'five-minute-meeting': {
     slug: 'five-minute-meeting',
-    kitFormId: '9538575',
+    kitFormId: null, // TODO: new dedicated Kit form (old 9538575 was the Facebook campaign form); page 404s until set
     title: 'The Five-Minute Meeting',
     heroHeadline: 'Five minutes that build a kid who runs their own afternoon.',
     heroHeadlineItalic: 'their own afternoon',

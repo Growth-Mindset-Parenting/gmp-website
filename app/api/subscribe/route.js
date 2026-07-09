@@ -3,14 +3,34 @@ import { NextResponse } from 'next/server';
 const KIT_API_SECRET = process.env.KIT_API_SECRET;
 const PINTEREST_TAG_ID = 20631704;
 
-// Kit form IDs — one per freebie slug. A missing entry means "not launchable yet":
-// the API rejects the subscribe rather than sending someone the wrong guide.
-// release-replay-repair-return: paste the real form ID here in Task 9.
+// Kit form IDs — one dedicated form per freebie (best practice: the form's
+// incentive email delivers that freebie's PDF). A null value means "not
+// launchable yet": the API rejects the subscribe (and page.jsx 404s the page)
+// rather than sending someone to a form that doesn't deliver.
+//   six-middle-skills: reuses the existing "Website_Middle Skills Field Guide"
+//   form (already the right magnet, already delivers).
+//   4s-flowchart / five-minute-meeting / release-replay-repair-return: Katie is
+//   creating fresh dedicated forms — paste each real form ID here when ready.
 const FREEBIE_FORMS = {
-  '4s-flowchart': '9609498',
-  'five-minute-meeting': '9538575',
+  '4s-flowchart': null, // TODO: new Kit form
+  'five-minute-meeting': null, // TODO: new Kit form
   'six-middle-skills': '9544138',
-  'release-replay-repair-return': null,
+  'release-replay-repair-return': null, // TODO: new Kit form
+};
+
+// Segmentation tags applied on every signup (in addition to the form's own
+// delivery). Freebie tag = which guide; A/B tag = which design variant.
+// Created via the Kit API 2026-07-09.
+const FREEBIE_TAGS = {
+  '4s-flowchart': 21015155,
+  'five-minute-meeting': 21015156,
+  'release-replay-repair-return': 21015157,
+  'six-middle-skills': 21015158,
+};
+
+const VARIANT_TAGS = {
+  worksheet: 21015159,
+  'kitchen-table': 21015160,
 };
 
 export async function POST(request) {
@@ -40,15 +60,13 @@ export async function POST(request) {
       body.first_name = firstName;
     }
 
-    // A/B variant -> Kit custom field, for conversion comparison
-    if (variant === 'worksheet' || variant === 'kitchen-table') {
-      body.fields = { ab_freebie_variant: variant };
-    }
-
-    // Pinterest traffic tag
-    if (source === 'pinterest') {
-      body.tags = [PINTEREST_TAG_ID];
-    }
+    // Segmentation tags: which freebie, which A/B design, + Pinterest source.
+    // (The PDF itself is delivered by the form's incentive email, not a tag.)
+    const tags = [];
+    if (FREEBIE_TAGS[slug]) tags.push(FREEBIE_TAGS[slug]);
+    if (VARIANT_TAGS[variant]) tags.push(VARIANT_TAGS[variant]);
+    if (source === 'pinterest') tags.push(PINTEREST_TAG_ID);
+    if (tags.length) body.tags = tags;
 
     const res = await fetch(
       `https://api.convertkit.com/v3/forms/${formId}/subscribe`,
