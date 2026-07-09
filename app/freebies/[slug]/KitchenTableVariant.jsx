@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HeroForm from './HeroForm';
 import CaptureModal from './CaptureModal';
+import { trackFreebieView, trackFreebieSubscribe } from '../../../lib/freebie-analytics';
 
 function withItalic(text, italicPhrase) {
   if (!italicPhrase || !text.includes(italicPhrase)) return text;
@@ -18,8 +19,13 @@ export default function KitchenTableVariant({ freebie }) {
   const [modal, setModal] = useState({ open: false, done: false, name: '', email: '' });
 
   const openCapture = () => setModal({ open: true, done: false, name: '', email: '' });
-  const openConfirmation = (name, email) => setModal({ open: true, done: true, name, email });
+  const openConfirmation = (name, email) => {
+    trackFreebieSubscribe(VARIANT, freebie.slug);
+    setModal({ open: true, done: true, name, email });
+  };
   const closeModal = () => setModal({ open: false, done: false, name: '', email: '' });
+
+  useEffect(() => { trackFreebieView(VARIANT, freebie.slug); }, []);
 
   return (
     <div className="fb-page">
