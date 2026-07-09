@@ -1,0 +1,758 @@
+/* ============================================================
+   Freebie landing pages — utility classes + layout
+   Design tokens (--paper, --ink, --accent, etc.) come from
+   styles/themes.css, already loaded globally.
+   ============================================================ */
+
+/* ── GMP utility classes (not yet in website CSS) ─────────── */
+
+.gmp-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+.gmp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 16px 24px;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  transition: gap 0.18s, background 0.15s, color 0.15s, border-color 0.15s;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.gmp-btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.gmp-btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  gap: 16px;
+}
+
+.gmp-card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border-radius: 16px;
+  border: 1.5px solid var(--ink);
+  background: var(--card-cream);
+  color: var(--ink);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gmp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.gmp-card-blush { background: var(--card-blush); }
+.gmp-card-clay  { background: var(--card-clay);  }
+.gmp-card-sage  { background: var(--card-sage);  }
+
+/* ── Shared freebie page shell ─────────────────────────────── */
+
+.fb-page {
+  background: var(--paper);
+  min-height: 100vh;
+}
+
+/* ── Section wrappers ──────────────────────────────────────── */
+
+.fb-section {
+  padding: 64px 72px;
+}
+
+.fb-section-tinted {
+  padding: 64px 72px;
+  background: var(--paper-2);
+}
+
+.fb-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+
+.fb-footer {
+  padding: 30px 72px;
+  border-top: 1.5px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fb-footer-brand {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.fb-footer-copy {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+/* ── Hero form (inline, shared) ────────────────────────────── */
+
+.fb-hero-form {
+  max-width: 450px;
+}
+
+.fb-hero-form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.fb-input {
+  padding: 14px 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 15px;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+.fb-input::placeholder { color: var(--ink-mute); }
+.fb-input:focus { border-color: var(--accent); }
+.fb-input.is-error { border-color: #c0392b; }
+
+.fb-input-name  { flex: 1; }
+.fb-input-email { flex: 1.35; }
+
+.fb-btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+.fb-microcopy {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-mute);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.fb-microcopy strong { color: var(--ink); }
+
+.fb-form-error {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: #c0392b;
+  margin-top: 6px;
+}
+
+/* ── Pain-point quote cards (shared) ──────────────────────── */
+
+.fb-quote-card {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  padding: 26px 28px;
+  font-family: var(--serif-text);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* ── "Is this you?" section heading ───────────────────────── */
+
+.fb-pain-heading {
+  margin-bottom: 32px;
+}
+
+.fb-pain-heading h2 {
+  font-family: var(--sans);
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 8px 0 0;
+  letter-spacing: -0.02em;
+}
+
+.fb-pain-closer {
+  margin-top: 28px;
+  font-family: var(--sans);
+  font-size: 18px;
+  color: var(--ink-soft);
+}
+
+.fb-pain-closer em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ── Section heading (outcomes) ────────────────────────────── */
+
+.fb-section-eyebrow { margin-bottom: 12px; }
+
+.fb-section-heading {
+  font-family: var(--sans);
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.025em;
+  margin: 0 0 40px;
+  line-height: 1.05;
+}
+
+.fb-section-heading em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ── Sean section ──────────────────────────────────────────── */
+
+.fb-sean {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.fb-sean-photo {
+  width: 100%;
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  display: block;
+}
+
+.fb-sean-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fb-sean-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.fb-sean-heading {
+  font-family: var(--sans);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.fb-sean-heading em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.fb-sean-bio {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 28px;
+}
+
+/* ── CTA button wrapper ────────────────────────────────────── */
+
+.fb-cta {
+  margin-top: 40px;
+}
+
+/* ── Capture modal ─────────────────────────────────────────── */
+
+.fb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(28, 20, 14, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.fb-modal {
+  max-width: 460px;
+  width: 100%;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 24px;
+  padding: 42px 40px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.fb-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--ink-mute);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s;
+}
+
+.fb-modal-close:hover { color: var(--ink); }
+
+.fb-modal-eyebrow { margin-bottom: 12px; color: var(--accent); }
+
+.fb-modal-heading {
+  font-family: var(--sans);
+  font-size: 29px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.fb-modal-sub {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 0 0 24px;
+}
+
+.fb-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fb-modal-reassurance {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  text-align: center;
+  color: var(--ink-mute);
+  margin-top: 12px;
+}
+
+/* Confirmation state */
+.fb-modal-confirm {
+  text-align: center;
+}
+
+.fb-modal-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--paper);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.fb-modal-confirm-heading {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.fb-modal-confirm-heading em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.fb-modal-confirm-body {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+/* ── Worksheet variant ─────────────────────────────────────── */
+
+/* Hero */
+.ws-hero {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  align-items: center;
+  padding: 72px 72px 56px;
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
+.ws-hero-eyebrow { margin-bottom: 20px; color: var(--accent); }
+
+.ws-hero-h1 {
+  font-family: var(--sans);
+  font-size: 50px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  margin: 0 0 20px;
+  text-wrap: balance;
+}
+
+.ws-hero-h1 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.ws-hero-subhead {
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 32px;
+}
+
+/* Guide cover mockup (Worksheet hero right column) */
+.ws-cover {
+  width: 300px;
+  aspect-ratio: 8.5 / 11;
+  transform: rotate(-2.5deg);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.16);
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  flex-shrink: 0;
+}
+
+.ws-cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ws-cover-top-label {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.ws-cover-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.ws-cover-eyebrow {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ws-cover-title {
+  font-family: var(--sans);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.ws-cover-title em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.ws-cover-descriptor {
+  font-family: var(--serif-text);
+  font-size: 11px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.ws-cover-bottom {
+  border-top: 1px solid var(--rule);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ws-cover-author {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ws-cover-pages {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* Pain points — 2×2 grid (Worksheet) */
+.ws-pain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* Outcomes — single-column rows with check badges */
+.ws-outcomes-list { list-style: none; margin: 0; padding: 0; }
+
+.ws-outcomes-list li:first-child .ws-outcome-row {
+  border-top: 1.5px solid var(--ink);
+}
+
+.ws-outcome-row {
+  display: flex;
+  gap: 24px;
+  padding: 26px 0;
+  align-items: flex-start;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.ws-outcome-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ws-outcome-title {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin: 0 0 6px;
+}
+
+.ws-outcome-desc {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ── Kitchen Table variant ─────────────────────────────────── */
+
+/* Hero — copy panel left, full-bleed photo right */
+.kt-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 560px;
+}
+
+.kt-hero-copy {
+  background: var(--paper);
+  padding: 64px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.kt-hero-eyebrow { margin-bottom: 20px; color: var(--accent); }
+
+.kt-hero-h1 {
+  font-family: var(--sans);
+  font-size: 46px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  margin: 0 0 20px;
+  text-wrap: balance;
+}
+
+.kt-hero-h1 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.kt-hero-subhead {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 32px;
+}
+
+/* Photo panel */
+.kt-hero-photo-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.kt-hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.kt-hero-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Pain points — 3-up grid (Kitchen Table) */
+.kt-pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.kt-pain-grid .fb-quote-card {
+  font-size: 17px;
+  padding: 24px 26px;
+}
+
+/* Outcomes — 2×2 card grid (Kitchen Table) */
+.kt-outcomes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.kt-outcome-title {
+  font-family: var(--sans);
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+
+.kt-outcome-desc {
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .fb-section,
+  .fb-section-tinted { padding: 48px 24px; }
+
+  .fb-footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+
+  /* Worksheet hero */
+  .ws-hero { grid-template-columns: 1fr; padding: 48px 24px 40px; gap: 40px; }
+  .ws-cover { display: none; }  /* cover card hidden on mobile */
+  .ws-hero-h1 { font-size: 34px; }
+
+  /* Kitchen Table hero */
+  .kt-hero { grid-template-columns: 1fr; }
+  .kt-hero-photo-wrap { min-height: 300px; }
+  .kt-hero-photo { position: static; height: 300px; }
+  .kt-hero-copy { padding: 40px 24px; }
+  .kt-hero-h1 { font-size: 34px; }
+
+  /* Grids */
+  .ws-pain-grid,
+  .kt-pain-grid,
+  .kt-outcomes-grid { grid-template-columns: 1fr; }
+
+  /* Sean */
+  .fb-sean { grid-template-columns: 1fr; gap: 24px; }
+  .fb-sean-photo { max-width: 200px; }
+
+  /* Hero form */
+  .fb-hero-form-row { flex-direction: column; }
+
+  /* Headings */
+  .fb-section-heading { font-size: 28px; }
+  .fb-pain-heading h2 { font-size: 28px; }
+  .fb-sean-heading { font-size: 26px; }
+
+  /* Modal */
+  .fb-modal { padding: 32px 24px; }
+  .fb-modal-heading { font-size: 24px; }
+
+  .fb-microcopy { font-size: 12px; }
+}
