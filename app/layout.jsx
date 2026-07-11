@@ -6,6 +6,7 @@ import '../styles/v6-mobile.css';
 import '../styles/v6-work-with-me.css';
 import '../styles/field-guide-modal.css';
 import '../styles/course-sales.css';
+import '../styles/freebies.css';
 import '../styles/v7-home.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Inter, Lora, Source_Serif_4 } from 'next/font/google';
