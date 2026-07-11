@@ -12,10 +12,10 @@ const PINTEREST_TAG_ID = 20631704;
 //   4s-flowchart / five-minute-meeting / release-replay-repair-return: Katie is
 //   creating fresh dedicated forms — paste each real form ID here when ready.
 const FREEBIE_FORMS = {
-  '4s-flowchart': null, // TODO: new Kit form
-  'five-minute-meeting': null, // TODO: new Kit form
+  '4s-flowchart': '9666050',
+  'five-minute-meeting': '9672214',
   'six-middle-skills': '9544138',
-  'release-replay-repair-return': null, // TODO: new Kit form
+  'release-replay-repair-return': '9672219',
 };
 
 // Segmentation tags applied on every signup (in addition to the form's own

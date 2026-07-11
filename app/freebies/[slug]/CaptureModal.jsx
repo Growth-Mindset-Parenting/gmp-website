@@ -73,15 +73,36 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
           <div className="fb-modal-confirm">
             <div className="fb-modal-check" aria-hidden="true">&#10003;</div>
             <h2 className="fb-modal-confirm-heading">
-              Check your inbox, <em>{firstName}</em>.
+              You&rsquo;re in, <em>{firstName}</em>.
             </h2>
             <p className="fb-modal-confirm-body">
-              {freebie.title} is on its way to <strong>{emailShown}</strong>. It lands
-              in about two minutes — check spam if it&rsquo;s shy, and just reply if it
-              doesn&rsquo;t show.
+              Here&rsquo;s {freebie.title} — grab it right now. I&rsquo;ve also sent a
+              copy to <strong>{emailShown}</strong> so it&rsquo;s always a click away.
             </p>
-            <button className="gmp-btn gmp-btn-primary" onClick={onClose}>
-              Got it &#8594;
+            {freebie.pdfUrl && (
+              <a
+                className="gmp-btn gmp-btn-primary fb-btn-full"
+                href={freebie.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download the guide &#8594;
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={onClose}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--ink-mute)',
+                cursor: 'pointer',
+                marginTop: '14px',
+                fontFamily: 'var(--sans)',
+                fontSize: '13px',
+              }}
+            >
+              I&rsquo;ve got it
             </button>
           </div>
         ) : (

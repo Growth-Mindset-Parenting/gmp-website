@@ -7,7 +7,8 @@
 export const FREEBIES = {
   '4s-flowchart': {
     slug: '4s-flowchart',
-    kitFormId: null, // TODO: new Kit form (old 9609498 was deleted); page 404s until set
+    kitFormId: '9666050', // Kit form "Freebie: 4S Flowchart"
+    pdfUrl: '/downloads/4s-flowchart-mobile.pdf',
     title: 'The 4S Flowchart',
     heroHeadline: 'Your kid actually talks to you on the car ride home.',
     heroHeadlineItalic: 'car ride home',
@@ -44,7 +45,8 @@ export const FREEBIES = {
 
   'five-minute-meeting': {
     slug: 'five-minute-meeting',
-    kitFormId: null, // TODO: new dedicated Kit form (old 9538575 was the Facebook campaign form); page 404s until set
+    kitFormId: '9672214', // Kit form "Freebie: 5 Minute Meeting"
+    pdfUrl: '/downloads/five-minute-meeting.pdf',
     title: 'The Five-Minute Meeting',
     heroHeadline: 'Five minutes that build a kid who runs their own afternoon.',
     heroHeadlineItalic: 'their own afternoon',
@@ -81,7 +83,8 @@ export const FREEBIES = {
 
   'release-replay-repair-return': {
     slug: 'release-replay-repair-return',
-    kitFormId: null, // set in Task 9 once the Kit form exists — page renders, but subscribe is rejected until then
+    kitFormId: '9672219', // Kit form "Freebie: Release, Replay, Repair, Return"
+    pdfUrl: '/downloads/release-replay-repair-return.pdf',
     title: 'Release, Replay, Repair, Return',
     heroHeadline: 'The relationship isn’t built in the fights. It’s built in the repair.',
     heroHeadlineItalic: 'repair',
@@ -119,6 +122,7 @@ export const FREEBIES = {
   'six-middle-skills': {
     slug: 'six-middle-skills',
     kitFormId: '9544138', // was 'field-guide' in the old (never-deployed) subscribe route
+    pdfUrl: '/downloads/six-middle-skills-field-guide.pdf',
     title: 'The Six Middle Skills',
     heroHeadline: 'The skills that turn a kid into an adult.',
     heroHeadlineItalic: 'adult',
