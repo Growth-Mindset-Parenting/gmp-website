@@ -86,7 +86,11 @@ async function opsRequest(method, path, body) {
 }
 
 async function fetchBuildLogTail(host, rawTargetUrl) {
-  const none = (text) => ({ text, deploymentId: "" });
+  // branchRef/commitMessage come from Vercel's deployment meta. They matter
+  // because GitHub's deployment.ref for Vercel-created deployments is the
+  // COMMIT SHA, not the branch name (confirmed live 2026-07-13) — without
+  // meta, the sentinel/* loop guard and fix-PR base branch would never match.
+  const none = (text) => ({ text, deploymentId: "", branchRef: "", commitMessage: "" });
   if (!VERCEL_TOKEN) return none("(no VERCEL_TOKEN — build log unavailable)");
   try {
     const headers = { Authorization: `Bearer ${VERCEL_TOKEN}` };
@@ -111,6 +115,11 @@ async function fetchBuildLogTail(host, rawTargetUrl) {
       }
     }
     if (!dep.id) return none(`(deployment lookup failed: ${JSON.stringify(dep).slice(0, 200)})`);
+    const meta = {
+      deploymentId: dep.id,
+      branchRef: dep.meta?.githubCommitRef ?? "",
+      commitMessage: dep.meta?.githubCommitMessage ?? "",
+    };
     const events = await (
       await fetch(
         `${VERCEL_API_BASE}/v3/deployments/${dep.id}/events?limit=2000&builds=1&teamId=${VERCEL_TEAM_ID}`,
@@ -118,17 +127,14 @@ async function fetchBuildLogTail(host, rawTargetUrl) {
       )
     ).json();
     if (!Array.isArray(events)) {
-      return {
-        text: `(log fetch failed: ${JSON.stringify(events).slice(0, 200)})`,
-        deploymentId: dep.id,
-      };
+      return { text: `(log fetch failed: ${JSON.stringify(events).slice(0, 200)})`, ...meta };
     }
     const lines = events
       .map((e) => e?.payload?.text ?? e?.text)
       .filter((t) => typeof t === "string" && t.trim() !== "");
     return {
       text: lines.slice(-LOG_TAIL_LINES).join("\n") || "(build log empty)",
-      deploymentId: dep.id,
+      ...meta,
     };
   } catch (err) {
     return none(`(build log fetch error: ${err.message})`);
@@ -156,15 +162,25 @@ async function main() {
   const ev = parseEvent();
   const isProd = /^prod/i.test(ev.environment);
   const smokePrefix = SMOKE ? "[SMOKE] " : "";
-  const title = `${smokePrefix}[deploy-sentinel] ${ev.repo} ${ev.branch} @ ${ev.sha7}`;
-  console.log(`Triage: ${title} (env=${ev.environment}, state=${ev.state})`);
 
   mkdirSync(OUT_DIR, { recursive: true });
-  const { text: logTail, deploymentId } = await fetchBuildLogTail(ev.host, ev.targetUrl);
+  const {
+    text: logTail,
+    deploymentId,
+    branchRef,
+    commitMessage,
+  } = await fetchBuildLogTail(ev.host, ev.targetUrl);
   writeFileSync(join(OUT_DIR, "build-log.txt"), logTail);
 
+  // GitHub's deployment.ref for Vercel deployments is the commit SHA —
+  // Vercel's own meta carries the real branch name. Prefer it everywhere
+  // (title stability, loop guard, agent's fix-PR base).
+  const branch = branchRef || ev.branch;
+  const title = `${smokePrefix}[deploy-sentinel] ${ev.repo} ${branch} @ ${ev.sha7}`;
+  console.log(`Triage: ${title} (env=${ev.environment}, state=${ev.state})`);
+
   setOutput("prod", String(isProd));
-  setOutput("branch", ev.branch);
+  setOutput("branch", branch);
   setOutput("sha7", ev.sha7);
   setOutput("deployment_host", ev.host);
   setOutput("deployment_id", deploymentId);
@@ -174,8 +190,13 @@ async function main() {
   // Loop guard: a failed build on one of the sentinel's OWN fix branches
   // must never spawn another fix branch. File for a human instead —
   // once per branch+sha (guard items dedupe like everything else).
-  if (ev.branch.startsWith("sentinel/")) {
-    const guardTitle = `${smokePrefix}[deploy-sentinel] own fix-PR build failed: ${ev.repo} ${ev.branch} @ ${ev.sha7}`;
+  // Two independent signals (defense in depth, since branch resolution
+  // depends on the Vercel meta being present): the resolved branch name,
+  // and the sentinel's own commit-message prefix.
+  const isSentinelOwnWork =
+    branch.startsWith("sentinel/") || commitMessage.startsWith("[deploy-sentinel] fix:");
+  if (isSentinelOwnWork) {
+    const guardTitle = `${smokePrefix}[deploy-sentinel] own fix-PR build failed: ${ev.repo} ${branch} @ ${ev.sha7}`;
     let item = items.find((i) => i.title === guardTitle && i.status !== "done");
     if (!item) {
       ({ item } = await opsRequest("POST", "/api/ops/items", {
@@ -201,7 +222,7 @@ async function main() {
   if (!existing) {
     const detail =
       `Vercel deployment failed.\n` +
-      `Repo: ${ev.repo}\nBranch: ${ev.branch}\nCommit: ${ev.sha7}\nEnvironment: ${ev.environment}\n` +
+      `Repo: ${ev.repo}\nBranch: ${branch}\nCommit: ${ev.sha7}\nEnvironment: ${ev.environment}\n` +
       `Deployment: https://${ev.host}\n\nBuild log tail:\n\`\`\`\n${logTail.slice(-3000)}\n\`\`\``;
     const { item } = await opsRequest("POST", "/api/ops/items", {
       workspace: WORKSPACE,

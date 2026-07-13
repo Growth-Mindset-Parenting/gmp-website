@@ -39,6 +39,7 @@ If retry is NOT allowed, treat a transient-looking failure as CODE (investigate)
 4. Commit (message: `[deploy-sentinel] fix: <one line>`), push the sentinel branch, then:
    `gh pr create --base "$BRANCH" --head "sentinel/fix-$(echo "$BRANCH" | tr '/' '-')" --title "[deploy-sentinel] fix build failure on $BRANCH" --body "<diagnosis: what broke, why, what the fix does>"`
    Always include this line in the PR body: "Note: CI does not auto-run on sentinel PRs (GITHUB_TOKEN-created events don't trigger workflows) — the Vercel preview build is the only automated validation. Re-run CI manually before merging if in doubt."
+   **If `gh pr create` fails** (e.g. "GitHub Actions is not permitted to create pull requests" — the org toggle may still be off), do NOT treat the fix as failed: the pushed branch is the deliverable. Put this one-click PR link in the ops item instead: `https://github.com/$REPO/compare/$BRANCH...sentinel/fix-<slug>?expand=1`
 5. If an open PR exists for the failing branch (`gh pr list --head "$BRANCH" --state open`), comment the diagnosis + fix-PR link on it.
 
 ### CONFIG (and any diagnosis-only case)
