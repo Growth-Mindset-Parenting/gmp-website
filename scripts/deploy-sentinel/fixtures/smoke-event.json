@@ -1,0 +1,9 @@
+{
+  "repository": { "full_name": "Growth-Mindset-Parenting/gmp-website" },
+  "deployment": { "ref": "sentinel-smoke-test", "sha": "a5e0de0000000000000000000000000000000000" },
+  "deployment_status": {
+    "state": "failure",
+    "environment": "Preview",
+    "target_url": "https://smoke-test-nonexistent-deployment.vercel.app"
+  }
+}

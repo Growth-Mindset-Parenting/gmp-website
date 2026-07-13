@@ -1,0 +1,159 @@
+name: Deploy Sentinel
+
+# Catches every failed Vercel deployment the moment Vercel reports it to
+# GitHub (deployment_status event — no polling, no daily delay), files it in
+# the Ops Platform, and runs a Claude agent to diagnose the build log:
+#   transient  → one automatic retry per commit
+#   code bug   → fix PR on a sentinel/* branch (a human merges)
+#   config     → ops item flagged needs-katie with plain instructions
+# Production failures ALSO send an immediate email to Katie + Sean; preview
+# failures generate no email at all — outcomes surface in the daily digest.
+#
+# Loop safety: sentinel/* branches are never re-fixed (triage files
+# needs-katie instead), retries are once-per-commit (enforced by the ops
+# item's [sentinel:*] markers — the item IS the state store), and the agent
+# step has a hard timeout.
+#
+# Design: Growth_Mindset/AI_Employee_Dashboard/Plans/2026-07-13-deploy-sentinel-design.md
+# State-machine tests: scripts/deploy-sentinel/triage.test.mts (multi-run)
+#
+# Manual smoke test: run from the Actions tab (workflow_dispatch) — feeds a
+# canned failure payload through the REAL triage path (files a [SMOKE] ops
+# item, skips the agent). Close the item afterwards.
+#
+# Required secrets: VERCEL_TOKEN, OPS_API_TOKEN, OPS_API_URL,
+# ANTHROPIC_API_KEY, RESEND_API_KEY (email step degrades gracefully if absent).
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-sentinel-${{ github.event.deployment.ref || 'smoke' }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sentinel:
+    # deployment_status fires for every state — only act on failures.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.deployment_status.state == 'failure' ||
+      github.event.deployment_status.state == 'error'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      VERCEL_TEAM_ID: team_COIeZMUBv3i9JwoSnR8gMbof
+    steps:
+      # Explicit ref: for deployment_status events, GITHUB_SHA is the commit
+      # being DEPLOYED — a bare checkout would run whatever (possibly absent)
+      # version of the sentinel scripts that failing branch carries. Always
+      # run the sentinel from the default branch.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch || 'main' }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Triage (dedupe, fetch log, file ops item)
+        id: triage
+        env:
+          OPS_API_URL: ${{ secrets.OPS_API_URL }}
+          OPS_API_TOKEN: ${{ secrets.OPS_API_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SENTINEL_SMOKE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+          SENTINEL_EVENT_PATH: ${{ github.event_name == 'workflow_dispatch' && 'scripts/deploy-sentinel/fixtures/smoke-event.json' || github.event_path }}
+        run: node scripts/deploy-sentinel/triage.mjs
+
+      - name: Production failure — immediate email to Katie + Sean
+        if: steps.triage.outputs.prod == 'true' && github.event_name != 'workflow_dispatch'
+        # Email is best-effort: if Resend is down we still want the agent to
+        # diagnose — the urgent ops item is the guaranteed surface.
+        continue-on-error: true
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.triage.outputs.branch }}
+          DEPLOYMENT_HOST: ${{ steps.triage.outputs.deployment_host }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then
+            echo "RESEND_API_KEY not configured — skipping email (urgent ops item was still filed)"
+            exit 0
+          fi
+          payload=$(jq -n --arg repo "$REPO" --arg branch "$BRANCH" --arg host "$DEPLOYMENT_HOST" '{
+            from: "Growth Mindset Alerts <alerts@growthmindsetparenting.com>",
+            to: ["katie@grandladyaustin.com", "sean@growthmindsetparenting.com"],
+            subject: ("[URGENT] Production deploy failed: " + $repo),
+            html: ("<p><strong>A production deployment of " + ($repo | @html) + " failed.</strong></p><p>Branch: " + ($branch | @html) + "<br/>Deployment: https://" + ($host | @html) + "</p><p>The Deploy Sentinel filed an urgent ops item with the build log and is diagnosing now. Production is still serving the previous good deployment.</p>")
+          }')
+          curl -sS --fail-with-body --max-time 30 --retry 3 --retry-all-errors \
+            -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$payload"
+
+      - name: Agent — diagnose and act
+        if: steps.triage.outputs.action == 'agent' && github.event_name != 'workflow_dispatch'
+        timeout-minutes: 15
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          OPS_API_URL: ${{ secrets.OPS_API_URL }}
+          OPS_API_TOKEN: ${{ secrets.OPS_API_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.triage.outputs.branch }}
+          SHA7: ${{ steps.triage.outputs.sha7 }}
+          IS_PROD: ${{ steps.triage.outputs.prod }}
+          RETRY_ALLOWED: ${{ steps.triage.outputs.retry_allowed }}
+          ITEM_ID: ${{ steps.triage.outputs.item_id }}
+          DEPLOYMENT_HOST: ${{ steps.triage.outputs.deployment_host }}
+          DEPLOYMENT_ID: ${{ steps.triage.outputs.deployment_id }}
+        run: |
+          # Author identity must be one Vercel recognizes, or it BLOCKS the fix
+          # branch's preview build (live-test finding 2026-07-13). Provenance
+          # lives in the commit-message prefix, which is also a loop-guard
+          # signal in triage.mjs.
+          git config user.name "katie-we"
+          git config user.email "katie@grandladyaustin.com"
+          # Substitute ONLY the context vars — secret refs like ${VERCEL_TOKEN}
+          # must stay literal so they resolve in the agent's shell, never in
+          # the prompt text.
+          envsubst '$REPO $BRANCH $SHA7 $IS_PROD $RETRY_ALLOWED $ITEM_ID $DEPLOYMENT_HOST $DEPLOYMENT_ID' \
+            < scripts/deploy-sentinel/agent-prompt.md > /tmp/agent-prompt.md
+          npx --yes @anthropic-ai/claude-code@latest \
+            -p "$(cat /tmp/agent-prompt.md)" \
+            --dangerously-skip-permissions \
+            --max-turns 60
+
+      # Meta-loop closure: if the sentinel ITSELF breaks (triage crash, ops
+      # API down), that must not be a silent failure — the exact problem this
+      # workflow exists to prevent. deployment_status isn't a schedule, so
+      # cron-failure-alert.yml does not cover this workflow.
+      - name: Alert if the sentinel itself failed
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then
+            echo "RESEND_API_KEY not configured — cannot send sentinel self-failure alert"
+            exit 0
+          fi
+          payload=$(jq -n --arg url "$RUN_URL" '{
+            from: "Growth Mindset Alerts <alerts@growthmindsetparenting.com>",
+            to: ["katie@grandladyaustin.com", "sean@growthmindsetparenting.com"],
+            subject: "[Growth Mindset] Deploy Sentinel itself failed",
+            html: ("<p>The Deploy Sentinel workflow hit an error while handling a deployment failure — the underlying failure may NOT have been filed in the ops tracker.</p><p><a href=\"" + ($url | @html) + "\">Open the run</a> to see what happened.</p>")
+          }')
+          curl -sS --fail-with-body --max-time 30 --retry 3 --retry-all-errors \
+            -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$payload"
