@@ -97,6 +97,9 @@ async function main() {
     '[blog post body — start with a scene-opening paragraph, no title heading at the top]',
     '[Use ## for H2 subheadings where appropriate]',
     '[Every paragraph separated by a blank line]',
+    '[Do NOT include a meta description anywhere in the body — the EXCERPT field above is used for the meta tag]',
+    '[Do NOT end the post with a --- separator or any closing metadata]',
+    '[Do NOT include links to other posts or pages — internal links are added by hand during review]',
   ].join('\n');
 
   // ── 4. Call Anthropic API ────────────────────────────────────────────────────

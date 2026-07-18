@@ -7,6 +7,39 @@ import { SITE } from '../../../data/site';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+// Inline markdown supported in body paragraphs: **bold**, *italic*, [text](url).
+// Bold must come before italic in the alternation or ** gets shredded into empty italics.
+const INLINE_TOKEN = /(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\[[^\]]+\]\([^)\s]+\))/g;
+
+function renderInline(text) {
+  return text.split(INLINE_TOKEN).map((part, j) => {
+    if (!part) return null;
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={j}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return <em key={j}>{part.slice(1, -1)}</em>;
+    }
+    const link = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+    if (link) {
+      const [, label, href] = link;
+      if (href.startsWith('/')) {
+        return (
+          <Link key={j} href={href.endsWith('/') ? href : `${href}/`}>
+            {label}
+          </Link>
+        );
+      }
+      return (
+        <a key={j} href={href} target="_blank" rel="noopener">
+          {label}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
@@ -111,18 +144,9 @@ export default function WritingPiecePage({ params }) {
       <div className="v6-article-layout">
         <div className="v6-article-body">
           {(letter.body || []).map((para, i) => {
-            const parts = para.split(/(\*\*[^*]+\*\*)/g);
-            return (
-              <p key={i}>
-                {parts.map((p, j) =>
-                  p.startsWith('**') && p.endsWith('**') ? (
-                    <strong key={j}>{p.slice(2, -2)}</strong>
-                  ) : (
-                    p
-                  )
-                )}
-              </p>
-            );
+            if (para.startsWith('### ')) return <h3 key={i}>{renderInline(para.slice(4))}</h3>;
+            if (para.startsWith('## ')) return <h2 key={i}>{renderInline(para.slice(3))}</h2>;
+            return <p key={i}>{renderInline(para)}</p>;
           })}
 
           <div className="v6-article-end" aria-hidden="true">

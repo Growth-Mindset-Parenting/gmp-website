@@ -97,7 +97,7 @@ export const LETTERS = [
     "Then close your mouth and listen.",
     "You're not looking for the right answer. You're not hoping they recite a Gantt chart. You're looking for evidence of whether they've thought about it at all. If they have — great. Affirm it. Ask one follow-up question. If they haven't — don't panic, don't lecture. Just stay curious. \"Okay, so when do you think you want to tackle it?\"",
     "That question is the rep. The rep is the skill. There is no shortcut.",
-    "If you want to go deeper on how to build this kind of ongoing check-in with your kid without it becoming another form of surveillance, I wrote about the difference [here in this piece on talking to your middle schooler when they won't talk back](/writing/how-to-talk-to-your-middle-schooler).",
+    "If you want to go deeper on how to build this kind of ongoing check-in with your kid without it becoming another form of surveillance, I wrote about why reminders don't build the skill — and what collaboration looks like instead — in [this piece on executive function and reminders](/writing/stop-reminding-start-collaborating/).",
     "My son and I talked about the project after he turned it in. Not in a this is what you should have done way. More like two people doing an honest postgame.",
     "\"What would you do differently?\" I asked.",
     "He thought about it for a second. \"Started earlier. Like, actually started. Not just thought about starting.\"",
@@ -105,8 +105,6 @@ export const LETTERS = [
     "That's the only way this skill gets built. By them. With us nearby, asking the question, handing the mirror over, and trusting the process.",
     "Even on Thursday night at 9 p.m.",
     "Maybe especially then.",
-    "---",
-    "*Meta description: Executive function in middle school is still under construction — and that's not a discipline problem. Here's what's actually happening in your kid's brain, and one question that helps.*",
     ],
   },
   {

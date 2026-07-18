@@ -311,7 +311,11 @@ export async function GET(request) {
     const paragraphs = bodyText
       .split(/\n\n+/)
       .map(p => p.trim())
-      .filter(p => p.length > 0);
+      .filter(p => p.length > 0)
+      // Strip artifacts the model sometimes appends: separator lines (---, ***, ___, ——)
+      // and a "Meta description:" paragraph (the meta tag comes from EXCERPT, not the body).
+      .filter(p => !/^[-—*_]{2,}$/.test(p))
+      .filter(p => !/^[*_]{0,2}\s*Meta description:/i.test(p));
 
     if (!paragraphs.length) throw new Error('No body content found after --- separator.');
 
