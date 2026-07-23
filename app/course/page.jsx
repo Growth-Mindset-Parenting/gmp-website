@@ -111,7 +111,7 @@ const FAQS = [
   },
   {
     n: '03', q: "We've tried therapy. How is this different?",
-    a: "This is not a replacement for therapy. Therapy works on your kid. This works on you — specifically on how you show up in the moments that count. They're not in competition. Many families benefit both.",
+    a: "This is not a replacement for therapy. Therapy works on your kid. This works on you — specifically on how you show up in the moments that count. They're not in competition. Many families benefit from both.",
   },
   {
     n: '04', q: 'How is this different from your free content?',
@@ -598,9 +598,9 @@ export default function CoursePage() {
               margin: 0, maxWidth: '36ch',
             }}>
               Don&rsquo;t see yours?{' '}
-              <Link href="/contact" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none' }}>
+              <a href="mailto:sean@growthmindsetparenting.com" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'none' }}>
                 Email me directly
-              </Link>{' '}
+              </a>{' '}
               &mdash; I read every one.
             </p>
           </div>
