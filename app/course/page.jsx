@@ -111,7 +111,7 @@ const FAQS = [
   },
   {
     n: '03', q: "We've tried therapy. How is this different?",
-    a: "Therapy works on your kid. This works on you — specifically on how you show up in the moments that count. They're not in competition. Many families do both.",
+    a: "This is not a replacement for therapy. Therapy works on your kid. This works on you — specifically on how you show up in the moments that count. They're not in competition. Many families benefit both.",
   },
   {
     n: '04', q: 'How is this different from your free content?',
@@ -436,8 +436,8 @@ export default function CoursePage() {
         <div className="cs-about-inner">
           <span className="cs-eyebrow">About Sean</span>
           <blockquote className="cs-about-quote">
-            &ldquo;My wife used to say I had an unfair advantage. I didn&rsquo;t. I had twelve years
-            of practice with other people&rsquo;s kids.&rdquo;
+            &ldquo;My wife used to say I had an unfair advantage. I didn&rsquo;t. I had thousands of
+            hours of practice with other people&rsquo;s kids.&rdquo;
           </blockquote>
           <div className="cs-about-body">
             <p>

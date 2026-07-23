@@ -35,6 +35,15 @@ const ok = (m) => { pass++; console.log(`  ✅ ${m}`); };
 const bad = (m) => { fail++; failures.push(m); console.log(`  ❌ ${m}`); };
 const check = (cond, m) => (cond ? ok(m) : bad(m));
 
+// Load a page for inspection. Uses 'load', not 'networkidle': every page is
+// static, so the DOM is complete at load — but third-party analytics (GA/GTM)
+// can keep a request pending indefinitely under load, and waiting for idle then
+// hangs on a page that is actually fine. A short settle covers hydration.
+async function visit(page, url) {
+  await page.goto(url, { waitUntil: 'load', timeout: 45000 });
+  await page.waitForTimeout(300);
+}
+
 const browser = await chromium.launch();
 
 // ── 1. Every route responds ──────────────────────────────────────────────────
@@ -80,7 +89,7 @@ for (const path of [...PAGES, ...FREEBIE_PATHS]) {
       errors.push(`request failed ${r.url()}`);
     }
   });
-  await page.goto(BASE + path, { waitUntil: 'networkidle', timeout: 45000 });
+  await visit(page, BASE + path);
   check(errors.length === 0, `${path} loads without console errors${errors.length ? ' — ' + errors.slice(0, 2).join(' | ') : ''}`);
   await ctx.close();
 }
@@ -91,7 +100,7 @@ console.log('\n4. Mobile 375px — no horizontal overflow');
   const ctx = await browser.newContext({ viewport: MOBILE });
   const page = await ctx.newPage();
   for (const path of [...PAGES, ...FREEBIE_PATHS]) {
-    await page.goto(BASE + path, { waitUntil: 'networkidle', timeout: 45000 });
+    await visit(page, BASE + path);
     const { scroll, view } = await page.evaluate(() => ({
       scroll: document.documentElement.scrollWidth,
       view: window.innerWidth,
@@ -129,7 +138,7 @@ for (const [slug, f] of Object.entries(FREEBIES)) {
     const ctx = await browser.newContext();
     await ctx.addCookies([{ name: 'freebie-variant', value: variant, url: BASE }]);
     const page = await ctx.newPage();
-    await page.goto(`${BASE}/freebies/${slug}/`, { waitUntil: 'networkidle' });
+    await visit(page, `${BASE}/freebies/${slug}/`);
 
     const text = (await page.evaluate(() => document.body.textContent)).replace(/\s+/g, ' ');
     const flat = (s) => String(s).replace(/\s+/g, ' ').trim();
