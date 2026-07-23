@@ -18,7 +18,7 @@
 
 import { readFileSync, writeFileSync } from 'fs';
 import { readRows, isFreebieRow } from './sheet.mjs';
-import { norm, loose, similarity } from './normalize.mjs';
+import { norm, loose, similarity, containsPhrase } from './normalize.mjs';
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((acc, a, i, arr) => {
@@ -72,14 +72,14 @@ const SEGMENT_LABEL = /^\s*(outcome|the gap now|gap now|what we teach|teach)\s*:
  */
 function present(text, corpus) {
   const whole = norm(text.replace(SEGMENT_LABEL, ''));
-  if (whole.length > 1 && corpus.haystack.includes(whole)) return true;
+  if (whole.length > 1 && containsPhrase(corpus.haystack, whole)) return true;
   for (const sep of ['|', '·']) {
     if (!text.includes(sep)) continue;
     const wanted = text
       .split(sep)
       .map((s) => norm(s.replace(SEGMENT_LABEL, '')))
       .filter((s) => s.length > 1);
-    if (wanted.length > 1 && wanted.every((seg) => corpus.haystack.includes(seg))) return true;
+    if (wanted.length > 1 && wanted.every((seg) => containsPhrase(corpus.haystack, seg))) return true;
   }
   return false;
 }
@@ -112,7 +112,7 @@ function presentish(text, corpus) {
   const best = bestCandidate(text, corpus);
   if (best.score >= 0.9) return { hit: true, how: 'near', best };
   const a = loose(text), b = loose(best.text);
-  if (a.length > 12 && b.length > 12 && (a.includes(b) || b.includes(a))) {
+  if (a.length > 12 && b.length > 12 && (containsPhrase(a, b) || containsPhrase(b, a))) {
     const ratio = Math.min(a.length, b.length) / Math.max(a.length, b.length);
     if (ratio >= 0.7) return { hit: true, how: 'contained', best };
   }

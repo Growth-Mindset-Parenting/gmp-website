@@ -26,6 +26,8 @@
   "57":  { "action": "set", "value": "05 Autonomy", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
   "58":  { "action": "set", "value": "06 Adaptation", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
 
+  "90":  { "action": "review", "reason": "Archive count is generated from the number of published pieces (7 when written, 17 today) and changes every time Sean publishes. Recommend removing from the sheet rather than tracking a number that is stale within a week." },
+
   "93":  { "action": "review", "reason": "Writing index is a live feed — 10 newer posts published since this row was written, so 'Article 1' no longer refers to the same post. Read time also recalculated. Recommend removing the per-article rows from the sheet." },
   "96":  { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },
   "102": { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },

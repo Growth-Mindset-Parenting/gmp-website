@@ -53,6 +53,27 @@ export function loose(s) {
   return norm(s).replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * Substring search that will not match across a word boundary.
+ *
+ * Plain includes() reports "7 Pieces in archive" as present on a page reading
+ * "17 Pieces in archive" — the stale row silently passes as correct. Both
+ * strings must already be normalised.
+ */
+export function containsPhrase(haystack, needle) {
+  if (!needle) return false;
+  const wordish = /[a-z0-9]/;
+  let from = 0;
+  for (;;) {
+    const at = haystack.indexOf(needle, from);
+    if (at === -1) return false;
+    const before = at === 0 ? '' : haystack[at - 1];
+    const after = haystack[at + needle.length] || '';
+    if (!wordish.test(before) && !wordish.test(after)) return true;
+    from = at + 1;
+  }
+}
+
 /** Token-overlap similarity in [0,1]. Order-insensitive, length-aware. */
 export function similarity(a, b) {
   const A = loose(a).split(' ').filter(Boolean);
