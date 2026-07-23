@@ -7,6 +7,28 @@ const nextConfig = {
     // normalizes requests to the slashed form BEFORE matching these sources,
     // so every source must end in a slash or it will never match.
     return [
+      // Legacy Kajabi-era and old-site URLs still indexed by Google
+      // (Search Console "Not found (404)", 2026-07-23).
+      {
+        source: '/login/',
+        destination: 'https://courses.growthmindsetparenting.com/login',
+        permanent: true,
+      },
+      {
+        source: '/password/new/',
+        destination: 'https://courses.growthmindsetparenting.com/password/new',
+        permanent: true,
+      },
+      {
+        source: '/store/',
+        destination: 'https://courses.growthmindsetparenting.com/store',
+        permanent: true,
+      },
+      {
+        source: '/contact/',
+        destination: '/work-with-me/',
+        permanent: true,
+      },
       {
         source: '/download/field-guide/',
         destination: '/freebies/six-middle-skills/',
