@@ -70,12 +70,13 @@ whitespace collapsed — before anything is compared.
 
 | File | Job |
 |---|---|
-| `sheet.mjs` | Reads/writes the sheet. Reuses the local google-docs-mcp OAuth token at runtime; no secret is stored in the repo. |
+| `sheet.mjs` | Reads/writes/deletes rows in the sheet. Reuses the local google-docs-mcp OAuth token at runtime; no secret is stored in the repo. |
 | `normalize.mjs` | Entity decoding, punctuation flattening, similarity scoring, boundary-aware substring search. |
 | `extract-live.mjs` | Renders every page in a real browser and harvests the visible copy. |
 | `audit.mjs` | Compares every sheet row against the rendered site and assigns a verdict. |
 | `locate.mjs` | Given a row or a sentence, finds the file and line it lives on. |
 | `plan-sheet-update.mjs` | Turns an audit into sheet edits. Dry-run by default. |
+| `refresh-writing.mjs` | Refreshes the WRITING article rows positionally from `content/letters.js` (the /writing/ feed shifts as Sean publishes). |
 | `site-check.mjs` | Full pre-deploy test suite (`Website/scripts/`). |
 
 ### What the extractor has to do that a fetch cannot
@@ -106,22 +107,27 @@ whitespace collapsed — before anything is compared.
 
 ---
 
-## Rows that will not reconcile
+## Rows that track generated content
 
-Some rows track generated content, not fixed copy. They drift constantly and are
-listed in `scripts/copy-sync/overrides.json` as `review` so they are never
-auto-written:
+Some rows describe content the page generates rather than fixed copy. Resolved
+2026-07-23 per Katie:
 
-- `WRITING / Archive Stats`, `WRITING / Article N` — the writing index is a live
-  feed; positions and read times change whenever Sean publishes.
-- `HOME / Skill NN / Subtitle` — describes the retired `SkillsAccordion`; the
-  current `SixSkillsSection` has no subtitle element.
-- `COURSE / Pricing / Fine Print` — replaced by the pre-order steps list.
-- Modal confirmation rows containing `[First Name]` / `[email]` — templates.
-
-**Recommendation:** remove the `WRITING / Article N` and `Archive Stats` rows
-from the sheet. They cannot be kept accurate and their drift is noise that hides
-real drift.
+- **`WRITING / Archive Stats`, `WRITING / Article N` — kept, and auto-refreshed.**
+  The writing index is a live feed, so `refresh-writing.mjs` rewrites these
+  positionally from `content/letters.js` on every sync (Article N ← the Nth
+  newest post; archive count ← total posts). The sheet stays a complete
+  inventory at zero maintenance cost. The sheet tracks 7 article slots; the site
+  shows more, so it's the 7 newest — expand the slots later if a fuller list is
+  wanted.
+- **`HOME / Skill NN / Subtitle` — deleted from the sheet.** The homepage's
+  six-skills section was rebuilt (`SixSkillsSection`) with no subtitle element,
+  so there was nothing on the site to sync to. The skill Title and Description
+  rows remain.
+- `COURSE / Pricing / Fine Print` — replaced on the site by the pre-order steps
+  list; held for a Sean decision in `overrides.json`.
+- Modal confirmation rows (`[First Name]` / `[email]`) and the struck-out price
+  (`$499 (crossed out: $599)`) — recognised by the audit's `ANNOTATION` rule and
+  left as written; no override entry needed.
 
 ---
 
@@ -148,8 +154,10 @@ Present on production before this work; not regressions:
 
 - `/feed.xml` 404s. `scripts/generate-rss.mjs` writes to `out/feed.xml`, but the
   app is not a static export, so nothing serves it. The footer links to it on
-  every page and `app/layout.jsx` declares it as the RSS alternate.
-- `app/course/page.jsx` links to `/contact`, which does not exist.
+  every page and `app/layout.jsx` declares it as the RSS alternate. Still open.
+- ~~`app/course/page.jsx` links to `/contact`, which does not exist.~~ **Fixed
+  2026-07-23** — the FAQ "Email me directly" link is now a `mailto:` to
+  sean@growthmindsetparenting.com.
 
 ---
 

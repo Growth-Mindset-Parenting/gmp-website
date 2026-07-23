@@ -1,50 +1,27 @@
 {
   "_readme": [
-    "Hand-resolved rows for the sheet reconciliation. The audit's fuzzy matcher",
-    "picks the best single element on the page; where the site splits a row across",
-    "elements, renamed a section, or removed an element entirely, a human has to",
-    "decide. Each entry below was verified against the rendered production page.",
+    "Hand-resolved rows the audit cannot decide on its own. Keyed by spreadsheet",
+    "row number.",
     "",
     "  set    -> write this exact value into column D",
     "  review -> do NOT write; surface the row to Katie/Sean for a decision",
     "",
-    "This file should normally be EMPTY. It exists because the sheet had drifted",
-    "for months before the sync process existed. Going forward, column E drives",
-    "the site and column D is written back from it, so drift should not accumulate."
+    "This file should stay nearly empty. The 2026-07-23 cleanup entries are gone:",
+    "  - HOME 'Skill NN Subtitle' rows were DELETED from the sheet (the current",
+    "    SixSkillsSection has no subtitle element; Katie's call, 2026-07-23).",
+    "  - WRITING 'Article N' + 'Archive Stats' rows are now refreshed positionally",
+    "    every sync by refresh-writing.mjs, so they never drift and need no entry.",
+    "  - The one-time 'set' corrections were applied and are now IN_SYNC.",
+    "",
+    "Row numbers shift when rows are inserted or deleted. After any such change,",
+    "re-derive keys from a fresh dump-sheet.mjs before trusting this file.",
+    "",
+    "Note: modal confirmation rows ('[First Name]', '[email]') and the struck-out",
+    "price ('$499 (crossed out: $599)') do NOT need entries here — the audit's",
+    "ANNOTATION rule already recognises them.",
+    "",
+    "As of 2026-07-23 the only unresolved row is the COURSE pricing fine print."
   ],
 
-  "34":  { "action": "review", "reason": "Home page's Six Skills section was rebuilt (SixSkillsSection) and no longer has a per-skill subtitle element. Sheet row describes the retired SkillsAccordion design." },
-  "37":  { "action": "review", "reason": "Same as row 34 — subtitle element no longer exists on the home page." },
-  "40":  { "action": "review", "reason": "Same as row 34 — subtitle element no longer exists on the home page." },
-  "43":  { "action": "review", "reason": "Same as row 34 — subtitle element no longer exists on the home page." },
-  "46":  { "action": "review", "reason": "Same as row 34 — subtitle element no longer exists on the home page." },
-  "49":  { "action": "review", "reason": "Same as row 34 — subtitle element no longer exists on the home page." },
-
-  "54":  { "action": "set", "value": "02 Resilience", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
-  "55":  { "action": "set", "value": "03 Reflection", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
-  "56":  { "action": "set", "value": "04 Relationship", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
-  "57":  { "action": "set", "value": "05 Autonomy", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
-  "58":  { "action": "set", "value": "06 Adaptation", "reason": "Field Guide list re-ordered; verified against the live <li> sequence." },
-
-  "90":  { "action": "review", "reason": "Archive count is generated from the number of published pieces (7 when written, 17 today) and changes every time Sean publishes. Recommend removing from the sheet rather than tracking a number that is stale within a week." },
-
-  "93":  { "action": "review", "reason": "Writing index is a live feed — 10 newer posts published since this row was written, so 'Article 1' no longer refers to the same post. Read time also recalculated. Recommend removing the per-article rows from the sheet." },
-  "96":  { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },
-  "102": { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },
-  "105": { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },
-  "108": { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },
-  "111": { "action": "review", "reason": "Same as row 93 — live article feed, position no longer stable." },
-
-  "117": { "action": "set", "value": "All | Emotional Literacy | Resilience | Reflection | Relationship | Autonomy", "reason": "'Communication' filter removed from the live page. The All button also renders a live post count (currently 17) which is deliberately not recorded here." },
-
-  "124": { "action": "set", "value": "Pre-order Middle Skills →", "reason": "Course hero CTA changed from Enroll to Pre-order; verified on the live page." },
-  "126": { "action": "set", "value": "Self-paced · lifetime access · 30-day guarantee · founding price locked for life", "reason": "Hero supporting text rewritten; verified as .cs-hero-note on the live page." },
-  "198": { "action": "set", "value": "Say something hard to someone they love and stay in the conversation", "reason": "Module 06 outcome rewritten; verified in the live module list." },
-  "199": { "action": "set", "value": "Sense what someone else is feeling and let it shape how they act", "reason": "Module 06 outcome rewritten; verified in the live module list." },
-  "223": { "action": "set", "value": "Monthly live office hour with Sean", "reason": "Offer changed from weekly live lessons to a monthly office hour; verified on the live page." },
-  "231": { "action": "set", "value": "Reserve my founding seat →", "reason": "Pricing card CTA rewritten; verified as the .v6-cta inside the pricing block." },
-  "232": { "action": "review", "reason": "The pricing fine print was replaced by a three-step pre-order list (Today / Fall 2026 / 30-day guarantee). No single element corresponds to this row, and the October launch date it names is now Fall 2026." },
-  "263": { "action": "set", "value": "Founding pre-order · opens Fall 2026 · $499 or 2 × $269 · 30-day guarantee", "reason": "Final CTA subtext rewritten; verified as .cs-close-note on the live page." },
-
-  "228": { "action": "review", "reason": "Row is a human annotation ('$499 (crossed out: $599)') describing a struck-through price. It accurately describes the live page — left as written rather than flattened to '$499 $599'." }
+  "226": { "action": "review", "reason": "COURSE / Pricing / Fine Print. The fine print was replaced on the site by the three-step pre-order list (Today / Fall 2026 / 30-day guarantee), and the sheet copy still says the course 'launches in October' — now Fall 2026. No single element corresponds to this row. Needs Sean to decide the current wording, then drive it through column E. Filed for Katie 2026-07-23." }
 }

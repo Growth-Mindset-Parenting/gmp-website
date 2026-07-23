@@ -16,6 +16,7 @@ import { join } from 'path';
 
 export const SPREADSHEET_ID = '1HYHfu-zDxNxlWraH999cw_6sSl0m_I9BJWyDv2i8qQg';
 export const TAB = 'Sheet1';
+export const SHEET_GID = 0; // numeric id of the "Sheet1" tab
 
 const TOKEN_PATH =
   process.env.GOOGLE_OAUTH_TOKEN_PATH ||
@@ -104,4 +105,26 @@ export async function writeCells(updates) {
     written += batch.length;
   }
   return written;
+}
+
+/**
+ * Deletes whole rows by 1-indexed spreadsheet row number. Rows are removed
+ * bottom-up internally so the caller's numbers stay valid regardless of order.
+ * Structural — the pre-cleanup backup tab is the recovery path.
+ */
+export async function deleteRows(rowNumbers, { gid = SHEET_GID } = {}) {
+  const rows = [...new Set(rowNumbers)].sort((a, b) => b - a);
+  if (!rows.length) return 0;
+  const sheets = sheetsClient();
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId: SPREADSHEET_ID,
+    requestBody: {
+      requests: rows.map((r) => ({
+        deleteDimension: {
+          range: { sheetId: gid, dimension: 'ROWS', startIndex: r - 1, endIndex: r },
+        },
+      })),
+    },
+  });
+  return rows.length;
 }

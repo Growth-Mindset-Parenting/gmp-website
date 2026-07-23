@@ -158,6 +158,19 @@ what the next audit will see. E is cleared only for rows whose content is
 verifiably live. `/tmp/plan.json` records the previous value of every cell it
 touches, so a bad write can be undone.
 
+Then refresh the auto-tracked WRITING rows (the /writing/ feed shifts whenever
+Sean publishes, so these are kept current positionally from `content/letters.js`
+rather than by copy matching):
+
+```bash
+node scripts/copy-sync/refresh-writing.mjs           # dry run
+node scripts/copy-sync/refresh-writing.mjs --write   # apply
+```
+
+Run this on every sync — it is cheap and idempotent (prints "already current"
+when there is nothing to do). It updates the 7 `Article N` slots to the 7 newest
+posts and the `Pieces in archive` count.
+
 ### 9. Report
 
 Tell Katie, in plain language:
@@ -173,31 +186,34 @@ read the verdicts): `IN_SYNC`, `E_IS_LIVE` (a request was applied but never
 written back), `DRIFT` (site reworded), `NOT_FOUND` (no counterpart on the page),
 `ANNOTATION` (the row describes the page rather than quoting it).
 
-## Rows that will not reconcile
+## Rows that track generated content
 
-Some rows track content the page generates rather than fixed copy. They drift
-constantly and should not be chased:
+Some rows describe content the page generates rather than fixed copy:
 
 - `WRITING / Archive Stats` and `WRITING / Article N` — the writing index is a
-  live feed; positions and read times change whenever Sean publishes.
-- `HOME / Skill NN / Subtitle` — describes the retired `SkillsAccordion`
-  design; the current `SixSkillsSection` has no subtitle element.
-- `COURSE / Pricing / Fine Print` — replaced by the pre-order steps list.
-- Modal confirmation rows containing `[First Name]` / `[email]` — templates.
+  live feed. **Kept current automatically** by `refresh-writing.mjs` (step 8),
+  which refreshes them positionally from `content/letters.js`. Do not chase them
+  with the copy matcher.
+- Modal confirmation rows containing `[First Name]` / `[email]`, and the
+  struck-out price `$499 (crossed out: $599)` — the audit's `ANNOTATION` rule
+  recognises these; they need no override entry and are left as written.
+- `COURSE / Pricing / Fine Print` — replaced on the site by the pre-order steps
+  list; held for a Sean decision in `overrides.json`.
 
-These are listed in `scripts/copy-sync/overrides.json` with reasons. That file
-holds hand-resolved decisions and should normally stay small; entries marked
-`review` are never auto-written.
+`scripts/copy-sync/overrides.json` holds hand-resolved decisions and should stay
+nearly empty; entries marked `review` are never auto-written. (The `HOME / Skill
+NN / Subtitle` rows were deleted from the sheet on 2026-07-23 — the current
+`SixSkillsSection` has no subtitle element, so there was nothing to sync to.)
 
-## Known issues (pre-existing, not caused by copy sync)
+## Known issues
 
 - `/feed.xml` 404s. `scripts/generate-rss.mjs` writes to `out/feed.xml`, but the
   app is not a static export, so nothing serves it. The footer links to it on
-  every page and `app/layout.jsx` declares it as the RSS alternate.
-- `app/course/page.jsx` links to `/contact`, which does not exist.
+  every page and `app/layout.jsx` declares it as the RSS alternate. Pre-existing;
+  tracked in the Ops Platform. `site-check.mjs` reports it — not a regression.
 
-Both are tracked in the Ops Platform. Fixing them is a structural change, out of
-scope for a copy sync.
+*(Fixed 2026-07-23: the Course FAQ's "Email me directly" link pointed to the
+non-existent `/contact` and 404'd; now a `mailto:` to sean@growthmindsetparenting.com.)*
 
 ## Never
 
