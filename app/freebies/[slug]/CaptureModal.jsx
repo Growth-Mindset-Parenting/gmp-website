@@ -58,7 +58,7 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
 
   if (!open) return null;
 
-  const firstName = (name || '').split(' ')[0] || 'there';
+  const firstName = (name || '').trim().split(' ')[0];
   const emailShown = (email || '').trim() || 'your inbox';
 
   return (
@@ -73,7 +73,7 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
           <div className="fb-modal-confirm">
             <div className="fb-modal-check" aria-hidden="true">&#10003;</div>
             <h2 className="fb-modal-confirm-heading">
-              You&rsquo;re in, <em>{firstName}</em>.
+              {firstName ? <>You&rsquo;re in, <em>{firstName}</em>.</> : <>You&rsquo;re in.</>}
             </h2>
             <p className="fb-modal-confirm-body">
               Here&rsquo;s {freebie.title} — grab it right now. I&rsquo;ve also sent a
