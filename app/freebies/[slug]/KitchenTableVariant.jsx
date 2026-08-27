@@ -32,7 +32,9 @@ export default function KitchenTableVariant({ freebie }) {
       {/* ── Hero ── */}
       <section className="kt-hero">
         <div className="kt-hero-copy">
-          <p className="gmp-eyebrow kt-hero-eyebrow">Free guide &middot; For parents of middle schoolers</p>
+          <p className="gmp-eyebrow kt-hero-eyebrow">
+            {freebie.heroEyebrow || 'Free guide · For parents of middle schoolers'}
+          </p>
           <h1 className="kt-hero-h1">
             {withItalic(freebie.heroHeadline, freebie.heroHeadlineItalic)}
           </h1>

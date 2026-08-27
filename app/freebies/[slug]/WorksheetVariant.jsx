@@ -30,7 +30,9 @@ export default function WorksheetVariant({ freebie }) {
       {/* ── Hero ── */}
       <section className="ws-hero">
         <div>
-          <p className="gmp-eyebrow ws-hero-eyebrow">Free guide &middot; For parents of middle schoolers</p>
+          <p className="gmp-eyebrow ws-hero-eyebrow">
+            {freebie.heroEyebrow || 'Free guide · For parents of middle schoolers'}
+          </p>
           <h1 className="ws-hero-h1">
             {withItalic(freebie.heroHeadline, freebie.heroHeadlineItalic)}
           </h1>

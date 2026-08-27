@@ -161,9 +161,10 @@ export const FREEBIES = {
     kitFormId: '9852097', // Kit form "Freebie: Emotional Literacy for Kids"
     pdfUrl: '/downloads/emotional-literacy-for-kids.pdf',
     title: 'Emotional Literacy for Kids',
+    heroEyebrow: 'Free guide · For middle schoolers', // this guide is for the kid, not the parent
     heroHeadline: 'Nobody controls everything they feel. Everyone controls what they do next.',
     heroHeadlineItalic: 'what they do next.',
-    heroSubhead: 'Puberty puts the emotional part of your kid’s brain into overdrive before the deciding part has caught up — which is why the crash-out comes out of nowhere. This free, 6-page guide explains that to your nine-to-thirteen-year-old in their own language: the Lizard and the Wizard, the five feeling chemicals, and the questions that turn a reaction into a choice. Written for them to read, not you.',
+    heroSubhead: 'Adolescence puts the emotional part of your kid’s brain into overdrive before the deciding part has caught up — which is why the crash-out comes out of nowhere. This free, 6-page guide explains that to your nine-to-thirteen-year-old in their own language: the Lizard and the Wizard, the five feeling chemicals, and the questions that turn a reaction into a choice. Written for them to read, not you.',
     microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
     microCopyBold: '250K',
     painPoints: [

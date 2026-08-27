@@ -5,7 +5,8 @@
  * stored in this repo — the token is read from disk at runtime.
  *   Override the location with GOOGLE_OAUTH_TOKEN_PATH if needed.
  *
- * Sheet contract (tab "Sheet1"):
+ * Sheet contract (the tab with gid 0 — titled "SOT" as of 2026-08-27, but the
+ * title is resolved at runtime so a rename in the Sheets UI cannot break this):
  *   A = Page   B = Section   C = Element Type   D = Live Copy   E = Requested Changes
  */
 
@@ -15,8 +16,7 @@ import { homedir } from 'os';
 import { join } from 'path';
 
 export const SPREADSHEET_ID = '1HYHfu-zDxNxlWraH999cw_6sSl0m_I9BJWyDv2i8qQg';
-export const TAB = 'Sheet1';
-export const SHEET_GID = 0; // numeric id of the "Sheet1" tab
+export const SHEET_GID = 0; // numeric id of the source-of-truth tab
 
 const TOKEN_PATH =
   process.env.GOOGLE_OAUTH_TOKEN_PATH ||
@@ -45,6 +45,26 @@ function authorize() {
 export function sheetsClient() {
   return google.sheets({ version: 'v4', auth: authorize() });
 }
+
+/**
+ * The tab is addressed by gid, not by name — Katie renames tabs in the UI
+ * (Sheet1 → SOT on 2026-08-27) and a hardcoded name turns every script into an
+ * "Unable to parse range" error. Resolved once at import.
+ */
+async function resolveTabTitle() {
+  const res = await sheetsClient().spreadsheets.get({
+    spreadsheetId: SPREADSHEET_ID,
+    fields: 'sheets.properties(sheetId,title)',
+  });
+  const match = (res.data.sheets || []).find((s) => s.properties.sheetId === SHEET_GID);
+  if (!match) throw new Error(`No tab with gid ${SHEET_GID} in spreadsheet ${SPREADSHEET_ID}`);
+  return match.properties.title;
+}
+
+export const TAB_TITLE = await resolveTabTitle();
+
+/** A1-notation prefix, quoted so a title containing spaces still parses. */
+export const TAB = `'${TAB_TITLE.replace(/'/g, "''")}'`;
 
 /**
  * Reads the full copy table.
@@ -85,7 +105,7 @@ export function isFreebieRow(r) {
 }
 
 /**
- * Writes individual cells. updates = [{ range: 'Sheet1!D12', value: 'text' }]
+ * Writes individual cells. updates = [{ range: `${TAB}!D12`, value: 'text' }]
  * Uses RAW so copy is never reinterpreted as a formula, date, or number.
  */
 export async function writeCells(updates) {
