@@ -5,6 +5,12 @@ export const metadata = {
   title: 'Work with Me',
   description:
     'One-on-one coaching, podcasts, speaking, and brand partnerships with Sean Kane of Growth Mindset Parenting.',
+  openGraph: {
+    title: 'Work with Me | Growth Mindset Parenting',
+    description: 'One-on-one coaching, podcasts, speaking, and brand partnerships with Sean Kane.',
+    images: [{ url: '/images/sean-wide.jpg' }],
+  },
+  alternates: { canonical: '/work-with-me/' },
 };
 
 const PODCAST_TOPICS = [

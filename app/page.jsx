@@ -21,6 +21,7 @@ export const metadata = {
     description: 'Six skills for the middle years. Plainspoken parenting from a 14-year teacher.',
     images: [{ url: '/images/sean-hero.jpg' }],
   },
+  alternates: { canonical: '/' },
 };
 
 const PERSON_SCHEMA = {

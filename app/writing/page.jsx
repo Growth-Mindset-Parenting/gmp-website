@@ -9,6 +9,12 @@ export const metadata = {
   title: 'Writing',
   description:
     'Weekly notes and longer essays on the six Middle Skills. Plainspoken parenting, written by a teacher. Free.',
+  openGraph: {
+    title: 'Writing | Growth Mindset Parenting',
+    description: 'Weekly notes and longer essays on the six Middle Skills. Plainspoken parenting, written by a teacher.',
+    images: [{ url: '/images/sean-wide.jpg' }],
+  },
+  alternates: { canonical: '/writing/' },
 };
 
 const BLOG_SCHEMA = {

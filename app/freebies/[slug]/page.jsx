@@ -16,6 +16,7 @@ export async function generateMetadata({ params }) {
       images: [{ url: '/images/freebie-sean-square.jpg' }],
     },
     robots: { index: true, follow: true },
+    alternates: { canonical: `/freebies/${params.slug}/` },
   };
 }
 

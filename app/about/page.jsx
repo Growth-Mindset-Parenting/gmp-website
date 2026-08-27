@@ -15,6 +15,7 @@ export const metadata = {
     description: 'Fourteen years teaching middle school. Three sons. The same six skills, in two different rooms.',
     images: [{ url: '/images/sean-hero.jpg' }],
   },
+  alternates: { canonical: '/about/' },
 };
 
 const PERSON_FULL_SCHEMA = {

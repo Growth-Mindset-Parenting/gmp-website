@@ -11,7 +11,9 @@ export const metadata = {
   openGraph: {
     title: 'Middle Skills | Growth Mindset Parenting',
     description: 'Six skills for the middle years. A self-paced course built by a teacher who spent 14 years in the room.',
+    images: [{ url: '/images/sean-wide.jpg' }],
   },
+  alternates: { canonical: '/course/' },
 };
 
 const COURSE_SCHEMA = {

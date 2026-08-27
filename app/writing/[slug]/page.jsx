@@ -58,6 +58,7 @@ export async function generateMetadata({ params }) {
       authors: ['Sean Kane'],
       images: letter.img ? [{ url: letter.img }] : [{ url: '/images/sean-square.jpg' }],
     },
+    alternates: { canonical: `/writing/${params.slug}/` },
   };
 }
 
