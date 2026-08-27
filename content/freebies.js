@@ -158,7 +158,7 @@ export const FREEBIES = {
   },
   'emotional-literacy': {
     slug: 'emotional-literacy',
-    kitFormId: null, // Kit form "Freebie: Emotional Literacy for Kids" — Katie creates it in the Kit UI (the API cannot create forms); paste the real ID here. Until then the page 404s and the subscribe API rejects the slug, by design.
+    kitFormId: '9852097', // Kit form "Freebie: Emotional Literacy for Kids"
     pdfUrl: '/downloads/emotional-literacy-for-kids.pdf',
     title: 'Emotional Literacy for Kids',
     heroHeadline: 'Nobody controls everything they feel. Everyone controls what they do next.',
