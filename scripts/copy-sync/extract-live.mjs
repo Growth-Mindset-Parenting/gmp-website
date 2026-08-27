@@ -35,6 +35,7 @@ export const PAGE_MAP = {
   'FREEBIE / FIVE-MINUTE MEETING': '/freebies/five-minute-meeting/',
   'FREEBIE / RELEASE REPLAY REPAIR RETURN': '/freebies/release-replay-repair-return/',
   'FREEBIE / SIX MIDDLE SKILLS': '/freebies/six-middle-skills/',
+  'FREEBIE / EMOTIONAL LITERACY': '/freebies/emotional-literacy/',
 };
 
 /**
