@@ -509,6 +509,8 @@
   font-family: var(--font-source-serif), Georgia, serif;
   font-size: 18px; line-height: 1.55; color: var(--ink); margin: 0; max-width: 60ch; text-wrap: pretty;
 }
+.cs-guarantee-text p + p { margin-top: 12px; }
+.cs-guarantee-note { font-size: 14px; font-style: italic; opacity: 0.75; }
 
 /* ── 14. CLOSE (dark band) ── */
 .cs-close {

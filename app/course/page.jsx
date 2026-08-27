@@ -2,6 +2,7 @@ import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
 import JsonLd from '../../components/JsonLd';
 import { SITE } from '../../data/site';
+import { GUARANTEE } from '../../data/guarantee';
 import Link from 'next/link';
 
 export const metadata = {
@@ -200,7 +201,7 @@ export default function CoursePage() {
             <a href="#curriculum" className="v6-cta v6-cta-ghost">See what&rsquo;s inside</a>
           </div>
           <p className="cs-hero-note" style={{ marginTop: '24px' }}>
-            Self-paced &middot; lifetime access &middot; 30-day guarantee &middot; founding price locked for life
+            Self-paced &middot; lifetime access &middot; {GUARANTEE.short} &middot; founding price locked for life
           </p>
         </div>
       </header>
@@ -557,8 +558,8 @@ export default function CoursePage() {
                 The full course unlocks. You&rsquo;ll get an email the moment it goes live.
               </li>
               <li>
-                <span className="cs-preorder-steps-when">30-day guarantee</span>
-                Your refund window starts when the course opens &mdash; not today.
+                <span className="cs-preorder-steps-when">{GUARANTEE.short}</span>
+                {GUARANTEE.preorderNote}
               </li>
             </ul>
           </aside>
@@ -569,17 +570,15 @@ export default function CoursePage() {
       <section className="cs-guarantee">
         <div className="cs-guarantee-card">
           <div className="cs-guarantee-seal">
-            <b>30</b>
+            <b>{GUARANTEE.days}</b>
             <span>Day</span>
           </div>
           <div className="cs-guarantee-text">
-            <h3>Our Guarantee.</h3>
-            <p>
-              Complete the course. Apply the tools. Give the process an honest effort. If you
-              don&rsquo;t feel more confident handling the challenges of middle school parenting
-              after doing the work, we&rsquo;ll refund your purchase. You bring the commitment.
-              We&rsquo;ll take the risk.
-            </p>
+            <h3>{GUARANTEE.heading}</h3>
+            {GUARANTEE.body.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+            <p className="cs-guarantee-note">{GUARANTEE.preorderNote}</p>
           </div>
         </div>
       </section>
@@ -650,7 +649,7 @@ export default function CoursePage() {
             <a href="#curriculum" className="v6-cta v6-cta-ghost">See what&rsquo;s inside</a>
           </div>
           <span className="cs-close-note">
-            Founding pre-order &middot; opens {LAUNCH_DATE} &middot; {PRICE_FOUNDING} or {PRICE_SPLIT} &middot; 30-day guarantee
+            Founding pre-order &middot; opens {LAUNCH_DATE} &middot; {PRICE_FOUNDING} or {PRICE_SPLIT} &middot; {GUARANTEE.short}
           </span>
         </div>
       </section>

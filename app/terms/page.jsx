@@ -1,5 +1,6 @@
 import Nav from '../../components/Nav';
 import Footer from '../../components/Footer';
+import { GUARANTEE } from '../../data/guarantee';
 
 export const metadata = {
   title: 'Terms of Purchase — Middle Skills',
@@ -30,13 +31,17 @@ export default function TermsPage() {
 
           <h2>Our guarantee</h2>
 
-          <p>Complete the course. Apply the tools. Give the process an honest effort. If you
-          don&apos;t feel more confident handling the challenges of middle school parenting
-          after doing the work, we&apos;ll refund your purchase. You bring the commitment.
-          We&apos;ll take the risk. To request a refund, email{' '}
-          <a href="mailto:sean@growthmindsetparenting.com" style={{ color: 'var(--accent)' }}>
-            sean@growthmindsetparenting.com
-          </a>.</p>
+          <p>{GUARANTEE.heading}. Your {GUARANTEE.days} days begin on the day you receive
+          access to the course. If you pre-ordered, that is the day the course opens &mdash;
+          not the day you paid.</p>
+
+          <p>To qualify, work through the first two modules and apply the material with your
+          child. If you have done that and you do not feel more confident about the middle
+          school years, email{' '}
+          <a href={`mailto:${GUARANTEE.email}`} style={{ color: 'var(--accent)' }}>
+            {GUARANTEE.email}
+          </a>{' '}before your {GUARANTEE.days} days are up, tell us what you tried, and we
+          will refund your purchase in full.</p>
 
           <h2>Course access</h2>
 
