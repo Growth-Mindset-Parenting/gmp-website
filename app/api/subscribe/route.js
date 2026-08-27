@@ -16,6 +16,10 @@ const FREEBIE_FORMS = {
   'five-minute-meeting': '9672214',
   'six-middle-skills': '9544138',
   'release-replay-repair-return': '9672219',
+  // emotional-literacy: Kit form not created yet. The Kit API cannot create
+  // forms, so Katie makes "Freebie: Emotional Literacy for Kids" in the Kit UI
+  // and its ID gets pasted here (and in content/freebies.js).
+  'emotional-literacy': null,
 };
 
 // Segmentation tags applied on every signup (in addition to the form's own
@@ -26,6 +30,7 @@ const FREEBIE_TAGS = {
   'five-minute-meeting': 21015156,
   'release-replay-repair-return': 21015157,
   'six-middle-skills': 21015158,
+  'emotional-literacy': 22823758, // created via the Kit API 2026-08-27
 };
 
 const VARIANT_TAGS = {

@@ -156,6 +156,43 @@ export const FREEBIES = {
     metaTitle: 'The Six Middle Skills — Free Field Guide for Parents of Middle Schoolers',
     metaDescription: 'A free 8-page field guide: the six skills your middle schooler is still building, what each one looks like, and the move that\'s yours to make.',
   },
+  'emotional-literacy': {
+    slug: 'emotional-literacy',
+    kitFormId: null, // Kit form "Freebie: Emotional Literacy for Kids" — Katie creates it in the Kit UI (the API cannot create forms); paste the real ID here. Until then the page 404s and the subscribe API rejects the slug, by design.
+    pdfUrl: '/downloads/emotional-literacy-for-kids.pdf',
+    title: 'Emotional Literacy for Kids',
+    heroHeadline: 'Nobody controls everything they feel. Everyone controls what they do next.',
+    heroHeadlineItalic: 'what they do next.',
+    heroSubhead: 'Puberty puts the emotional part of your kid’s brain into overdrive before the deciding part has caught up — which is why the crash-out comes out of nowhere. This free, 6-page guide explains that to your nine-to-thirteen-year-old in their own language: the Lizard and the Wizard, the five feeling chemicals, and the questions that turn a reaction into a choice. Written for them to read, not you.',
+    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopyBold: '250K',
+    painPoints: [
+      '“They crash out over nothing, and then can’t tell me why.”',
+      '“Every feeling comes out as anger, or a slammed door.”',
+      '“‘Just calm down’ keeps falling out of my mouth — and it makes it worse.”',
+      '“I can explain it, but they will not hear it from me.”',
+    ],
+    painPointsCloser: '…then this guide was written for your kid.',
+    painPointsCloserItalic: 'your kid.',
+    outcomesHeading: 'What changes once they read it themselves.',
+    outcomesHeadingItalic: 'themselves',
+    outcomes: [
+      { title: 'They stop thinking something is wrong with them', description: 'The flood of feeling gets a real explanation — brain chemistry on a schedule, not a character flaw.' },
+      { title: 'A name for the crash-out', description: 'The Lizard and the Wizard gives them words for losing it, and a reason to believe the Wizard wins more often over time.' },
+      { title: 'Five questions to run in their own head', description: 'What am I feeling, where did it come from, who needs to know — a script that fits between the feeling and the reaction.' },
+      { title: 'It doesn’t have to come from you', description: 'The explanation lands without becoming one more lecture from a parent.' },
+    ],
+    seanHeading: 'I gave this talk to thirteen-year-olds for fourteen years.',
+    seanHeadingItalic: 'thirteen-year-olds',
+    seanBio: 'I taught middle-school English for fourteen years before I had three boys of my own. This is the conversation I had at a desk in room 201 every time a kid melted down — written straight to your kid, in their language, not mine.',
+    modalEyebrow: 'Emotional literacy for kids · free',
+    coverTitle: 'Emotional literacy for kids',
+    coverTitleItalic: 'for kids',
+    coverDescriptor: 'The puberty brain, explained straight to your nine-to-thirteen-year-old.',
+    pageCount: '6 pages',
+    metaTitle: 'Emotional Literacy for Kids — A Free Guide to Hand Your Middle Schooler',
+    metaDescription: 'A free 6-page guide written for 9–13 year olds: why puberty makes feelings feel out of control, the five feeling chemicals, and the questions that turn a crash-out into a choice.',
+  },
 };
 
 export function getFreebie(slug) {
