@@ -3,6 +3,7 @@ import Footer from '../../components/Footer';
 import JsonLd from '../../components/JsonLd';
 import { SITE } from '../../data/site';
 import { GUARANTEE } from '../../data/guarantee';
+import CheckoutLink from './CheckoutLink';
 import Link from 'next/link';
 
 export const metadata = {
@@ -543,12 +544,21 @@ export default function CoursePage() {
               <span className="cs-price-was">{PRICE_LAUNCH}</span>
             </div>
             <p className="cs-price-once">One payment &middot; lifetime access</p>
-            <a href={CHECKOUT} className="v6-cta v6-cta-primary" style={{ background: 'var(--accent)', justifyContent: 'center' }}>
+            <CheckoutLink
+              href={CHECKOUT}
+              location="price_box"
+              value={499}
+              itemName="Middle Skills"
+              className="v6-cta v6-cta-primary"
+              style={{ background: 'var(--accent)', justifyContent: 'center' }}
+            >
               Reserve my founding seat <span className="v6-cta-arrow">&rarr;</span>
-            </a>
+            </CheckoutLink>
             <div className="cs-price-plan">
               <span>Prefer to split it?</span>
-              <a href={CHECKOUT}><b>{PRICE_SPLIT}</b></a>
+              <CheckoutLink href={CHECKOUT} location="split_link" value={499} itemName="Middle Skills">
+                <b>{PRICE_SPLIT}</b>
+              </CheckoutLink>
             </div>
             <ul className="cs-preorder-steps">
               <li>
