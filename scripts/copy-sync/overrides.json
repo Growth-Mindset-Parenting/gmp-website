@@ -22,6 +22,8 @@
     "",
     "As of 2026-07-23 the only unresolved row is the COURSE pricing fine print."
   ],
-
-  "226": { "action": "review", "reason": "COURSE / Pricing / Fine Print. The fine print was replaced on the site by the three-step pre-order list (Today / Fall 2026 / 30-day guarantee), and the sheet copy still says the course 'launches in October' — now Fall 2026. No single element corresponds to this row. Needs Sean to decide the current wording, then drive it through column E. Filed for Katie 2026-07-23." }
+  "226": {
+    "action": "ok",
+    "reason": "COURSE / Pricing / Fine Print. Resolved 2026-08-28: the old fine print was replaced on the site by the three-step pre-order list (Today / Fall 2026 / 14-day guarantee). Column D now mirrors that list verbatim. The stale '30-day Parent Confidence Guarantee' wording is gone; the standard is 14 days from access (data/guarantee.js)."
+  }
 }
