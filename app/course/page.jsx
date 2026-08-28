@@ -139,7 +139,7 @@ const FAQS = [
   },
   {
     n: '09', q: 'Is there a refund policy?',
-    a: "Yes — 30 days, no questions, no funnels. Complete the first module, and if it isn't useful, write me and I'll send your money back the same day.",
+    a: `Yes — ${GUARANTEE.days} days, and the clock starts the day you get access, not the day you pay. If you pre-ordered, that's the day the course opens. Work through the first two modules, try something real with your kid, and if you don't feel any steadier about these years, email me and I'll refund you in full.`,
   },
   {
     n: '10', q: 'Can my school or parent group buy it together?',
