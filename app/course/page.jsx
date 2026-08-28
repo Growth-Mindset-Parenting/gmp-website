@@ -155,8 +155,10 @@ const LAUNCH_DATE = 'Fall 2026';
 const PRICE_FOUNDING = '$499';
 const PRICE_LAUNCH = '$599';
 const PRICE_SPLIT = '2 × $269';
-const CHECKOUT_ONCE = 'https://courses.growthmindsetparenting.com/offers/BFeFvsHP';
-const CHECKOUT_PLAN = 'https://courses.growthmindsetparenting.com/offers/QYzJYerk';
+// One Kajabi offer now carries both pricing options ($499 one-time, default;
+// 2 × $269 plan), so every CTA points at the same checkout. The old standalone
+// plan offer (QYzJYerk) is retired.
+const CHECKOUT = 'https://courses.growthmindsetparenting.com/offers/BFeFvsHP';
 
 export default function CoursePage() {
   return (
@@ -541,12 +543,12 @@ export default function CoursePage() {
               <span className="cs-price-was">{PRICE_LAUNCH}</span>
             </div>
             <p className="cs-price-once">One payment &middot; lifetime access</p>
-            <a href={CHECKOUT_ONCE} className="v6-cta v6-cta-primary" style={{ background: 'var(--accent)', justifyContent: 'center' }}>
+            <a href={CHECKOUT} className="v6-cta v6-cta-primary" style={{ background: 'var(--accent)', justifyContent: 'center' }}>
               Reserve my founding seat <span className="v6-cta-arrow">&rarr;</span>
             </a>
             <div className="cs-price-plan">
               <span>Prefer to split it?</span>
-              <a href={CHECKOUT_PLAN}><b>{PRICE_SPLIT}</b></a>
+              <a href={CHECKOUT}><b>{PRICE_SPLIT}</b></a>
             </div>
             <ul className="cs-preorder-steps">
               <li>
