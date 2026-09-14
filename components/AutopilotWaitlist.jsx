@@ -26,11 +26,13 @@ function withEmphasis(text, token, value) {
   );
 }
 
-function EmailForm({ id, onAccent, email, status, error, onEmail, onSubmit }) {
+function EmailForm({ id, onAccent, email, status, error, errorFormId, onEmail, onSubmit }) {
   const busy = status === 'submitting';
+  const showError = status === 'error' && errorFormId === id;
+  const invalid = showError && error === WAITLIST.form.errorInvalid;
   return (
     <>
-      <form className={`apw-form${onAccent ? ' apw-form--on-accent' : ''}`} onSubmit={onSubmit} noValidate>
+      <form className={`apw-form${onAccent ? ' apw-form--on-accent' : ''}`} onSubmit={(e) => onSubmit(e, id)} noValidate>
         <label htmlFor={id} className="apw-sr-only">Email address</label>
         <input
           id={id}
@@ -42,15 +44,17 @@ function EmailForm({ id, onAccent, email, status, error, onEmail, onSubmit }) {
           placeholder={WAITLIST.form.placeholder}
           value={email}
           onChange={onEmail}
-          aria-invalid={status === 'error' ? 'true' : undefined}
-          aria-describedby={status === 'error' ? `${id}-error` : undefined}
+          aria-invalid={invalid ? 'true' : undefined}
+          aria-describedby={showError ? `${id}-error` : undefined}
         />
+        {/* Bot trap: hidden from people, filled in by naive spam scripts. */}
+        <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apw-trap" />
         <button type="submit" className="apw-button" disabled={busy}>
           {busy ? WAITLIST.form.buttonBusy : WAITLIST.form.button}
           {!busy && <span aria-hidden="true">→</span>}
         </button>
       </form>
-      {status === 'error' && (
+      {showError && (
         <p id={`${id}-error`} role="alert" className="apw-error">{error}</p>
       )}
     </>
@@ -59,13 +63,17 @@ function EmailForm({ id, onAccent, email, status, error, onEmail, onSubmit }) {
 
 function Confirmation({ email }) {
   const c = WAITLIST.confirmation;
+  const headingRef = useRef(null);
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
   return (
-    <main role="status" className="apw-confirm">
+    <main className="apw-confirm">
       <Header />
       <div className="apw-confirm-body">
         <div className="apw-confirm-inner">
           <p className="gmp-eyebrow apw-confirm-eyebrow">{c.eyebrow}</p>
-          <h1 className="apw-h1 apw-h1--confirm">
+          <h1 ref={headingRef} tabIndex={-1} className="apw-h1 apw-h1--confirm">
             {c.headline} <em>{c.headlineAccent}</em>
           </h1>
           <p className="apw-confirm-text">{withEmphasis(c.body, '{email}', email)}</p>
@@ -107,7 +115,7 @@ function MarqueeRow({ quotes, reverse }) {
   // The list renders twice so translating by -50% loops seamlessly; the
   // second copy is hidden from screen readers.
   return (
-    <div className={`apw-marquee-track${reverse ? ' apw-marquee-track--rev' : ''}`}>
+    <div className={`apw-marquee-track${reverse ? ' apw-marquee-track--rev' : ''}`} tabIndex={0} role="region" aria-label="Parent testimonials">
       {quotes.map((q, i) => <QuoteCard key={`a${i}`} q={q} />)}
       {quotes.map((q, i) => (
         <div key={`b${i}`} aria-hidden="true" className="apw-marquee-dup">
@@ -122,6 +130,7 @@ export default function AutopilotWaitlist() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // idle | submitting | error | success
   const [error, setError] = useState('');
+  const [errorFormId, setErrorFormId] = useState(null);
   const utms = useRef({});
 
   useEffect(() => {
@@ -137,10 +146,12 @@ export default function AutopilotWaitlist() {
     }
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e, formId) => {
     e.preventDefault();
     if (status === 'submitting') return;
     const value = email.trim();
+    const company = e.currentTarget.elements.company?.value || '';
+    setErrorFormId(formId);
     if (!EMAIL_RE.test(value)) {
       setStatus('error');
       setError(WAITLIST.form.errorInvalid);
@@ -152,7 +163,7 @@ export default function AutopilotWaitlist() {
       const res = await fetch('/api/waitlist/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: value, list: 'autopilot', utms: utms.current }),
+        body: JSON.stringify({ email: value, list: 'autopilot', utms: utms.current, company }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
       if (typeof window.gtag === 'function') {
@@ -160,7 +171,7 @@ export default function AutopilotWaitlist() {
       }
       setEmail(value);
       setStatus('success');
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     } catch {
       setStatus('error');
       setError(WAITLIST.form.errorServer);
@@ -169,7 +180,7 @@ export default function AutopilotWaitlist() {
 
   if (status === 'success') return <Confirmation email={email} />;
 
-  const formProps = { email, status, error, onEmail, onSubmit };
+  const formProps = { email, status, error, errorFormId, onEmail, onSubmit };
   const { hero, what, testimonials, closing } = WAITLIST;
   const half = Math.ceil(testimonials.quotes.length / 2);
 
@@ -192,7 +203,7 @@ export default function AutopilotWaitlist() {
           <div className="apw-photo-wrap">
             <img
               src="/images/autopilot/sean-hero.jpg"
-              alt="Sean Kane"
+              alt="Sean Kane on the front porch, looking at the camera"
               width="1200"
               height="1800"
               className="apw-photo"

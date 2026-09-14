@@ -170,6 +170,14 @@
 
 /* ── Email form ──────────────────────────────────────────── */
 
+.apw-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .apw-form {
   display: flex;
   flex-wrap: wrap;
@@ -251,6 +259,10 @@
 .apw-form--on-accent .apw-input:focus {
   border-color: var(--paper);
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.apw-form--on-accent .apw-button:focus-visible {
+  outline-color: rgba(255, 255, 255, 0.5);
 }
 
 .apw-form--on-accent .apw-button:hover:not(:disabled) {
@@ -397,6 +409,15 @@
   .apw-marquee-dup {
     display: none;
   }
+}
+
+.apw-marquee-track:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 4px;
+}
+
+.apw-h1--confirm:focus {
+  outline: none;
 }
 
 .apw-quote {

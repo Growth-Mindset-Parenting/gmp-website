@@ -15,10 +15,15 @@ const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', '
 
 export async function POST(request) {
   try {
-    const { email, list, utms } = await request.json();
+    const { email, list, utms, company } = (await request.json()) ?? {};
     const trimmed = typeof email === 'string' ? email.trim() : '';
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+    // Bot trap: people never see the `company` field. Pretend it worked.
+    if (company) {
+      return NextResponse.json({ success: true });
+    }
+
+    if (trimmed.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 

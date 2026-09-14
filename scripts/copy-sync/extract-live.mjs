@@ -31,6 +31,7 @@ export const PAGE_MAP = {
   'COURSE': '/course/',
   'ABOUT': '/about/',
   'WORK WITH ME': '/work-with-me/',
+  'AUTOPILOT / WAITLIST': '/autopilot/',
   'FREEBIE / 4S FLOWCHART': '/freebies/4s-flowchart/',
   'FREEBIE / FIVE-MINUTE MEETING': '/freebies/five-minute-meeting/',
   'FREEBIE / RELEASE REPLAY REPAIR RETURN': '/freebies/release-replay-repair-return/',
