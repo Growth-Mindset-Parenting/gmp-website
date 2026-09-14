@@ -50,6 +50,7 @@ export const WAITLIST = {
     eyebrow: 'What parents are saying',
     headline: 'Real changes,',
     headlineAccent: 'in real houses.',
+    showMore: 'Show more stories',
     // {count} is replaced with followerCount, styled as emphasis.
     subhead:
       "More than {count} parents follow Sean for what 14 years of teaching middle schoolers taught him: how to get kids to do hard things on their own. Here's what happened when they tried it at home.",

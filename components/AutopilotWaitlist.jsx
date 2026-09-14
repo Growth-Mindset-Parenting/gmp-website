@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { WAITLIST } from '../data/autopilot-waitlist';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Testimonials shown on phones before "Show more".
+const STACK_INITIAL = 4;
 
 function Header() {
   return (
@@ -131,6 +133,8 @@ export default function AutopilotWaitlist() {
   const [status, setStatus] = useState('idle'); // idle | submitting | error | success
   const [error, setError] = useState('');
   const [errorFormId, setErrorFormId] = useState(null);
+  const [showAllQuotes, setShowAllQuotes] = useState(false);
+  const firstRevealedQuote = useRef(null);
   const utms = useRef({});
 
   useEffect(() => {
@@ -249,9 +253,34 @@ export default function AutopilotWaitlist() {
             {withEmphasis(testimonials.subhead, '{count}', WAITLIST.followerCount)}
           </p>
         </div>
+        {/* Desktop/tablet: two moving rows. Phones: a readable stack instead —
+            a card nearly as wide as the screen is never fully visible while
+            it slides. CSS shows exactly one of the two. */}
         <div className="apw-marquee">
           <MarqueeRow quotes={testimonials.quotes.slice(0, half)} />
           <MarqueeRow quotes={testimonials.quotes.slice(half)} reverse />
+        </div>
+        <div className="apw-section apw-stack">
+          {testimonials.quotes.map((q, i) => (
+            <div
+              key={i}
+              className="apw-stack-item"
+              hidden={!showAllQuotes && i >= STACK_INITIAL}
+              ref={i === STACK_INITIAL ? firstRevealedQuote : undefined}
+              tabIndex={i === STACK_INITIAL ? -1 : undefined}
+            >
+              <QuoteCard q={q} />
+            </div>
+          ))}
+          {!showAllQuotes && testimonials.quotes.length > STACK_INITIAL && (
+            <button type="button" className="apw-stack-more" onClick={() => {
+              setShowAllQuotes(true);
+              // The button disappears; keep keyboard focus on the first new story.
+              requestAnimationFrame(() => firstRevealedQuote.current?.focus({ preventScroll: true }));
+            }}>
+              {testimonials.showMore}
+            </button>
+          )}
         </div>
       </section>
 

@@ -382,6 +382,56 @@
   display: flex;
 }
 
+/* Phone stack (replaces the marquee under 720px, where the hero also stacks) */
+.apw-stack {
+  display: none;
+  padding-top: 0;
+}
+
+@media (max-width: 719px) {
+  .apw-marquee {
+    display: none;
+  }
+  .apw-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .apw-stack .apw-quote {
+    width: 100%;
+  }
+}
+
+.apw-stack-more {
+  align-self: center;
+  margin-top: 8px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.apw-stack-item:focus {
+  outline: none;
+}
+
+.apw-stack-more:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.apw-stack-more:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
 @keyframes apw-marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
