@@ -1,0 +1,596 @@
+/* ============================================================
+   Autopilot waitlist page (/autopilot/) — standalone capture page,
+   no site nav. Tokens come from styles/themes.css (terracotta);
+   .gmp-eyebrow comes from styles/freebies.css.
+   Spec: design handoff "Autopilot waitlist", 2026-09-14.
+   ============================================================ */
+
+.apw,
+.apw-confirm {
+  --apw-gutter: clamp(20px, 5vw, 56px);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+}
+
+.apw-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.apw-section {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: clamp(72px, 9vw, 112px) var(--apw-gutter) 0;
+}
+
+/* ── Header row (logo + stamp) ───────────────────────────── */
+
+.apw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: clamp(28px, 4vw, 48px);
+}
+
+.apw-logo {
+  height: 22px;
+  width: auto;
+}
+
+.apw-stamp {
+  background: var(--accent);
+  color: var(--paper);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 9px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+/* ── Headings ────────────────────────────────────────────── */
+
+.apw-h1,
+.apw-h2,
+.apw-h3 {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 800;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.apw-h1 {
+  font-size: clamp(40px, 6.2vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin-bottom: 22px;
+}
+
+.apw-h2 {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.apw-h2--sm {
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.apw-h1 em,
+.apw-h2 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: -0.005em;
+}
+
+.apw-h3 {
+  font-size: clamp(20px, 1.8vw, 24px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.apw-emph {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.apw-eyebrow-gap {
+  margin: 0 0 18px;
+}
+
+/* ── 1. Hero ─────────────────────────────────────────────── */
+
+.apw-hero {
+  padding-top: clamp(24px, 4vw, 48px);
+}
+
+.apw-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.apw-hero-eyebrow {
+  margin: 0 0 20px;
+}
+
+.apw-hero-sub {
+  margin: 0 0 28px;
+  font-size: clamp(17px, 1.4vw, 19px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.apw-form-wrap {
+  max-width: 520px;
+}
+
+.apw-photo-wrap {
+  position: relative;
+}
+
+.apw-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10), 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.apw-photo-caption {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+/* ── Email form ──────────────────────────────────────────── */
+
+.apw-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.apw-input {
+  flex: 1 1 220px;
+  min-width: 0;
+  height: 52px;
+  padding: 15px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.apw-input::placeholder {
+  color: var(--ink-mute);
+  opacity: 1;
+}
+
+.apw-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.apw-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: gap 0.18s, background 0.15s, border-color 0.15s;
+}
+
+.apw-button:hover:not(:disabled) {
+  gap: 16px;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.apw-button:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.apw-button:disabled {
+  cursor: default;
+}
+
+.apw-error {
+  margin: 12px 0 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--accent-deep);
+}
+
+/* Form variant on the accent-colored closing card */
+.apw-form--on-accent .apw-input {
+  border-color: var(--paper);
+}
+
+.apw-form--on-accent .apw-input:focus {
+  border-color: var(--paper);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.apw-form--on-accent .apw-button:hover:not(:disabled) {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+}
+
+.apw-closing .apw-error {
+  color: var(--paper);
+}
+
+/* ── 2. What Autopilot does ──────────────────────────────── */
+
+.apw-what-intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+.apw-what-copy {
+  padding-top: 6px;
+}
+
+.apw-what-copy p {
+  margin: 0;
+  font-family: var(--serif-text);
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.apw-what-copy p + p {
+  margin-top: 18px;
+}
+
+/* Shared-border grid. Every cell carries a left hairline shifted 1px
+   outside itself; overflow:hidden clips it on whichever cell starts a row,
+   so the divider only appears between side-by-side cells. */
+.apw-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  border-bottom: 1.5px solid var(--ink);
+  overflow: hidden;
+}
+
+.apw-benefit {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(24px, 3vw, 32px) clamp(20px, 2.5vw, 28px);
+  border-top: 1.5px solid var(--ink);
+  border-left: 1px solid var(--rule);
+  margin-left: -1px;
+  transition: background 0.15s;
+}
+
+.apw-benefit:hover {
+  background: var(--paper-2);
+}
+
+.apw-numeral {
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.apw-benefit-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ── 3. Testimonials ─────────────────────────────────────── */
+
+.apw-h2--sm {
+  margin-bottom: 20px;
+}
+
+.apw-testimonials-sub {
+  margin: 0 0 clamp(36px, 5vw, 56px);
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 58ch;
+}
+
+.apw-marquee {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.apw-marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding-left: 20px;
+  animation: apw-marquee 160s linear infinite;
+}
+
+.apw-marquee-track--rev {
+  animation: apw-marquee-rev 145s linear infinite;
+}
+
+.apw-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.apw-marquee-dup {
+  display: flex;
+}
+
+@keyframes apw-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes apw-marquee-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apw-marquee-track,
+  .apw-marquee-track--rev {
+    animation: none;
+  }
+  .apw-marquee {
+    overflow: visible;
+  }
+  .apw-marquee-track {
+    width: auto;
+    overflow-x: auto;
+    padding-right: 20px;
+    padding-bottom: 4px;
+  }
+  .apw-marquee-dup {
+    display: none;
+  }
+}
+
+.apw-quote {
+  margin: 0;
+  flex: 0 0 auto;
+  width: min(420px, 82vw);
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  background: var(--paper-2);
+  padding: 22px 26px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.apw-quote-by {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.apw-quote-handle {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.apw-quote-note {
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+.apw-quote-text {
+  margin: 0;
+  font-family: var(--serif-text);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* ── 4. Closing CTA ──────────────────────────────────────── */
+
+.apw-closing {
+  border-radius: 24px;
+  background: var(--accent);
+  color: var(--paper);
+  padding: clamp(36px, 6vw, 64px) clamp(24px, 6vw, 72px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+.apw-closing-eyebrow {
+  margin: 0 0 18px;
+  color: var(--paper);
+  opacity: 0.85;
+  font-weight: 600;
+}
+
+.apw-h2--on-accent,
+.apw-h2--on-accent em {
+  color: var(--paper);
+}
+
+.apw-h2--on-accent {
+  margin-bottom: 0;
+}
+
+.apw-closing-note {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--paper);
+}
+
+/* ── 5. Footer ───────────────────────────────────────────── */
+
+.apw-footer {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 80px) var(--apw-gutter) 48px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+.apw-footer-link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.apw-footer-link:hover {
+  color: var(--accent);
+}
+
+/* ── Confirmation view ───────────────────────────────────── */
+
+.apw-confirm {
+  max-width: 1160px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 4vw, 48px) var(--apw-gutter) 48px;
+}
+
+.apw-confirm-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: clamp(48px, 8vw, 96px);
+}
+
+.apw-confirm-inner {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.apw-confirm-eyebrow {
+  margin: 0 0 20px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.apw-h1--confirm {
+  font-size: clamp(40px, 6vw, 68px);
+}
+
+.apw-confirm-text {
+  margin: 0 0 40px;
+  font-family: var(--serif-text);
+  font-size: clamp(18px, 1.5vw, 20px);
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 46ch;
+}
+
+.apw-confirm-text .apw-emph {
+  font-family: var(--sans);
+  overflow-wrap: anywhere;
+}
+
+.apw-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 520px;
+  text-align: left;
+  border-top: 1.5px solid var(--ink);
+}
+
+.apw-steps li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.apw-steps li:last-child {
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.apw-step-num {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.apw-step-link {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.apw-step-link:hover {
+  text-decoration: underline;
+}
+
+.apw-footer-line {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
