@@ -4,9 +4,10 @@ const KIT_API_SECRET = process.env.KIT_API_SECRET;
 
 // Waitlists this route can subscribe to. Each list = one Kit form (the form's
 // incentive/automation sends the confirmation email) + one tag.
-//   autopilot: "Autopilot: Round 2 Waitlist" form + `waitlist: autopilot` tag.
+//   autopilot: "Autopilot Interest List" form (has Sean's confirmation email)
+//   + `waitlist: autopilot` tag.
 const WAITLISTS = {
-  autopilot: { formId: '9852728', tagId: 22826067 },
+  autopilot: { formId: '9852683', tagId: 22826067 },
 };
 
 // Kit custom fields created 2026-09-14 so bio / ManyChat / partner traffic
