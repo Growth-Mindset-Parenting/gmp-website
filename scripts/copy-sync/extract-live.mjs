@@ -32,6 +32,7 @@ export const PAGE_MAP = {
   'ABOUT': '/about/',
   'WORK WITH ME': '/work-with-me/',
   'AUTOPILOT / WAITLIST': '/autopilot/',
+  'AUTOPILOT / WORKSHOP': '/workshop/',
   'FREEBIE / 4S FLOWCHART': '/freebies/4s-flowchart/',
   'FREEBIE / FIVE-MINUTE MEETING': '/freebies/five-minute-meeting/',
   'FREEBIE / RELEASE REPLAY REPAIR RETURN': '/freebies/release-replay-repair-return/',
@@ -109,7 +110,12 @@ function mergeHarvest(acc, next) {
   return acc;
 }
 
-async function capture(context, path, { openModal = false } = {}) {
+/** Non-freebie pages whose copy partly lives in a sign-up modal: path -> trigger selector. */
+const MODAL_TRIGGERS = {
+  '/workshop/': '.apws-pill',
+};
+
+async function capture(context, path, { openModal = false, trigger = '.fb-cta button.gmp-btn-primary' } = {}) {
   const page = await context.newPage();
   const url = BASE + path;
   const res = await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
@@ -138,7 +144,7 @@ async function capture(context, path, { openModal = false } = {}) {
   if (openModal) {
     // Must be a CTA button that opens the capture modal — NOT the hero form's
     // submit button, which just fails validation on an empty email.
-    const btn = page.locator('.fb-cta button.gmp-btn-primary').first();
+    const btn = page.locator(trigger).first();
     if (await btn.count()) {
       await btn.click();
       await page.waitForTimeout(500);
@@ -167,7 +173,8 @@ for (const [sheetPage, path] of Object.entries(PAGE_MAP)) {
   const isFreebie = sheetPage.startsWith('FREEBIE');
   if (!isFreebie) {
     const ctx = await browser.newContext();
-    result.pages[sheetPage] = await capture(ctx, path);
+    const trigger = MODAL_TRIGGERS[path];
+    result.pages[sheetPage] = await capture(ctx, path, trigger ? { openModal: true, trigger } : {});
     await ctx.close();
     console.log(`  ${result.pages[sheetPage].status}  ${path}`);
     continue;

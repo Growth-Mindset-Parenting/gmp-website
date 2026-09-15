@@ -23,7 +23,7 @@ export const WORKSHOP = {
     headlineAccent: 'prefrontal cortex.',
     dek: "Mornings, homework, chores, the dishwasher — you remember it, you remind about it, you check again. In this free workshop I'll show you the classroom method for handing that load back to your kid, one system at a time.",
     cta: 'Save my seat',
-    meta: '60 minutes · Live on Zoom',
+    meta: '60 minutes · Live',
     photoCaption: 'Sean Kane · 14 years in the classroom',
   },
 
@@ -102,7 +102,7 @@ export const WORKSHOP = {
     cta: "Let's do this",
     items: [
       { q: 'Is this actually live, or is it a recording?', a: "It's live. That's me, in real time, on Wednesday, October 7 at 6pm Central (7pm Eastern). Not a recording with a \"live\" badge slapped on it. And bring your questions. The real ones. The \"what do I do when he says 'I got it' and then doesn't\" ones. I'll answer as many as I can." },
-      { q: "I'm not sure this is really for me. Who is the masterclass for?", a: "It's for parents of middle schoolers, and kids about to get there, who are tired of being the reminder system for the whole house. You don't need a diagnosis, a partner who's on board, or a kid who's excited about any of this. You just need to be a little curious whether there's a better way than reminding louder. There is, and that's what we'll dig into." },
+      { q: "I'm not sure this is really for me. Who is the workshop for?", a: "It's for parents of middle schoolers, and kids about to get there, who are tired of being the reminder system for the whole house. You don't need a diagnosis, a partner who's on board, or a kid who's excited about any of this. You just need to be a little curious whether there's a better way than reminding louder. There is, and that's what we'll dig into." },
       { q: 'My kid has ADHD. Or I do. Is this still for us?', a: "Yes. Some of the most-liked questions on my videos aren't about kids at all. They're parents asking how to stick to routines when they have ADHD too. Every kid's planning brain is under construction until about 25, and kids with ADHD are further behind on the build. That means more scaffolding, not a lower bar. And for you, it means building a structure that doesn't depend on you remembering everything." },
       { q: "I've already read the parenting books. Will I actually learn anything new?", a: "Probably. Most parenting advice comes from psychologists and therapists, and a lot of it is great. I read it too. But I spent 14 years teaching kids 10 to 15, and educators know something that isn't being said in the research or on parent blogs. We know how to get a kid to finish the essay they just threw in the trash. Not with a better talk. With structure. And you'll get real examples of what that sounds like on a school morning, not just what it's called." },
       { q: "What if I can't make it live?", a: "Sign up anyway and I'll send you the replay. But the parents who show up live get one extra thing: my free Sunday night meeting agenda. It's a simple plan for sitting down with your kid on Sunday night to map out the week, so the hard stuff doesn't sneak up on anybody. It's only for people who are there live." },
