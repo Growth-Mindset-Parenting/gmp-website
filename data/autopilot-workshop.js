@@ -119,7 +119,7 @@ export const WORKSHOP = {
     paragraphs: [
       "I know why you're here. I've been yelled at by a kid I was trying to help. I've watched a kid fall apart over a basic request and wondered, what is his problem? And then — good grief, what is my problem?",
       "Think about your favorite teacher. Not the easy one. The one who made you feel seen, capable and respected, and who still expected something from you every single day. You never saw the lesson plans. It wasn't magic. It was {emphasis}, prepared on purpose.",
-      "I spent 14 years in the classroom learning how that works. I've spent the last few learning how to bring it home. Sixty minutes on Zoom won't fix your mornings, but it will show you where to look — and I think that's the part nobody ever showed you.",
+      "I spent 14 years in the classroom learning how that works. I've spent the last few learning how to bring it home. Sixty minutes won't fix your mornings, but it will show you where to look — and I think that's the part nobody ever showed you.",
       'See you there.',
     ],
     emphasis: 'environment, development and collaboration',
@@ -147,7 +147,7 @@ export const WORKSHOP = {
       // {eventDate} and {firstName} are filled in.
       headline: 'See you {eventDate}, {firstName}.',
       // {email} is replaced with the address, styled as emphasis.
-      body: 'The Zoom link is on its way to {email}. Show up live and the Sunday meeting agenda is yours.',
+      body: 'Your link is on its way to {email}. Show up live and the Sunday meeting agenda is yours.',
       back: 'Back to the page',
     },
   },

@@ -13,6 +13,10 @@ const WAITLISTS = {
   'autopilot-workshop': { formId: '9921406', tagId: 23446662 },
 };
 
+// Kit tag "Possible spam: website form" — added when the hidden bot-trap
+// field comes in filled. Review and delete these subscribers in Kit.
+const POSSIBLE_SPAM_TAG_ID = 23448486;
+
 // Kit custom fields created 2026-09-14 so bio / ManyChat / partner traffic
 // stays attributable. Anything else in the query string is ignored.
 const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
@@ -23,10 +27,10 @@ export async function POST(request) {
     const trimmed = typeof email === 'string' ? email.trim() : '';
     const name = typeof firstName === 'string' ? firstName.trim().slice(0, 100) : '';
 
-    // Bot trap: people never see the `company` field. Pretend it worked.
-    if (company) {
-      return NextResponse.json({ success: true });
-    }
+    // Bot trap: people never see the hidden field, so it's normally empty.
+    // If it's filled we still subscribe — a real person must never be dropped
+    // (e.g. by a browser autofilling it) — but tag them for review in Kit.
+    const suspected = Boolean(company);
 
     if (trimmed.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
@@ -51,7 +55,7 @@ export async function POST(request) {
     const body = {
       api_secret: KIT_API_SECRET,
       email: trimmed,
-      tags: [waitlist.tagId],
+      tags: suspected ? [waitlist.tagId, POSSIBLE_SPAM_TAG_ID] : [waitlist.tagId],
     };
     if (name) body.first_name = name;
     if (Object.keys(fields).length) body.fields = fields;
