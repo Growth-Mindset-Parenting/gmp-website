@@ -33,6 +33,7 @@ export const PAGE_MAP = {
   'WORK WITH ME': '/work-with-me/',
   'AUTOPILOT / WAITLIST': '/autopilot/',
   'AUTOPILOT / WORKSHOP': '/workshop/',
+  'AUTOPILOT / WORKSHOP REPLAY': '/workshop/replay/',
   'FREEBIE / 4S FLOWCHART': '/freebies/4s-flowchart/',
   'FREEBIE / FIVE-MINUTE MEETING': '/freebies/five-minute-meeting/',
   'FREEBIE / RELEASE REPLAY REPAIR RETURN': '/freebies/release-replay-repair-return/',
