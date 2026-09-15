@@ -76,7 +76,9 @@ function CommentCard({ c }) {
 
 function CommentWall({ comments }) {
   const ref = useRef(null);
-  const [n, setN] = useState(3);
+  // null until measured: the server HTML falls back to a CSS auto-fill grid
+  // so phones don't flash three squashed columns before JavaScript runs.
+  const [n, setN] = useState(null);
 
   useIsoLayoutEffect(() => {
     const el = ref.current;
@@ -92,8 +94,8 @@ function CommentWall({ comments }) {
   }, []);
 
   return (
-    <div ref={ref} className="apws-wall" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
-      {balance(comments, n).map((col, i) => (
+    <div ref={ref} className="apws-wall" style={n ? { gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` } : undefined}>
+      {(n ? balance(comments, n) : comments.map((c) => [c])).map((col, i) => (
         <div key={i} className="apws-wall-col">
           {col.map((c) => <CommentCard key={c.handle} c={c} />)}
         </div>
@@ -126,6 +128,8 @@ function RegistrationModal({ onClose }) {
   const m = WORKSHOP.modal;
   const cardRef = useRef(null);
   const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const pressedOverlay = useRef(false);
   const successRef = useRef(null);
   const utms = useRef({});
   const [firstName, setFirstName] = useState('');
@@ -146,6 +150,9 @@ function RegistrationModal({ onClose }) {
 
   useEffect(() => {
     if (status === 'success') successRef.current?.focus({ preventScroll: true });
+    // The disabled submit button drops focus to <body>; put it back in the form.
+    if (status === 'error') (firstName.trim() ? emailRef : nameRef).current?.focus({ preventScroll: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   // Esc closes; Tab stays inside the card while it's open.
@@ -166,7 +173,7 @@ function RegistrationModal({ onClose }) {
       if (e.shiftKey && (document.activeElement === first || !cardRef.current.contains(document.activeElement))) {
         e.preventDefault();
         last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
+      } else if (!e.shiftKey && (document.activeElement === last || !cardRef.current.contains(document.activeElement))) {
         e.preventDefault();
         first.focus();
       }
@@ -187,7 +194,7 @@ function RegistrationModal({ onClose }) {
     if (status === 'submitting') return;
     const name = firstName.trim();
     const address = email.trim();
-    const company = e.currentTarget.elements.company?.value || '';
+    const company = e.currentTarget.elements.hp_gmp_check?.value || '';
     if (!name || !EMAIL_RE.test(address)) {
       setStatus('error');
       setError(m.errorInvalid);
@@ -224,14 +231,24 @@ function RegistrationModal({ onClose }) {
   const titleId = 'apws-modal-title';
 
   return (
-    <div className="apws-overlay" onClick={onClose}>
+    <div
+      className="apws-overlay"
+      // Close only when the press AND the release both land on the dark
+      // backdrop, so dragging to select text in a field never closes it.
+      onMouseDown={(e) => {
+        pressedOverlay.current = e.target === e.currentTarget;
+      }}
+      onClick={(e) => {
+        if (pressedOverlay.current && e.target === e.currentTarget) onClose();
+        pressedOverlay.current = false;
+      }}
+    >
       <div
         ref={cardRef}
         className="apws-modal"
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        onClick={(e) => e.stopPropagation()}
       >
         <button type="button" className="apws-close" aria-label="Close" onClick={onClose}>
           ×
@@ -273,6 +290,7 @@ function RegistrationModal({ onClose }) {
                 autoComplete="given-name"
                 required
                 maxLength={100}
+                aria-describedby={status === 'error' ? 'apws-form-error' : undefined}
                 placeholder={m.namePlaceholder}
                 value={firstName}
                 onChange={(e) => {
@@ -284,6 +302,7 @@ function RegistrationModal({ onClose }) {
                 {m.emailLabel}
               </label>
               <input
+                ref={emailRef}
                 id="apws-email"
                 className="apws-input"
                 type="email"
@@ -299,8 +318,10 @@ function RegistrationModal({ onClose }) {
                 }}
                 aria-describedby={status === 'error' ? 'apws-form-error' : undefined}
               />
-              {/* Bot trap: hidden from people, filled in by naive spam scripts. */}
-              <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apws-trap" />
+              {/* Bot trap: hidden from people, filled in by naive spam scripts. The name is
+            deliberately meaningless and the field is display:none so browser autofill
+            (which targets names like "company") never fills it for a real parent. */}
+              <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apws-trap" />
               {status === 'error' && (
                 <p id="apws-form-error" role="alert" className="apws-error">
                   {error}

@@ -49,8 +49,10 @@ function EmailForm({ id, onAccent, email, status, error, errorFormId, onEmail, o
           aria-invalid={invalid ? 'true' : undefined}
           aria-describedby={showError ? `${id}-error` : undefined}
         />
-        {/* Bot trap: hidden from people, filled in by naive spam scripts. */}
-        <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apw-trap" />
+        {/* Bot trap: hidden from people, filled in by naive spam scripts. The name is
+            deliberately meaningless and the field is display:none so browser autofill
+            (which targets names like "company") never fills it for a real subscriber. */}
+        <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apw-trap" />
         <button type="submit" className="apw-button" disabled={busy}>
           {busy ? WAITLIST.form.buttonBusy : WAITLIST.form.button}
           {!busy && <span aria-hidden="true">→</span>}
@@ -154,7 +156,7 @@ export default function AutopilotWaitlist() {
     e.preventDefault();
     if (status === 'submitting') return;
     const value = email.trim();
-    const company = e.currentTarget.elements.company?.value || '';
+    const company = e.currentTarget.elements.hp_gmp_check?.value || '';
     setErrorFormId(formId);
     if (!EMAIL_RE.test(value)) {
       setStatus('error');

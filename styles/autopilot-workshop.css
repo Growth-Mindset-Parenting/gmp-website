@@ -351,6 +351,7 @@
 
 .apws-wall {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
   align-items: start;
 }
@@ -659,13 +660,7 @@
 
 .apws-input:focus { border-color: var(--accent); }
 
-.apws-trap {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
+.apws-trap { display: none; }
 
 .apws-error {
   font-size: 14px;
