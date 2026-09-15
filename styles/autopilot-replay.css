@@ -1,0 +1,191 @@
+/* ============================================================
+   Autopilot workshop replay page (/workshop/replay/) — standalone
+   page, no site nav. Tokens come from styles/themes.css (terracotta).
+   Spec: design handoff "Webinar Replay", 2026-09-15.
+   ============================================================ */
+
+.aprp {
+  --aprp-gutter: clamp(20px, 5vw, 56px);
+  --aprp-footer-text: oklch(0.78 0.02 60);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.aprp main { display: flex; flex-direction: column; }
+
+:where(.aprp) :where(p, h1) { margin: 0; }
+
+.aprp-header {
+  display: flex;
+  justify-content: center;
+  padding: 24px var(--aprp-gutter) 0;
+}
+
+.aprp-logo { display: block; height: 28px; width: auto; }
+
+/* ── Hero text ───────────────────────────────────────────── */
+
+.aprp-hero {
+  padding: clamp(40px, 6vw, 72px) var(--aprp-gutter) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.aprp-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.aprp-h1 {
+  max-width: 20ch;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  text-wrap: pretty;
+  color: var(--ink);
+}
+
+.aprp-h1 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.aprp-subhead {
+  max-width: 56ch;
+  font-family: var(--serif-text);
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+/* ── Video + CTA ─────────────────────────────────────────── */
+
+.aprp-stage {
+  position: relative;
+  margin-top: clamp(32px, 5vw, 56px);
+  padding: 0 var(--aprp-gutter) clamp(48px, 7vw, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(32px, 5vw, 56px);
+}
+
+/* Tinted band starts about a third of the way down the video. */
+.aprp-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(120px, 22vw, 260px);
+  bottom: 0;
+  background: var(--paper-2);
+}
+
+.aprp-video {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10), 0 1px 0 rgba(0, 0, 0, 0.04);
+  display: grid;
+  place-items: center;
+}
+
+.aprp-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.aprp-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--aprp-footer-text);
+  max-width: 32ch;
+}
+
+.aprp-play {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--paper);
+}
+
+.aprp-cta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.aprp-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 18px 30px;
+  border-radius: 999px;
+  transition: gap 0.2s, background 0.2s;
+}
+
+.aprp-button:hover,
+.aprp-button:focus-visible {
+  gap: 16px;
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.aprp-note { font-size: 14px; color: var(--ink-soft); }
+
+/* ── Footer ──────────────────────────────────────────────── */
+
+.aprp-footer {
+  margin-top: auto;
+  background: var(--ink);
+  color: var(--aprp-footer-text);
+  padding: 20px var(--aprp-gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.aprp-footer a { color: inherit; text-decoration: none; }
+.aprp-footer a:hover { color: var(--paper); }
