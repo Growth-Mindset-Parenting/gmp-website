@@ -1,8 +1,9 @@
 import AutopilotWorkshop from '../../components/AutopilotWorkshop';
 
 // Free live workshop registration page for the Autopilot launch. Standalone:
-// no site Nav/Footer. Every CTA opens the registration modal, which subscribes
-// to the Kit "Autopilot Workshop Registrants" form (see app/api/waitlist).
+// no site Nav/Footer. Every CTA opens the registration modal, which holds the
+// EasyWebinar signup widget; EasyWebinar sends people on to /workshop/thank-you/
+// and adds them to the Kit "Autopilot Workshop Registrants" form itself.
 // Copy lives in data/autopilot-workshop.js.
 export const metadata = {
   title: { absolute: 'Free live workshop: Stop being your kid’s prefrontal cortex · Growth Mindset Parenting' },

@@ -11,6 +11,7 @@ import '../styles/v7-home.css';
 import '../styles/autopilot-waitlist.css';
 import '../styles/autopilot-workshop.css';
 import '../styles/autopilot-replay.css';
+import '../styles/autopilot-thank-you.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Inter, Lora, Source_Serif_4 } from 'next/font/google';
 

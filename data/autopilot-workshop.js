@@ -4,8 +4,9 @@
 // included, emoji removed — do not correct.
 //
 // The workshop date appears in several places. `eventDate` feeds the nav
-// pill, hero, modal success line and closing note; the FAQ answer and the
-// modal intro spell the date out in a sentence — change all of them together.
+// pill, hero and closing note; the FAQ answer, the modal intro and the
+// thank-you page spell the date out in a sentence, and `event` holds the
+// calendar times — change all of them together.
 
 export const WORKSHOP = {
   eventDate: 'Wednesday, October 7 · 6:00 pm CT',
@@ -133,22 +134,51 @@ export const WORKSHOP = {
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
     intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send your link for Wednesday, October 7 at 6pm Central (7pm Eastern). I'll remind you before we go live, too. You've got enough to remember.",
-    nameLabel: 'First name',
-    namePlaceholder: 'Sarah',
-    emailLabel: 'Email',
-    emailPlaceholder: 'you@example.com',
-    submit: 'Save my seat',
-    submitBusy: 'Saving your seat…',
+    loading: 'Loading the form…',
     smallPrint: "Come live and you'll get my free Sunday night meeting agenda.",
-    errorInvalid: 'Please enter your first name and a valid email address.',
-    errorServer: "Something went wrong and your seat wasn't saved. Please try again.",
-    success: {
-      eyebrow: "You're in",
-      // {eventDate} and {firstName} are filled in.
-      headline: 'See you {eventDate}, {firstName}.',
-      // {email} is replaced with the address, styled as emphasis.
-      body: 'Your link is on its way to {email}. Show up live and the Sunday meeting agenda is yours.',
-      back: 'Back to the page',
-    },
+  },
+
+  // The form inside the modal is EasyWebinar's embed widget (event 207720).
+  // Its fields, colors and button text are set in EasyWebinar → Promote &
+  // Share → Customize Widget, not here. After signup it sends people to
+  // /workshop/thank-you/ with their personal join key in the URL.
+  registration: {
+    widgetId: '4HeoEjtfUBEQStWSZ7iaJw==',
+    scriptSrc: 'https://ewpcdn-ecs.easywebinar.com/widget/js/new/ew-script.js',
+  },
+
+  // Calendar buttons on the thank-you page. Times are UTC:
+  // 6:00 pm CDT on Wed Oct 7 = 23:00 UTC; the workshop runs 60 minutes.
+  event: {
+    startUtc: '2026-10-07T23:00:00Z',
+    endUtc: '2026-10-08T00:00:00Z',
+    calendarTitle: 'Autopilot free live workshop with Sean Kane',
+    calendarDescription: 'Show up live and get the Sunday meeting agenda.',
+    // Personal join link = this + the key EasyWebinar puts in the thank-you URL.
+    joinLinkBase: 'https://katie.easywebinar.live/login?key=',
+  },
+
+  // Thank-you page (/workshop/thank-you/).
+  // Thank-you page (/workshop/thank-you/). Copy and layout from the design
+  // handoff "Autopilot Confirmation" (2026-09-15), in
+  // Plans/2026-09-15-autopilot-confirmation-design-handoff/.
+  thankYou: {
+    eyebrow: "You're in",
+    headline: "You're on the list.",
+    headlineAccent: 'See you Wednesday.',
+    dek: "Your link is on its way to your inbox right now. If it isn't there in ten minutes, check promotions — that's where I usually end up.",
+    dateLine: 'Wednesday, October 7',
+    timeLine: '6:00 pm Central · 7:00 pm Eastern',
+    calendarIntro: 'Add it to your calendar. Your link is saved in the event.',
+    google: 'Google Calendar',
+    apple: 'Apple Calendar',
+    outlook: 'Outlook',
+    inAppNote: 'Opened this inside Instagram or TikTok? Open it in Safari or Chrome to add it to Apple Calendar.',
+    // {emphasis} is replaced with `bonusEmphasis`, styled as accent.
+    bonus: "Come live and I'll hand you my {emphasis}. The replay doesn't include it.",
+    bonusEmphasis: 'Sunday meeting agenda',
+    signoff: '— Sean',
+    copyright: '© 2026 Growth Mindset Parenting',
+    siteLabel: 'growthmindsetparenting.com',
   },
 };

@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import Script from 'next/script';
 import { WORKSHOP } from '../data/autopilot-workshop';
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Testimonial wall: each column is at least 280px wide with 16px gaps.
 const WALL_COL = 280;
 const WALL_GAP = 16;
@@ -124,115 +124,107 @@ function Ticker({ phrases }) {
   );
 }
 
-function RegistrationModal({ onClose }) {
+// Always mounted (hidden until opened) because EasyWebinar's widget script
+// scans the page for its container once, when it loads. Hidden with
+// visibility, not display:none, so the widget's iframe can measure itself.
+function RegistrationModal({ open, onClose }) {
   const m = WORKSHOP.modal;
-  const cardRef = useRef(null);
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
+  const overlayRef = useRef(null);
+  const closeRef = useRef(null);
   const pressedOverlay = useRef(false);
-  const successRef = useRef(null);
-  const utms = useRef({});
-  const [firstName, setFirstName] = useState('');
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | submitting | error | success
-  const [error, setError] = useState('');
 
+  // React 18 has no boolean `inert` prop; set the attribute so the closed
+  // modal is out of the tab order and hidden from screen readers.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    for (const [k, v] of params) if (/^utm_/i.test(k)) utms.current[k.toLowerCase()] = v;
-    nameRef.current?.focus({ preventScroll: true });
+    const el = overlayRef.current;
+    if (!el) return;
+    if (open) el.removeAttribute('inert');
+    else el.setAttribute('inert', '');
+  }, [open]);
+
+  // Esc closes; body scroll locks while open. (Keys pressed inside the
+  // EasyWebinar iframe never reach this page, so Esc only works outside it.)
+  useEffect(() => {
+    if (!open) return undefined;
+    closeRef.current?.focus({ preventScroll: true });
     const { overflow } = document.body.style;
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = overflow;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (status === 'success') successRef.current?.focus({ preventScroll: true });
-    // The disabled submit button drops focus to <body>; put it back in the form.
-    if (status === 'error') (firstName.trim() ? emailRef : nameRef).current?.focus({ preventScroll: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
-
-  // Esc closes; Tab stays inside the card while it's open.
-  useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') {
         e.preventDefault();
         onClose();
-        return;
-      }
-      if (e.key !== 'Tab' || !cardRef.current) return;
-      const focusable = cardRef.current.querySelectorAll(
-        'button:not([disabled]), input:not([tabindex="-1"]), a[href], [tabindex="0"]'
-      );
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && (document.activeElement === first || !cardRef.current.contains(document.activeElement))) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && (document.activeElement === last || !cardRef.current.contains(document.activeElement))) {
-        e.preventDefault();
-        first.focus();
       }
     };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
+    return () => {
+      document.body.style.overflow = overflow;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open, onClose]);
 
-  const clearError = () => {
-    if (status === 'error') {
-      setStatus('idle');
-      setError('');
-    }
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (status === 'submitting') return;
-    const name = firstName.trim();
-    const address = email.trim();
-    const company = e.currentTarget.elements.hp_gmp_check?.value || '';
-    if (!name || !EMAIL_RE.test(address)) {
-      setStatus('error');
-      setError(m.errorInvalid);
-      return;
-    }
-    setStatus('submitting');
-    setError('');
-    try {
-      const res = await fetch('/api/waitlist/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: address,
-          firstName: name,
-          list: 'autopilot-workshop',
-          utms: utms.current,
-          company,
-        }),
-      });
-      if (!res.ok) throw new Error(`status ${res.status}`);
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'workshop_register', { list: 'autopilot-workshop' });
+  // The widget's iframe is same-origin (srcdoc), so give its fields the
+  // page's font and edges. EasyWebinar's own font setting doesn't load Inter.
+  useEffect(() => {
+    const box = overlayRef.current?.querySelector('.apws-ew-form');
+    if (!box) return undefined;
+    const style = (iframe) => {
+      try {
+        const doc = iframe.contentDocument;
+        if (!doc?.head || doc.getElementById('gmp-ew-style')) return;
+        const fontFaces = [];
+        for (const sheet of document.styleSheets) {
+          let rules;
+          try {
+            rules = sheet.cssRules;
+          } catch {
+            continue;
+          }
+          for (const r of rules) if (r instanceof CSSFontFaceRule && /Inter/.test(r.cssText)) fontFaces.push(r.cssText);
+        }
+        const font = getComputedStyle(document.body).getPropertyValue('--sans') || 'Helvetica Neue, Arial, sans-serif';
+        const el = doc.createElement('style');
+        el.id = 'gmp-ew-style';
+        el.textContent = `${fontFaces.join('\n')}
+          body, input, button, label, span, p, div { font-family: ${font} !important; }
+          input[type="text"] { border: 1.5px solid #241710 !important; border-radius: 8px !important; color: #241710 !important; }
+          input[type="text"]:focus { border-color: #c55123 !important; outline: none !important; }
+          button.widget-action-registration { border-radius: 999px !important; font-weight: 600 !important; }`;
+        doc.head.appendChild(el);
+      } catch {
+        // Styling is cosmetic; the form still works without it.
       }
-      setFirstName(name);
-      setEmail(address);
-      setStatus('success');
-    } catch {
-      setStatus('error');
-      setError(m.errorServer);
-    }
-  };
+    };
+    const attach = () => {
+      box.querySelectorAll('iframe').forEach((iframe) => {
+        style(iframe);
+        if (!iframe.dataset.gmpStyled) {
+          iframe.dataset.gmpStyled = '1';
+          iframe.addEventListener('load', () => style(iframe));
+        }
+      });
+    };
+    attach();
+    const mo = new MutationObserver(attach);
+    mo.observe(box, { childList: true, subtree: true });
+    const timer = setInterval(attach, 1000);
+    const stop = setTimeout(() => clearInterval(timer), 20000);
+    return () => {
+      mo.disconnect();
+      clearInterval(timer);
+      clearTimeout(stop);
+    };
+  }, []);
 
-  const busy = status === 'submitting';
+  // Focus that tabs past either edge of the card (including out of the
+  // iframe) lands on a sentinel and is sent back to the close button.
+  const trapFocus = () => closeRef.current?.focus({ preventScroll: true });
   const titleId = 'apws-modal-title';
 
   return (
     <div
-      className="apws-overlay"
+      ref={overlayRef}
+      className={`apws-overlay${open ? ' is-open' : ''}`}
+      aria-hidden={open ? undefined : true}
       // Close only when the press AND the release both land on the dark
       // backdrop, so dragging to select text in a field never closes it.
       onMouseDown={(e) => {
@@ -243,99 +235,33 @@ function RegistrationModal({ onClose }) {
         pressedOverlay.current = false;
       }}
     >
-      <div
-        ref={cardRef}
-        className="apws-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-      >
-        <button type="button" className="apws-close" aria-label="Close" onClick={onClose}>
+      <span tabIndex={open ? 0 : -1} className="apws-sentinel" onFocus={trapFocus} />
+      <div className="apws-modal" role="dialog" aria-modal="true" aria-labelledby={titleId}>
+        <button ref={closeRef} type="button" className="apws-close" aria-label="Close" onClick={onClose}>
           ×
         </button>
-
-        {status === 'success' ? (
-          <div>
-            <p className="gmp-eyebrow apws-modal-eyebrow">{m.success.eyebrow}</p>
-            <h3 id={titleId} ref={successRef} tabIndex={-1} className="apws-modal-h3 apws-modal-h3--success">
-              {m.success.headline.replace('{eventDate}', WORKSHOP.eventDate).replace('{firstName}', firstName)}
-            </h3>
-            <p className="apws-modal-intro">{withEmphasis(m.success.body, '{email}', email, 'apws-modal-emph')}</p>
-            <button type="button" className="apws-ghost" onClick={onClose}>
-              {m.success.back}
-            </button>
-          </div>
-        ) : (
-          <div>
-            <p className="gmp-eyebrow apws-modal-eyebrow">{m.eyebrow}</p>
-            <Heading
-              as="h3"
-              id={titleId}
-              className="apws-modal-h3"
-              before={m.headline}
-              accent={m.headlineAccent}
-              after={m.headlineAfter}
-            />
-            <p className="apws-modal-intro">{m.intro}</p>
-            <form className="apws-form" onSubmit={onSubmit} noValidate>
-              <label className="apws-label" htmlFor="apws-first-name">
-                {m.nameLabel}
-              </label>
-              <input
-                ref={nameRef}
-                id="apws-first-name"
-                className="apws-input"
-                type="text"
-                name="first_name"
-                autoComplete="given-name"
-                required
-                maxLength={100}
-                aria-describedby={status === 'error' ? 'apws-form-error' : undefined}
-                placeholder={m.namePlaceholder}
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                  clearError();
-                }}
-              />
-              <label className="apws-label" htmlFor="apws-email">
-                {m.emailLabel}
-              </label>
-              <input
-                ref={emailRef}
-                id="apws-email"
-                className="apws-input"
-                type="email"
-                name="email_address"
-                autoComplete="email"
-                inputMode="email"
-                required
-                placeholder={m.emailPlaceholder}
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  clearError();
-                }}
-                aria-describedby={status === 'error' ? 'apws-form-error' : undefined}
-              />
-              {/* Bot trap: hidden from people, filled in by naive spam scripts. The name is
-            deliberately meaningless and the field is display:none so browser autofill
-            (which targets names like "company") never fills it for a real parent. */}
-              <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apws-trap" />
-              {status === 'error' && (
-                <p id="apws-form-error" role="alert" className="apws-error">
-                  {error}
-                </p>
-              )}
-              <button type="submit" className="apws-button apws-button--block" disabled={busy}>
-                {busy ? m.submitBusy : m.submit}
-                {!busy && <span aria-hidden="true">→</span>}
-              </button>
-              <p className="apws-small-print">{m.smallPrint}</p>
-            </form>
-          </div>
-        )}
+        <p className="gmp-eyebrow apws-modal-eyebrow">{m.eyebrow}</p>
+        <Heading
+          as="h3"
+          id={titleId}
+          className="apws-modal-h3"
+          before={m.headline}
+          accent={m.headlineAccent}
+          after={m.headlineAfter}
+        />
+        <p className="apws-modal-intro">{m.intro}</p>
+        <div className="apws-ew-form">
+          <p className="apws-ew-loading" aria-hidden="true">{m.loading}</p>
+          <div
+            className="ew-wid"
+            data-wid={WORKSHOP.registration.widgetId}
+            data-loaded="no"
+            data-schloaded="no"
+          />
+        </div>
+        <p className="apws-small-print">{m.smallPrint}</p>
       </div>
+      <span tabIndex={open ? 0 : -1} className="apws-sentinel" onFocus={trapFocus} />
     </div>
   );
 }
@@ -542,7 +468,9 @@ export default function AutopilotWorkshop() {
         </div>
       </footer>
 
-      {modalOpen && <RegistrationModal onClose={closeModal} />}
+      <RegistrationModal open={modalOpen} onClose={closeModal} />
+      {/* EasyWebinar registration widget; loads after the page so it never slows it down. */}
+      <Script src={WORKSHOP.registration.scriptSrc} strategy="lazyOnload" />
     </div>
   );
 }
