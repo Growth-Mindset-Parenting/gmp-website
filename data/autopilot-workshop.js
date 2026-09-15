@@ -24,7 +24,7 @@ export const WORKSHOP = {
     dek: "Mornings, homework, chores, the dishwasher — you remember it, you remind about it, you check again. In this free workshop I'll show you the classroom method for handing that load back to your kid, one system at a time.",
     cta: 'Save my seat',
     meta: '60 minutes · Live on Zoom',
-    photoCaption: 'Sean Kane · Twelve years in room 201',
+    photoCaption: 'Sean Kane · 14 years in the classroom',
   },
 
   ticker: [
@@ -112,14 +112,14 @@ export const WORKSHOP = {
 
   note: {
     eyebrow: 'A note from Sean',
-    headline: 'I taught middle school for twelve years.',
+    headline: 'I taught middle school for 14 years.',
     headlineAccent: 'Then I had three sons.',
-    photoCaption: 'Sean Kane · Chicago, IL',
+    photoCaption: 'Sean Kane · Austin, TX',
     // {emphasis} is replaced with `emphasis`, styled as inline emphasis.
     paragraphs: [
       "I know why you're here. I've been yelled at by a kid I was trying to help. I've watched a kid fall apart over a basic request and wondered, what is his problem? And then — good grief, what is my problem?",
       "Think about your favorite teacher. Not the easy one. The one who made you feel seen, capable and respected, and who still expected something from you every single day. You never saw the lesson plans. It wasn't magic. It was {emphasis}, prepared on purpose.",
-      "I spent twelve years in room 201 learning how that works. I've spent the last few learning how to bring it home. Sixty minutes on Zoom won't fix your mornings, but it will show you where to look — and I think that's the part nobody ever showed you.",
+      "I spent 14 years in the classroom learning how that works. I've spent the last few learning how to bring it home. Sixty minutes on Zoom won't fix your mornings, but it will show you where to look — and I think that's the part nobody ever showed you.",
       'See you there.',
     ],
     emphasis: 'environment, development and collaboration',
