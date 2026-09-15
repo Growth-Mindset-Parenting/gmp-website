@@ -1,0 +1,767 @@
+/* ============================================================
+   Autopilot free workshop registration page (/workshop/) —
+   standalone page, no site nav. Tokens come from styles/themes.css
+   (terracotta); .gmp-eyebrow comes from styles/freebies.css.
+   Spec: design handoff "Autopilot Webinar", 2026-09-15.
+   ============================================================ */
+
+.apws {
+  --apws-gutter: 56px;
+  --apws-photo-shadow: 0 8px 32px rgba(0, 0, 0, 0.10), 0 1px 0 rgba(0, 0, 0, 0.04);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Resets use :where() so they carry zero specificity and never beat the
+   single-class spacing rules below. */
+:where(.apws) a { text-decoration: none; }
+
+:where(.apws) :where(p, h1, h2, h3, ol, figure, blockquote) { margin: 0; }
+
+:where(.apws) ol { padding: 0; list-style: none; }
+
+.apws-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.apws-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: var(--apws-gutter);
+  padding-right: var(--apws-gutter);
+}
+
+.apws-section { padding-top: 96px; }
+
+/* ── Type ────────────────────────────────────────────────── */
+
+.apws-h1,
+.apws-h2,
+.apws-h3,
+.apws-modal-h3 {
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.apws-h1 em,
+.apws-h2 em,
+.apws-modal-h3 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.apws-h1 {
+  font-size: clamp(44px, 5.4vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+}
+
+.apws-h1 em { letter-spacing: -0.005em; }
+
+.apws-h2 {
+  font-size: clamp(34px, 4vw, 48px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.apws-h3 {
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.apws-body {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.apws-eyebrow-gap { margin-bottom: 16px; }
+
+.apws-meta {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-mute);
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+
+.apws-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  padding: 16px 24px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1.5px solid var(--ink);
+  cursor: pointer;
+  transition: gap 0.18s, background 0.15s, border-color 0.15s;
+}
+
+
+.apws-button:disabled { opacity: 0.7; cursor: progress; }
+
+.apws-button:focus-visible,
+.apws-pill:focus-visible,
+.apws-close:focus-visible,
+.apws-ghost:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.apws-button--block { width: 100%; margin-top: 8px; }
+
+.apws-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* ── 1. Nav ──────────────────────────────────────────────── */
+
+.apws-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 24px;
+}
+
+.apws-logo { height: 30px; width: auto; }
+
+.apws-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+
+.apws-pill-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+
+/* ── 2. Hero ─────────────────────────────────────────────── */
+
+.apws-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+  padding-top: 72px;
+  padding-bottom: 80px;
+}
+
+.apws-hero-eyebrow { margin-bottom: 24px; }
+
+.apws-dek {
+  font-family: var(--serif-text);
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 540px;
+  margin-bottom: 32px;
+  text-wrap: pretty;
+}
+
+.apws-photo-wrap { position: relative; }
+
+.apws-photo {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: var(--apws-photo-shadow);
+}
+
+.apws-photo--hero { aspect-ratio: 4 / 5; height: auto; }
+.apws-photo--square { aspect-ratio: 1 / 1; height: auto; object-position: 50% 30%; }
+
+.apws-chip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+/* ── 3. Ticker ───────────────────────────────────────────── */
+
+.apws-ticker {
+  background: var(--accent);
+  color: var(--paper);
+  overflow: hidden;
+  padding: 14px 0;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.apws-ticker-track {
+  display: inline-flex;
+  animation: apws-ticker 32s linear infinite;
+  will-change: transform;
+}
+
+.apws-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+}
+
+.apws-ticker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--paper);
+  opacity: 0.8;
+}
+
+@keyframes apws-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── 4. What you'll learn ─────────────────────────────────── */
+
+.apws-learn-h2 { max-width: 720px; margin-bottom: 40px; }
+
+.apws-learn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.apws-learn-cell {
+  padding: 32px;
+  border: 0.75px solid var(--ink);
+  margin: -0.75px;
+  background: var(--paper);
+  transition: background 0.15s;
+}
+
+
+.apws-learn-num {
+  display: block;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--accent);
+  letter-spacing: -0.035em;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin-bottom: 20px;
+}
+
+/* ── 5 / 8 / 9. Two-column splits ────────────────────────── */
+
+.apws-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.apws-sticky { position: sticky; top: 24px; }
+
+.apws-h2--tight { margin-bottom: 16px; }
+
+.apws-who-intro { margin-bottom: 28px; }
+
+.apws-rows { display: flex; flex-direction: column; }
+
+.apws-who-row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 24px;
+  padding: 32px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.apws-who-num {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 0.9;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.apws-who-quote {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 12px;
+  text-wrap: pretty;
+}
+
+/* ── 6. Testimonials ─────────────────────────────────────── */
+
+.apws-testimonials-h2 { max-width: 760px; margin-bottom: 12px; }
+.apws-testimonials-intro { max-width: 560px; margin-bottom: 48px; }
+
+.apws-wall {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+
+.apws-wall-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.apws-comment {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 0 rgba(0, 0, 0, 0.04);
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 20px;
+  gap: 12px;
+  align-items: start;
+}
+
+.apws-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apws-comment-main { min-width: 0; }
+
+.apws-comment-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.apws-comment-handle { font-weight: 700; margin-right: 6px; }
+.apws-comment-body { color: var(--ink-soft); }
+
+.apws-comment-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  margin-top: 6px;
+}
+
+.apws-heart {
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1;
+  padding-top: 4px;
+}
+
+/* ── 7. Show-up bonus ────────────────────────────────────── */
+
+.apws-bonus {
+  border: 1.5px solid var(--ink);
+  border-radius: 24px;
+  background: var(--card-clay);
+  padding: 56px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.apws-stamp {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: var(--paper);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.apws-bonus-h2 {
+  font-size: clamp(30px, 3.6vw, 44px);
+  margin-bottom: 16px;
+}
+
+.apws-bonus-p { margin-bottom: 12px; }
+.apws-bonus-p:last-of-type { margin-bottom: 32px; }
+
+.apws-agenda {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+}
+
+.apws-agenda-eyebrow { margin-bottom: 20px; }
+
+.apws-agenda-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.apws-agenda-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.apws-agenda-num {
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.apws-agenda-label {
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+/* ── 8. FAQ ──────────────────────────────────────────────── */
+
+.apws-faq-row {
+  padding: 28px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.apws-faq-q {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+
+.apws-faq-end {
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── 9. A note from Sean ─────────────────────────────────── */
+
+.apws-note { padding-bottom: 96px; }
+
+.apws-note-h2 { margin-bottom: 24px; }
+
+.apws-note-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 640px;
+  font-family: var(--serif-text);
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.apws-inline-emph {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.apws-note-cta { margin-top: 32px; gap: 16px; }
+
+/* ── 10. Footer ──────────────────────────────────────────── */
+
+.apws-footer { border-top: 1.5px solid var(--ink); }
+
+.apws-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 32px;
+  padding-bottom: 40px;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+.apws-footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.apws-footer-links a { color: var(--ink-mute); }
+
+/* ── 11. Registration modal ──────────────────────────────── */
+
+.apws-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 64px 24px 32px;
+  overflow-y: auto;
+  background: rgba(36, 23, 16, 0.55);
+  animation: apws-fade-in 0.25s ease-out;
+}
+
+.apws-modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 40px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  animation: apws-card-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both;
+}
+
+.apws-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+
+.apws-modal-eyebrow { margin-bottom: 12px; padding-right: 40px; }
+
+.apws-modal-h3 {
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+
+.apws-modal-h3--success {
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  outline: none;
+}
+
+.apws-modal-intro {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  text-wrap: pretty;
+}
+
+.apws-modal-emph {
+  font-weight: 600;
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+.apws-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.apws-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.apws-input {
+  font-family: var(--sans);
+  font-size: 16px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  margin-bottom: 14px;
+  transition: border-color 0.15s;
+}
+
+.apws-input:focus { border-color: var(--accent); }
+
+.apws-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.apws-error {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.apws-small-print {
+  font-size: 12px;
+  color: var(--ink-mute);
+  text-align: center;
+  margin-top: 18px;
+}
+
+.apws-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px 24px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+
+@keyframes apws-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes apws-card-in {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ── Hover (real pointers only, so a tap on a phone doesn't
+      leave a button stuck in its hover color) ─────────────── */
+
+@media (hover: hover) {
+  :where(.apws) a:hover { color: var(--accent); }
+  .apws-button:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
+    gap: 16px;
+  }
+  .apws-pill:hover { color: var(--accent); }
+  .apws-learn-cell:hover { background: var(--paper-2); }
+  .apws-close:hover,
+  .apws-ghost:hover { background: var(--ink); color: var(--paper); }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 800px) {
+  .apws { --apws-gutter: 24px; }
+
+  .apws-section { padding-top: 72px; }
+
+  .apws-hero,
+  .apws-split,
+  .apws-bonus {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .apws-hero { padding-top: 48px; padding-bottom: 56px; }
+
+  .apws-sticky { position: static; }
+
+  .apws-learn-grid { grid-template-columns: minmax(0, 1fr); }
+  .apws-learn-cell { padding: 24px; }
+
+  .apws-bonus { padding: 32px 24px; }
+  .apws-agenda { padding: 24px; }
+
+  .apws-who-row { grid-template-columns: 40px minmax(0, 1fr); gap: 16px; }
+  .apws-who-quote { font-size: 21px; }
+
+  .apws-note { padding-bottom: 72px; }
+
+  .apws-overlay { padding: 24px 16px; }
+  .apws-modal { padding: 32px 24px 28px; }
+  .apws-modal-h3 { font-size: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apws-ticker-track { animation: none; }
+  .apws-overlay,
+  .apws-modal { animation: none; }
+  .apws-button,
+  .apws-button:hover:not(:disabled) { transition: none; }
+}

@@ -6,8 +6,11 @@ const KIT_API_SECRET = process.env.KIT_API_SECRET;
 // incentive/automation sends the confirmation email) + one tag.
 //   autopilot: "Autopilot Interest List" form (has Sean's confirmation email)
 //   + `waitlist: autopilot` tag.
+//   autopilot-workshop: "Autopilot Workshop Registrants" form (/workshop/
+//   registration modal) + `Registered: Autopilot Workshop` tag.
 const WAITLISTS = {
   autopilot: { formId: '9852683', tagId: 22826067 },
+  'autopilot-workshop': { formId: '9921406', tagId: 23446662 },
 };
 
 // Kit custom fields created 2026-09-14 so bio / ManyChat / partner traffic
@@ -16,8 +19,9 @@ const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', '
 
 export async function POST(request) {
   try {
-    const { email, list, utms, company } = (await request.json()) ?? {};
+    const { email, firstName, list, utms, company } = (await request.json()) ?? {};
     const trimmed = typeof email === 'string' ? email.trim() : '';
+    const name = typeof firstName === 'string' ? firstName.trim().slice(0, 100) : '';
 
     // Bot trap: people never see the `company` field. Pretend it worked.
     if (company) {
@@ -49,6 +53,7 @@ export async function POST(request) {
       email: trimmed,
       tags: [waitlist.tagId],
     };
+    if (name) body.first_name = name;
     if (Object.keys(fields).length) body.fields = fields;
 
     const res = await fetch(
