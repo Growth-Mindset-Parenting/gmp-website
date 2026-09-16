@@ -17,6 +17,7 @@ const FREEBIE_FORMS = {
   'six-middle-skills': '9544138',
   'release-replay-repair-return': '9672219',
   'emotional-literacy': '9852097',
+  capable: '9926763',
 };
 
 // Segmentation tags applied on every signup (in addition to the form's own
@@ -28,6 +29,7 @@ const FREEBIE_TAGS = {
   'release-replay-repair-return': 21015157,
   'six-middle-skills': 21015158,
   'emotional-literacy': 22823758, // created via the Kit API 2026-08-27
+  capable: 23499078, // "Freebie: Capable", created via the Kit API 2026-09-16
 };
 
 const VARIANT_TAGS = {
