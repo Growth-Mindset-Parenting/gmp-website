@@ -40,6 +40,7 @@ export const PAGE_MAP = {
   'FREEBIE / RELEASE REPLAY REPAIR RETURN': '/freebies/release-replay-repair-return/',
   'FREEBIE / SIX MIDDLE SKILLS': '/freebies/six-middle-skills/',
   'FREEBIE / EMOTIONAL LITERACY': '/freebies/emotional-literacy/',
+  'FREEBIE / CAPABLE': '/freebies/capable/',
 };
 
 /**
