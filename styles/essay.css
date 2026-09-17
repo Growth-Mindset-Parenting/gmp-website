@@ -107,11 +107,21 @@
 }
 
 .es-dek {
+  margin: 0 0 24px;
+  font: 400 19px/1.55 var(--serif-text);
+  color: var(--ink-soft);
+}
+
+/* ── Top waitlist button ──────────────────────────────── */
+.es-top-cta {
   margin: 0 0 28px;
   padding-bottom: 28px;
   border-bottom: 1px solid var(--rule);
-  font: 400 19px/1.55 var(--serif-text);
-  color: var(--ink-soft);
+}
+.essay .es-top-cta p {
+  margin: 12px 0 0;
+  font: 400 14px/1.5 var(--sans);
+  color: var(--ink-mute);
 }
 
 /* ── Author ───────────────────────────────────────────── */
