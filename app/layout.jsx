@@ -13,6 +13,7 @@ import '../styles/autopilot-workshop.css';
 import '../styles/autopilot-replay.css';
 import '../styles/autopilot-thank-you.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import AttributionCapture from '../components/AttributionCapture';
 import { Inter, Lora, Source_Serif_4 } from 'next/font/google';
 
 const inter = Inter({
@@ -71,6 +72,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`theme-terracotta ${inter.variable} ${lora.variable} ${sourceSerif4.variable}`}>
       <body>
+        <AttributionCapture />
         {children}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />

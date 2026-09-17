@@ -1,4 +1,5 @@
 'use client';
+import { getAttribution } from '../../../lib/attribution';
 import { useState } from 'react';
 
 export default function HeroForm({ freebie, variant, onSuccess }) {
@@ -25,6 +26,7 @@ export default function HeroForm({ freebie, variant, onSuccess }) {
           firstName: name.trim(),
           slug: freebie.slug,
           variant,
+          utms: getAttribution(),
         }),
       });
       if (!res.ok) throw new Error('subscribe failed');

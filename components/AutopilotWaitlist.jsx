@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { WAITLIST } from '../data/autopilot-waitlist';
+import { getAttribution } from '../lib/attribution';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Testimonials shown on phones before "Show more".
@@ -137,13 +138,6 @@ export default function AutopilotWaitlist() {
   const [errorFormId, setErrorFormId] = useState(null);
   const [showAllQuotes, setShowAllQuotes] = useState(false);
   const firstRevealedQuote = useRef(null);
-  const utms = useRef({});
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    for (const [k, v] of params) if (/^utm_/i.test(k)) utms.current[k.toLowerCase()] = v;
-  }, []);
-
   const onEmail = (e) => {
     setEmail(e.target.value);
     if (status === 'error') {
@@ -169,7 +163,7 @@ export default function AutopilotWaitlist() {
       const res = await fetch('/api/waitlist/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: value, list: 'autopilot', utms: utms.current, company }),
+        body: JSON.stringify({ email: value, list: 'autopilot', utms: getAttribution(), company }),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
       if (typeof window.gtag === 'function') {

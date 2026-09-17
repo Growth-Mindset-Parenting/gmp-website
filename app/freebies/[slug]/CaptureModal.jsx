@@ -1,4 +1,5 @@
 'use client';
+import { getAttribution } from '../../../lib/attribution';
 import { useState, useEffect } from 'react';
 
 export default function CaptureModal({ freebie, variant, open, done, name, email, onClose, onConfirmed }) {
@@ -45,6 +46,7 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
           firstName: formName.trim(),
           slug: freebie.slug,
           variant,
+          utms: getAttribution(),
         }),
       });
       if (!res.ok) throw new Error('subscribe failed');

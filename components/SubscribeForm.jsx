@@ -1,4 +1,5 @@
 'use client';
+import { appendKitFields } from '../lib/attribution';
 import { useState } from 'react';
 
 const KIT_FORM_ID = process.env.NEXT_PUBLIC_KIT_FORM_ID || '9228951';
@@ -18,7 +19,7 @@ export default function SubscribeForm({
     e.preventDefault();
     setStatus('submitting');
     try {
-      const body = new URLSearchParams({ email_address: email });
+      const body = appendKitFields(new URLSearchParams({ email_address: email }));
       const res = await fetch(
         `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`,
         {

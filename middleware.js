@@ -1,26 +1,64 @@
 import { NextResponse } from 'next/server';
+import {
+  ATTRIBUTION_COOKIE,
+  ATTRIBUTION_MAX_AGE,
+  nextAttribution,
+  parseAttribution,
+} from './lib/attribution';
 
-export function middleware(request) {
+// Freebie A/B test: sticky 50/50 design assignment on /freebies/*.
+function assignFreebieVariant(request) {
   const existing = request.cookies.get('freebie-variant')?.value;
-
-  if (existing === 'worksheet' || existing === 'kitchen-table') {
-    return NextResponse.next();
-  }
+  if (existing === 'worksheet' || existing === 'kitchen-table') return null;
 
   // First visit: assign 50/50, and make the assignment visible to
   // THIS request's server render, not just future requests.
   const assigned = Math.random() < 0.5 ? 'worksheet' : 'kitchen-table';
   request.cookies.set('freebie-variant', assigned);
-  const response = NextResponse.next({ request });
-  response.cookies.set('freebie-variant', assigned, {
-    maxAge: 60 * 60 * 24 * 30, // 30 days — sticky across the test window
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-  });
+  return assigned;
+}
+
+export function middleware(request) {
+  const { pathname, searchParams } = request.nextUrl;
+  const variant = pathname.startsWith('/freebies/') ? assignFreebieVariant(request) : null;
+  const response = variant ? NextResponse.next({ request }) : NextResponse.next();
+
+  if (variant) {
+    response.cookies.set('freebie-variant', variant, {
+      maxAge: 60 * 60 * 24 * 30, // 30 days — sticky across the test window
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+    });
+  }
+
+  // Link tracking (see lib/attribution.js). Never let it break the page.
+  try {
+    const next = nextAttribution({
+      searchParams,
+      referrer: request.headers.get('referer'),
+      saved: parseAttribution(request.cookies.get(ATTRIBUTION_COOKIE)?.value),
+      landing: pathname,
+    });
+    if (next) {
+      const onOwnDomain = /(^|\.)growthmindsetparenting\.com$/i.test(request.nextUrl.hostname);
+      response.cookies.set(ATTRIBUTION_COOKIE, JSON.stringify(next), {
+        maxAge: ATTRIBUTION_MAX_AGE,
+        httpOnly: false, // signup forms read it in the browser
+        sameSite: 'lax',
+        secure: onOwnDomain,
+        path: '/',
+        ...(onOwnDomain ? { domain: '.growthmindsetparenting.com' } : {}),
+      });
+    }
+  } catch {
+    // ignore
+  }
+
   return response;
 }
 
 export const config = {
-  matcher: ['/freebies/:path*'],
+  // Pages only: skip API routes, Next internals, and files with an extension.
+  matcher: ['/((?!api/|_next/|.*\\.[a-zA-Z0-9]+$).*)'],
 };

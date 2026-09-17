@@ -1,4 +1,5 @@
 'use client';
+import { appendKitFields } from '../lib/attribution';
 import { useState, useRef, useEffect, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -72,7 +73,7 @@ export default function FieldGuideModal({ open, onClose }) {
     setError('');
     setSubmitting(true);
     try {
-      const body = new URLSearchParams({ email_address: value });
+      const body = appendKitFields(new URLSearchParams({ email_address: value }));
       const res = await fetch(
         `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`,
         {

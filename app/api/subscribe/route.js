@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 const KIT_API_SECRET = process.env.KIT_API_SECRET;
 const PINTEREST_TAG_ID = 20631704;
+const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
 
 // Kit form IDs — one dedicated form per freebie (best practice: the form's
 // incentive email delivers that freebie's PDF). A null value means "not
@@ -39,7 +40,7 @@ const VARIANT_TAGS = {
 
 export async function POST(request) {
   try {
-    const { email, firstName, slug, variant, source } = await request.json();
+    const { email, firstName, slug, variant, source, utms } = await request.json();
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
@@ -63,6 +64,15 @@ export async function POST(request) {
     if (firstName) {
       body.first_name = firstName;
     }
+
+    // Where the visitor came from (lib/attribution.js) -> Kit custom fields.
+    const fields = {};
+    if (utms && typeof utms === 'object') {
+      for (const key of UTM_FIELDS) {
+        if (typeof utms[key] === 'string' && utms[key]) fields[key] = utms[key].slice(0, 255);
+      }
+    }
+    if (Object.keys(fields).length) body.fields = fields;
 
     // Segmentation tags: which freebie, which A/B design, + Pinterest source.
     // (The PDF itself is delivered by the form's incentive email, not a tag.)
