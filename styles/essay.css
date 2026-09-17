@@ -1,0 +1,273 @@
+/* ============================================================
+   Freebie essay pages — /freebies/[slug]/read/
+   Mobile-first long read. Tokens come from styles/themes.css.
+   ============================================================ */
+
+.essay {
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.es-wrap {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* Reading progress bar (browsers without scroll timelines just skip it) */
+.es-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 50;
+}
+@supports (animation-timeline: scroll()) {
+  .es-progress {
+    animation: es-grow linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes es-grow { to { transform: scaleX(1); } }
+
+/* ── Hero ─────────────────────────────────────────────── */
+.es-hero {
+  background:
+    radial-gradient(120% 60% at 100% 0%, var(--accent-soft), transparent 60%),
+    var(--paper);
+  padding: 28px 0 32px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.es-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 44px;
+}
+
+.es-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 15px/1 var(--sans);
+  text-decoration: none;
+}
+
+.es-logo {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 6px 9px;
+  border-radius: 6px;
+}
+
+.es-kind {
+  font: italic 14px/1 var(--serif-italic);
+  color: var(--ink-mute);
+}
+
+.es-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font: 600 12px/1 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.es-eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.es-h1 {
+  margin: 0 0 20px;
+  font: 800 clamp(36px, 10.5vw, 56px)/1.04 var(--sans);
+  letter-spacing: -0.035em;
+}
+.es-h1 em,
+.es-h2 em {
+  display: inline;
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+}
+
+.es-dek {
+  margin: 0 0 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--rule);
+  font: 400 19px/1.55 var(--serif-text);
+  color: var(--ink-soft);
+}
+
+/* ── Author ───────────────────────────────────────────── */
+.es-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.es-author img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--ink);
+  flex-shrink: 0;
+}
+.essay .es-author p { margin: 0; }
+.essay .es-author-name {
+  color: var(--ink);
+  font: 700 16px/1.3 var(--sans);
+}
+.es-author-name a { text-decoration: none; }
+.essay .es-author-meta {
+  margin-top: 3px !important;
+  font: 400 13.5px/1.55 var(--sans);
+  color: var(--ink-mute);
+}
+
+/* ── Sections ─────────────────────────────────────────── */
+.es-section {
+  padding: 48px 0 56px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.essay .es-label {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 18px;
+  font: 600 12px/1 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.es-num {
+  font: italic 17px/1 var(--serif-italic);
+  letter-spacing: 0;
+  color: var(--accent);
+}
+
+.es-h2 {
+  margin: 0 0 22px;
+  font: 800 clamp(30px, 8.4vw, 42px)/1.08 var(--sans);
+  letter-spacing: -0.03em;
+}
+
+.es-section p,
+.es-section li {
+  font: 400 19px/1.6 var(--serif-text);
+}
+.es-section p { margin: 0 0 18px; }
+
+.es-section mark {
+  background: none;
+  color: var(--accent);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+.es-section .es-strong,
+.es-lines strong {
+  font: 700 18px/1.5 var(--sans);
+  letter-spacing: -0.005em;
+}
+
+.es-lines { margin: 0 0 18px; }
+.es-lines p { margin: 0 0 4px; }
+
+.es-quotes { margin: 4px 0 30px; }
+.es-section .es-quotes p {
+  margin: 0 0 12px;
+  font: italic 400 25px/1.3 var(--serif-italic);
+  letter-spacing: -0.01em;
+}
+
+.es-dashes,
+.es-asks {
+  list-style: none;
+  margin: 4px 0 24px;
+  padding: 0;
+}
+
+.es-section .es-dashes li {
+  margin: 0 0 10px;
+  font: italic 18px/1.4 var(--serif-italic);
+  color: var(--ink-soft);
+}
+.es-dashes li::before {
+  content: '—';
+  color: var(--accent);
+  margin-right: 4px;
+}
+.es-section .es-dashes li:last-child { color: var(--accent); }
+
+.es-asks { border-top: 1px solid var(--rule); }
+.es-section .es-asks li {
+  display: flex;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+  font: 600 18px/1.35 var(--sans);
+  color: var(--ink-soft);
+}
+.es-asks li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* ── What comes next ──────────────────────────────────── */
+.es-next {
+  background: var(--card-blush);
+  border-top: 1px solid var(--ink);
+  border-bottom: 0;
+  padding-bottom: 72px;
+}
+.es-next p { color: var(--ink-soft); }
+
+.es-section .es-cta-lead {
+  margin: 28px 0 22px;
+  font: 700 20px/1.4 var(--sans);
+  color: var(--ink);
+}
+
+.es-cta {
+  padding: 18px 26px;
+  font-size: 17px;
+}
+
+.es-rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 36px 0 24px;
+}
+
+.es-section .es-colophon {
+  margin: 22px 0 0;
+  font: 400 13px/1.6 var(--sans);
+  letter-spacing: 0.02em;
+  color: var(--ink-mute);
+}
+
+@media (min-width: 720px) {
+  .es-hero { padding: 36px 0 44px; }
+  .es-section { padding: 64px 0 72px; }
+  .es-section p,
+  .es-section li { font-size: 20px; }
+}
