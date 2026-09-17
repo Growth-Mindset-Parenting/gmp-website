@@ -66,7 +66,9 @@ function EmailForm({ id, onAccent, email, status, error, errorFormId, onEmail, o
   );
 }
 
-function Confirmation({ email }) {
+// `email` is omitted when someone lands here from an email link (see
+// app/autopilot/thank-you/) — there is no typed address to show back.
+export function Confirmation({ email }) {
   const c = WAITLIST.confirmation;
   const headingRef = useRef(null);
   useEffect(() => {
@@ -81,7 +83,9 @@ function Confirmation({ email }) {
           <h1 ref={headingRef} tabIndex={-1} className="apw-h1 apw-h1--confirm">
             {c.headline} <em>{c.headlineAccent}</em>
           </h1>
-          <p className="apw-confirm-text">{withEmphasis(c.body, '{email}', email)}</p>
+          <p className="apw-confirm-text">
+            {email ? withEmphasis(c.body, '{email}', email) : c.bodyNoEmail}
+          </p>
           <ol className="apw-steps">
             {c.steps.map((step, i) => (
               <li key={i}>

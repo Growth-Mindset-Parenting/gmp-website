@@ -89,6 +89,10 @@ export const WAITLIST = {
     headlineAccent: 'check your email.',
     // {email} is replaced with the submitted address, styled as emphasis.
     body: "A short note from Sean is on its way to {email}. If it isn't there in a few minutes, check the promotions or spam folder and drag it over.",
+    // Used on /autopilot/thank-you/, where people arrive by clicking a link in an
+    // email instead of typing an address, so there is no address to show back.
+    bodyNoEmail:
+      "A short note from Sean is on its way to your inbox. If it isn't there in a few minutes, check the promotions or spam folder and drag it over.",
     steps: [
       "You'll get the first invite to the free live workshop.",
       'Early access to Autopilot before doors open in October.',
