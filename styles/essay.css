@@ -242,6 +242,103 @@
   font-weight: 400;
 }
 
+/* ── Toolkit (scripts and tips) ───────────────────────── */
+.es-toolkit {
+  background: var(--paper-2);
+  border-top: 1.5px solid var(--ink);
+}
+
+.essay .es-h3 {
+  margin: 36px 0 16px;
+  font: 600 12px/1 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.es-tips {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.es-section .es-tips li {
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--paper);
+  font: 600 15px/1.35 var(--sans);
+  color: var(--ink);
+}
+.es-tips .es-tip-wide { grid-column: 1 / -1; }
+
+.es-phrases {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.es-section .es-phrases li {
+  margin: 0 0 14px;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+  font: italic 500 22px/1.3 var(--serif-italic);
+  color: var(--ink);
+}
+
+.es-pair {
+  padding: 18px 0;
+  border-top: 1px solid var(--rule);
+}
+.es-pair:last-child { border-bottom: 1px solid var(--rule); }
+.es-section .es-pair p { margin: 0; }
+.es-section .es-kid {
+  margin-bottom: 10px !important;
+  font: italic 18px/1.4 var(--serif-italic);
+  color: var(--ink-soft);
+}
+.es-section .es-you {
+  font: 400 17px/1.55 var(--serif-text);
+  color: var(--ink);
+}
+.es-pair span {
+  display: block;
+  margin-bottom: 4px;
+  font: 600 11px/1 var(--sans);
+  font-style: normal;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.es-you span { color: var(--accent); }
+
+.es-followup {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: fu;
+}
+.es-section .es-followup li {
+  counter-increment: fu;
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  font: 400 18px/1.45 var(--serif-text);
+}
+.es-followup li::before {
+  content: counter(fu);
+  flex-shrink: 0;
+  width: 22px;
+  font: italic 20px/1.2 var(--serif-italic);
+  color: var(--accent);
+}
+
+@media (max-width: 519px) {
+  .es-tips { grid-template-columns: 1fr; }
+}
+
 /* ── What comes next ──────────────────────────────────── */
 .es-next {
   background: var(--card-blush);
