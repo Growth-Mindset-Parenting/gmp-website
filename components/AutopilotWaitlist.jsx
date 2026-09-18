@@ -83,7 +83,8 @@ export function Confirmation({ email }) {
           <h1 ref={headingRef} tabIndex={-1} className="apw-h1 apw-h1--confirm">
             {c.headline} <em>{c.headlineAccent}</em>
           </h1>
-          <p className="apw-confirm-text">
+          <p className="apw-confirm-text">{c.lede}</p>
+          <p className="apw-confirm-note">
             {email ? withEmphasis(c.body, '{email}', email) : c.bodyNoEmail}
           </p>
           <ol className="apw-steps">

@@ -85,14 +85,15 @@ export const WAITLIST = {
 
   confirmation: {
     eyebrow: "You're on the list",
-    headline: 'Good. Now go',
-    headlineAccent: 'check your email.',
-    // {email} is replaced with the submitted address, styled as emphasis.
-    body: "A short note from Sean is on its way to {email}. If it isn't there in a few minutes, check the promotions or spam folder and drag it over.",
+    headline: 'You just took the first step',
+    headlineAccent: 'toward a more capable kid.',
+    lede: "Most parents keep doing more. You just chose to teach instead. That's the whole shift, and it starts at your kitchen table.",
+    // Small line under the lede. {email} is replaced with the submitted
+    // address, styled as emphasis.
+    body: "A note from Sean is on its way to {email}. Check promotions if you don't see it.",
     // Used on /autopilot/thank-you/, where people arrive by clicking a link in an
     // email instead of typing an address, so there is no address to show back.
-    bodyNoEmail:
-      "A short note from Sean is on its way to your inbox. If it isn't there in a few minutes, check the promotions or spam folder and drag it over.",
+    bodyNoEmail: "A note from Sean is on its way. Check promotions if you don't see it.",
     steps: [
       "You'll get the first invite to the free live workshop.",
       'Early access to Autopilot before doors open in October.',

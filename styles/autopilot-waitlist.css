@@ -607,7 +607,16 @@
   max-width: 46ch;
 }
 
-.apw-confirm-text .apw-emph {
+.apw-confirm-note {
+  margin: -24px 0 40px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+
+.apw-confirm-note .apw-emph {
   font-family: var(--sans);
   overflow-wrap: anywhere;
 }
