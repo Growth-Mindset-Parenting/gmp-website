@@ -19,6 +19,7 @@ const FREEBIE_FORMS = {
   'release-replay-repair-return': '9672219',
   'emotional-literacy': '9852097',
   capable: '9926763',
+  'collapsing-cruelty': '9223249', // existing "Collapsing Cruelty Download" form
 };
 
 // Segmentation tags applied on every signup (in addition to the form's own
@@ -31,6 +32,7 @@ const FREEBIE_TAGS = {
   'six-middle-skills': 21015158,
   'emotional-literacy': 22823758, // created via the Kit API 2026-08-27
   capable: 23499078, // "Freebie: Capable", created via the Kit API 2026-09-16
+  'collapsing-cruelty': 23718184, // "Freebie: Collapsing Cruelty", created via the Kit API 2026-09-18
 };
 
 const VARIANT_TAGS = {

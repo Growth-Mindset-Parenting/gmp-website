@@ -41,6 +41,7 @@ export const PAGE_MAP = {
   'FREEBIE / SIX MIDDLE SKILLS': '/freebies/six-middle-skills/',
   'FREEBIE / EMOTIONAL LITERACY': '/freebies/emotional-literacy/',
   'FREEBIE / CAPABLE': '/freebies/capable/',
+  'FREEBIE / COLLAPSING CRUELTY': '/freebies/collapsing-cruelty/',
 };
 
 /**

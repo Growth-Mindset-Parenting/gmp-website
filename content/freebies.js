@@ -232,6 +232,44 @@ export const FREEBIES = {
     metaTitle: 'My Kid Is Capable, So Why Am I Still Doing Everything? (Free Essay)',
     metaDescription: 'A free 6-page essay for parents of middle schoolers: why capable kids still depend on you for everything, and one thing to look at differently this week.',
   },
+  'collapsing-cruelty': {
+    slug: 'collapsing-cruelty',
+    kitFormId: '9223249', // existing Kit form "Collapsing Cruelty Download" (its email delivers the essay)
+    pdfUrl: null, // no PDF on the site; delivery is the Kit email only
+    title: 'Collapsing Cruelty',
+    heroEyebrow: 'Free essay · For parents of middle schoolers',
+    heroHeadline: 'Cruelty continues when it’s rewarded. It collapses when it’s interrupted.',
+    heroHeadlineItalic: 'It collapses when it’s interrupted.',
+    heroSubhead: 'Sibling cruelty happens right in front of us: in the kitchen, in the car, in the hallway. This free essay explains why it keeps paying off for the kid doing it, and how to interrupt, separate and follow through without escalating. Scripts included.',
+    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopyBold: '250K',
+    painPoints: [
+      '“I don’t care who started it.”',
+      '“Why can’t you just be nice to your brother?”',
+      '“Can you two please leave each other alone?”',
+      '“Just ignore her.”',
+    ],
+    painPointsCloser: '…then this essay was written for you.',
+    painPointsCloserItalic: 'you',
+    outcomesHeading: 'What changes when cruelty stops paying off.',
+    outcomesHeadingItalic: 'stops paying off',
+    outcomes: [
+      { title: 'You see what the cruelty is getting them', description: 'Laughter, attention, control. Once you see the reward, you can take it away without taking it personally.' },
+      { title: 'A clear move for the moment it happens', description: 'Brief, firm, no debate. Interrupt, separate, and go to the child who was hurt first.' },
+      { title: 'Words for the pushback', description: '“You always take their side.” “I said I was sorry!” The essay gives you what to say back, calmly.' },
+      { title: 'Follow up that builds self-control', description: 'Seven questions for once everyone has cooled off, so your interruption slowly becomes their own.' },
+    ],
+    seanHeading: 'Fourteen years in room 201. Three sons at home.',
+    seanHeadingItalic: 'room 201',
+    seanBio: 'I taught middle-school English for fourteen years before I had three boys of my own. The teachers who rarely saw bullying weren’t lucky. They interrupted it early and followed through every time. This essay brings that same move to the kitchen table.',
+    modalEyebrow: 'Collapsing Cruelty · free essay',
+    coverTitle: 'Collapsing cruelty',
+    coverTitleItalic: 'cruelty',
+    coverDescriptor: 'How parents can disrupt the function inside sibling cruelty and conflict.',
+    pageCount: '12 min read',
+    metaTitle: 'Collapsing Cruelty: How to Stop Sibling Cruelty (Free Essay for Parents)',
+    metaDescription: 'A free essay for parents of middle schoolers: why sibling cruelty keeps paying off, and how to interrupt, separate and follow through without escalating. Scripts included.',
+  },
 };
 
 export function getFreebie(slug) {
