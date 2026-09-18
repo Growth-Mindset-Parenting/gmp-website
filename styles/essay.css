@@ -112,6 +112,26 @@
   color: var(--ink-soft);
 }
 
+/* ── What's inside (hero bullets) ─────────────────────── */
+.es-inside {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0 0 28px;
+  border-bottom: 1px solid var(--rule);
+}
+.es-inside li {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 8px;
+  font: 600 16px/1.4 var(--sans);
+  color: var(--ink);
+}
+.es-inside li::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 400;
+}
+
 /* ── Top waitlist button ──────────────────────────────── */
 .es-top-cta {
   margin: 0 0 28px;

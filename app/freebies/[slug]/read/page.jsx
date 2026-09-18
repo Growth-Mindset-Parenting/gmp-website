@@ -174,12 +174,19 @@ export default function EssayPage({ params }) {
             {e.titleLead} <em>{e.titleItalic}</em>
           </h1>
           <p className="es-dek">{e.dek}</p>
-          <div className="es-top-cta">
-            <Link href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
-              {n.ctaLabel} <span aria-hidden="true">→</span>
-            </Link>
-            <p>{e.topCtaNote}</p>
-          </div>
+          {e.inside && (
+            <ul className="es-inside">
+              {e.inside.map((t) => <li key={t}>{t}</li>)}
+            </ul>
+          )}
+          {e.showTopCta !== false && (
+            <div className="es-top-cta">
+              <Link href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
+                {n.ctaLabel} <span aria-hidden="true">→</span>
+              </Link>
+              <p>{e.topCtaNote}</p>
+            </div>
+          )}
           <Author byline={e.byline} />
         </div>
       </header>

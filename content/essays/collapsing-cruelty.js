@@ -15,7 +15,13 @@ export const COLLAPSING_CRUELTY_ESSAY = {
   titleLead: 'Collapsing',
   titleItalic: 'cruelty',
   dek: 'How parents can disrupt the function inside sibling cruelty and conflict.',
-  topCtaNote: 'Autopilot, Sean’s five-week course, launches in October. The waitlist hears first.',
+  // No top waitlist button on this one: Autopilot is only mentioned at the bottom.
+  showTopCta: false,
+  inside: [
+    'Why cruelty is rewarding, and why that reward can be collapsed',
+    'How to interrupt, separate and follow through without escalating',
+    'Scripts for the moment, the pushback and the follow up',
+  ],
   byline: 'Growth Mindset Parenting · Fourteen years in middle school classrooms · Three boys at home',
   metaTitle: 'Collapsing Cruelty: How Parents Can Disrupt Sibling Cruelty',
   metaDescription: 'An essay by Sean Kane for parents of middle schoolers: why sibling cruelty keeps paying off, and how to interrupt, separate and follow through without escalating. Scripts included.',
