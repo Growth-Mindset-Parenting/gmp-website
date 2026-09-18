@@ -12,7 +12,7 @@ export default function Footer() {
       </div>
       <nav className="v6-foot-links">
         <Link href="/writing">Writing</Link>
-        <Link href="/autopilot">Autopilot</Link>
+        <Link href="/autopilot">Course</Link>
         <Link href="/about">About</Link>
         <Link href="/work-with-me">Work with me</Link>
         <Link href="/privacy" style={{ color: 'var(--ink-mute)', fontSize: 13 }}>Privacy</Link>
