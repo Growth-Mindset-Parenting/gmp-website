@@ -238,7 +238,8 @@ export const FREEBIES = {
   'collapsing-cruelty': {
     slug: 'collapsing-cruelty',
     kitFormId: '9934137', // Kit form "Freebie: Collapsing Cruelty"
-    pdfUrl: null, // no PDF on the site; delivery is the Kit email only
+    pdfUrl: null, // no PDF on the site; the essay is read on the web
+    readUrl: '/freebies/collapsing-cruelty/read/', // shown in the "You're in" popup
     title: 'Collapsing Cruelty',
     heroEyebrow: 'Free essay · For parents of middle schoolers',
     heroHeadline: 'Cruelty continues when it’s rewarded. It collapses when it’s interrupted.',

@@ -81,7 +81,12 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
               Here&rsquo;s {freebie.title} — grab it right now. I&rsquo;ve also sent a
               copy to <strong>{emailShown}</strong> so it&rsquo;s always a click away.
             </p>
-            {freebie.pdfUrl && (
+            {freebie.readUrl && (
+              <a className="gmp-btn gmp-btn-primary fb-btn-full" href={freebie.readUrl}>
+                Read the essay &#8594;
+              </a>
+            )}
+            {!freebie.readUrl && freebie.pdfUrl && (
               <a
                 className="gmp-btn gmp-btn-primary fb-btn-full"
                 href={freebie.pdfUrl}
@@ -91,21 +96,6 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
                 Download the guide &#8594;
               </a>
             )}
-            <button
-              type="button"
-              onClick={onClose}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--ink-mute)',
-                cursor: 'pointer',
-                marginTop: '14px',
-                fontFamily: 'var(--sans)',
-                fontSize: '13px',
-              }}
-            >
-              I&rsquo;ve got it
-            </button>
           </div>
         ) : (
           <>
