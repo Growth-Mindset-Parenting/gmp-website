@@ -8,15 +8,31 @@ description: Use when Katie says there are copy updates in the website sheet, "s
 The Google Sheet **“SOT: GMP Website”** is the source of truth for every word on
 growthmindsetparenting.com.
 
+The sheet has **one tab per page**, plus a **Pages** tab first (gid 0) that lists
+every page with its web address. Tab names follow one pattern: `Home`,
+`Workshop – Thank You`, `Freebie – Capable – Signup` (the email signup page),
+`Freebie – Capable – Read` (the freebie itself), `Legal – Terms`.
+
+Every page tab has the same columns:
+
 | Column | Meaning |
 |---|---|
-| A | Page (`HOME`, `WRITING`, `COURSE`, `ABOUT`, `WORK WITH ME`, `FREEBIE / …`) |
+| A | Page (same as the tab name) |
 | B | Section |
 | C | Element type |
 | **D** | **Live copy** — what the page says right now |
 | **E** | **Requested change** — what Katie or Sean wants it to say |
 
-Sheet ID `1HYHfu-zDxNxlWraH999cw_6sSl0m_I9BJWyDv2i8qQg`, tab `Sheet1`.
+Sheet ID `1HYHfu-zDxNxlWraH999cw_6sSl0m_I9BJWyDv2i8qQg`. The scripts read every
+tab except Pages and any tab starting `BACKUP`/`ARCHIVE`, and identify pages by
+column A, so renaming a tab is safe. Rows are addressed `Tab!row` (e.g.
+`Home!12`).
+
+**Adding a new page:** make a new tab (duplicate an existing page tab, clear the
+rows, fill in A–D, leave E blank), then add a row to the Pages tab with its name
+and web address. The live-site capture reads the Pages tab, so no code change is
+needed.
+
 Repo: `~/Documents/Growth_Mindset/Website` (Next.js 14 → Vercel, auto-deploys on
 push to `main`).
 
@@ -43,7 +59,7 @@ cd ~/Documents/Growth_Mindset/Website
 node scripts/copy-sync/dump-sheet.mjs /tmp/sheet.json   # prints a per-page summary
 ```
 
-Rows with a non-empty column E are the work. If there are none, skip to step 8
+Rows with a non-empty column E are the work (the summary shows a count per tab). If there are none, skip to step 8
 and report drift instead.
 
 ### 2. Decide what each request means
@@ -75,7 +91,7 @@ cd .worktrees/copy-sync
 ### 4. Find each piece of copy in the source
 
 ```bash
-node scripts/copy-sync/locate.mjs --row 341
+node scripts/copy-sync/locate.mjs --row "Home!12"
 node scripts/copy-sync/locate.mjs "the exact sentence from column D"
 ```
 
@@ -88,7 +104,7 @@ Results marked `[structured]` are in `content/freebies.js` or `data/*.js` —
 those edits are a single key and are the safe case. Everything else is inline
 JSX; edit the exact string, preserving surrounding entities and markup.
 
-**Freebie pages:** all four read from `content/freebies.js`, and both A/B
+**Freebie signup pages:** all of them read from `content/freebies.js`, and both A/B
 variants (`WorksheetVariant`, `KitchenTableVariant`) render from that same
 object — so one edit covers both designs. Copy that is hardcoded identically in
 both variant files (section eyebrows, "Get me my free guide →", the modal, the
@@ -190,18 +206,19 @@ written back), `DRIFT` (site reworded), `NOT_FOUND` (no counterpart on the page)
 
 Some rows describe content the page generates rather than fixed copy:
 
-- `WRITING / Archive Stats` and `WRITING / Article N` — the writing index is a
+- `Writing / Archive Stats` and `Writing / Article N` — the writing index is a
   live feed. **Kept current automatically** by `refresh-writing.mjs` (step 8),
   which refreshes them positionally from `content/letters.js`. Do not chase them
   with the copy matcher.
 - Modal confirmation rows containing `[First Name]` / `[email]`, and the
   struck-out price `$499 (crossed out: $599)` — the audit's `ANNOTATION` rule
   recognises these; they need no override entry and are left as written.
-- `COURSE / Pricing / Fine Print` — replaced on the site by the pre-order steps
-  list; held for a Sean decision in `overrides.json`.
+- `Course – Middle Skills / Pricing / Fine Print` — replaced on the site by the
+  pre-order steps list; resolved 2026-08-28 (kept in `overrides.json`, keyed
+  `Page / Section / Element Type`).
 
 `scripts/copy-sync/overrides.json` holds hand-resolved decisions and should stay
-nearly empty; entries marked `review` are never auto-written. (The `HOME / Skill
+nearly empty; entries marked `review` are never auto-written. (The `Home / Skill
 NN / Subtitle` rows were deleted from the sheet on 2026-07-23 — the current
 `SixSkillsSection` has no subtitle element, so there was nothing to sync to.)
 
