@@ -37,7 +37,7 @@ export default function NotFound() {
           <Link href="/" className="v6-cta v6-cta-primary">
             Home <span className="v6-cta-arrow">&rarr;</span>
           </Link>
-          <Link href="/course" className="v6-cta v6-cta-ghost">The course</Link>
+          <Link href="/autopilot" className="v6-cta v6-cta-ghost">Autopilot</Link>
           <Link href="/writing" className="v6-cta v6-cta-ghost">Writing</Link>
         </div>
       </section>

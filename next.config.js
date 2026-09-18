@@ -24,6 +24,13 @@ const nextConfig = {
         destination: 'https://courses.growthmindsetparenting.com/store',
         permanent: true,
       },
+      // Middle Skills course page retired 2026-09-18; send visitors to the
+      // Autopilot waitlist. Temporary so /course/ can be reused later.
+      {
+        source: '/course/',
+        destination: '/autopilot/',
+        permanent: false,
+      },
       {
         source: '/contact/',
         destination: '/work-with-me/',

@@ -8,8 +8,6 @@ export const metadata = {
   description:
     'Autopilot is a 5-week live course for parents of kids roughly 9–14, taught by Sean Kane. Join the waitlist for first invite to the free live workshop and early access before doors open.',
   alternates: { canonical: '/autopilot/' },
-  // Unlisted until Sean signs off: no nav link, not in sitemap, not indexable.
-  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   openGraph: {
     title: 'Autopilot | Growth Mindset Parenting',
     description:

@@ -5,7 +5,7 @@ import { SITE } from '../data/site';
 const STATIC_PAGES = [
   { url: `${SITE.url}/`,              lastModified: '2026-05-28' },
   { url: `${SITE.url}/writing/`,      lastModified: '2026-05-28' },
-  { url: `${SITE.url}/course/`,       lastModified: '2026-05-28' },
+  { url: `${SITE.url}/autopilot/`,    lastModified: '2026-09-18' },
   { url: `${SITE.url}/about/`,        lastModified: '2026-05-28' },
   { url: `${SITE.url}/work-with-me/`, lastModified: '2026-06-03' },
 ];
