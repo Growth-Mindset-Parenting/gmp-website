@@ -13,7 +13,7 @@ export const FREEBIES = {
     heroHeadline: 'Feelings aren’t facts. They’re information.',
     heroHeadlineItalic: 'They’re information.',
     heroSubhead: 'Your middle schooler’s brain is learning right now how emotion becomes action — and you’re the one they’re learning it from. The 4S Guide is a four-move teaching sequence for helping them make that jump, without arguing them out of the feeling or fixing it for them. Eight pages. Free.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“Every answer is a groan, an eye-roll, or ‘broooo.’”',
@@ -51,7 +51,7 @@ export const FREEBIES = {
     heroHeadline: 'The three-question meeting teachers use to build executive function.',
     heroHeadlineItalic: 'executive function.',
     heroSubhead: 'Middle schoolers don’t lack organization; they lack the working-memory scaffold to hold a plan without you. The Five Minute Meeting walks you through the sit-down that helps your kid see their responsibilities, sequence it, and own it — in less time than it takes to argue about homework. Fourteen pages. Free.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“I trip over their shoes on the way to nag about the homework — again.”',
@@ -89,7 +89,7 @@ export const FREEBIES = {
     heroHeadline: 'Relationships aren’t defined by the fights. It’s built during the repair.',
     heroHeadlineItalic: 'repair',
     heroSubhead: 'Most blowups end the same way — you both move on, nothing repaired. This free, 10-page guide is the four-step conversation that turns the fight into the thing that brings you closer.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“We both say things we regret, then just… move on.”',
@@ -127,7 +127,7 @@ export const FREEBIES = {
     heroHeadline: 'The skills that turn a kid into an adult.',
     heroHeadlineItalic: 'adult',
     heroSubhead: 'What looks like attitude at twelve is almost always a skill still loading. This free, 8-page field guide is a new lens for the slammed doors and one-word answers — and what each is quietly building toward.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“Homework turns into a nightly battle.”',
@@ -165,7 +165,7 @@ export const FREEBIES = {
     heroHeadline: 'Nobody controls everything they feel. Everyone controls what they do next.',
     heroHeadlineItalic: 'what they do next.',
     heroSubhead: 'Adolescence puts the emotional part of your kid’s brain into overdrive before the deciding part has caught up — which is why the crash-out comes out of nowhere. This free, 6-page guide explains that to your nine-to-thirteen-year-old in their own language: the Lizard and the Wizard, the five feeling chemicals, and the questions that turn a reaction into a choice. Written for them to read, not you.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“They crash out over nothing, and then can’t tell me why.”',
@@ -203,7 +203,7 @@ export const FREEBIES = {
     heroHeadline: 'My kid is capable, so why am I still doing everything?',
     heroHeadlineItalic: 'doing everything?',
     heroSubhead: 'Your kid can memorize every player on an NBA roster and negotiate bedtime for 30 minutes, and still can’t get out the door without you. This free, 6-page essay names the problem hiding inside this phase, and one thing to look at differently this week.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“I’ve told you a thousand times.”',
@@ -241,7 +241,7 @@ export const FREEBIES = {
     heroHeadline: 'Cruelty continues when it’s rewarded. It collapses when it’s interrupted.',
     heroHeadlineItalic: 'It collapses when it’s interrupted.',
     heroSubhead: 'Sibling cruelty happens right in front of us: in the kitchen, in the car, in the hallway. This free essay explains why it keeps paying off for the kid doing it, and how to interrupt, separate and follow through without escalating. Scripts included.',
-    microCopy: 'Free. Part of a 250K community and counting. No spam — I read every reply.',
+    microCopy: 'Free. Part of a 250K community and counting.',
     microCopyBold: '250K',
     painPoints: [
       '“I don’t care who started it.”',

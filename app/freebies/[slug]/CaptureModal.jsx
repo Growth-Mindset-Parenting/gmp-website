@@ -111,7 +111,7 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
           <>
             <p className="gmp-eyebrow fb-modal-eyebrow">{freebie.modalEyebrow}</p>
             <h2 className="fb-modal-heading">Where should I send it?</h2>
-            <p className="fb-modal-sub">Free. No spam. I read every reply.</p>
+            <p className="fb-modal-sub">Free.</p>
             <form className="fb-modal-form" onSubmit={handleSubmit} noValidate>
               <input
                 className="fb-input"
