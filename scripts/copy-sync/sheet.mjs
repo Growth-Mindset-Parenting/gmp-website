@@ -5,9 +5,17 @@
  * stored in this repo — the token is read from disk at runtime.
  *   Override the location with GOOGLE_OAUTH_TOKEN_PATH if needed.
  *
- * Sheet contract (the tab with gid 0 — titled "SOT" as of 2026-08-27, but the
- * title is resolved at runtime so a rename in the Sheets UI cannot break this):
- *   A = Page   B = Section   C = Element Type   D = Live Copy   E = Requested Changes
+ * Sheet layout (since 2026-09-18): one tab per page, plus a "Pages" index.
+ *   Page tabs:        A = Page   B = Section   C = Element Type   D = Live Copy   E = Requested Changes
+ *   Pages (gid 0):    A = Page (links to its tab)   B = Web address   C = Type
+ *
+ * The Pages tab is the list of pages this tool knows about and where each one
+ * lives on the site. A new page = a new tab + a new row in Pages.
+ *
+ * Pages are identified by column A, never by tab title: Katie renames tabs in
+ * the Sheets UI, and a hardcoded title turns every script into an "Unable to
+ * parse range" error. Titles are resolved at runtime from the tab list. Tabs
+ * whose title starts with BACKUP or ARCHIVE are ignored.
  */
 
 import { google } from 'googleapis';
@@ -16,7 +24,9 @@ import { homedir } from 'os';
 import { join } from 'path';
 
 export const SPREADSHEET_ID = '1HYHfu-zDxNxlWraH999cw_6sSl0m_I9BJWyDv2i8qQg';
-export const SHEET_GID = 0; // numeric id of the source-of-truth tab
+export const PAGES_GID = 0; // the "Pages" index tab
+
+const IGNORED_TAB = /^\s*(backup|archive)/i;
 
 const TOKEN_PATH =
   process.env.GOOGLE_OAUTH_TOKEN_PATH ||
@@ -46,66 +56,109 @@ export function sheetsClient() {
   return google.sheets({ version: 'v4', auth: authorize() });
 }
 
-/**
- * The tab is addressed by gid, not by name — Katie renames tabs in the UI
- * (Sheet1 → SOT on 2026-08-27) and a hardcoded name turns every script into an
- * "Unable to parse range" error. Resolved once at import.
- */
-async function resolveTabTitle() {
+/** A1-notation prefix for a tab, quoted so a title with spaces or dashes parses. */
+export const tabRef = (title) => `'${title.replace(/'/g, "''")}'`;
+
+/** Every tab: { gid, title, index }. */
+export async function listTabs() {
   const res = await sheetsClient().spreadsheets.get({
     spreadsheetId: SPREADSHEET_ID,
-    fields: 'sheets.properties(sheetId,title)',
+    fields: 'sheets.properties(sheetId,title,index)',
   });
-  const match = (res.data.sheets || []).find((s) => s.properties.sheetId === SHEET_GID);
-  if (!match) throw new Error(`No tab with gid ${SHEET_GID} in spreadsheet ${SPREADSHEET_ID}`);
-  return match.properties.title;
+  return (res.data.sheets || []).map((s) => ({
+    gid: s.properties.sheetId,
+    title: s.properties.title,
+    index: s.properties.index,
+  }));
 }
 
-export const TAB_TITLE = await resolveTabTitle();
-
-/** A1-notation prefix, quoted so a title containing spaces still parses. */
-export const TAB = `'${TAB_TITLE.replace(/'/g, "''")}'`;
+/** The tabs that hold page copy: everything except Pages, backups and archives. */
+export async function pageTabs() {
+  return (await listTabs())
+    .filter((t) => t.gid !== PAGES_GID && !IGNORED_TAB.test(t.title))
+    .sort((a, b) => a.index - b.index);
+}
 
 /**
- * Reads the full copy table.
- * Returns rows as { row, page, section, element, live, requested }, 1-indexed
- * by actual spreadsheet row number, with the header row excluded.
+ * The Pages index: [{ page, path }] in sheet order. `path` is the site path
+ * ("/freebies/capable/read/"), taken from the Web address column.
  */
-export async function readRows() {
-  const sheets = sheetsClient();
-  const res = await sheets.spreadsheets.values.get({
+export async function readPages() {
+  const pagesTab = (await listTabs()).find((t) => t.gid === PAGES_GID);
+  if (!pagesTab) throw new Error(`No Pages tab (gid ${PAGES_GID}) in spreadsheet ${SPREADSHEET_ID}`);
+  const res = await sheetsClient().spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
-    range: `${TAB}!A1:E2000`,
+    range: `${tabRef(pagesTab.title)}!A2:B200`,
     valueRenderOption: 'FORMATTED_VALUE',
   });
-  const values = res.data.values || [];
-  const rows = [];
-  for (let i = 1; i < values.length; i++) {
-    const [page = '', section = '', element = '', live = '', requested = ''] = values[i] || [];
-    rows.push({
-      row: i + 1,
-      page: String(page).trim(),
-      section: String(section).trim(),
-      element: String(element).trim(),
-      live: String(live),
-      requested: String(requested),
-    });
+  const pages = [];
+  for (const [page = '', address = ''] of res.data.values || []) {
+    const m = String(address).match(/growthmindsetparenting\.com(\/[^\s]*)/);
+    if (!page.trim() || !m) continue; // the how-to note and blank rows
+    pages.push({ page: page.trim(), path: m[1] });
   }
+  return pages;
+}
+
+/**
+ * Reads the full copy table across every page tab.
+ * Returns rows as { tab, gid, ref, row, page, section, element, live, requested }.
+ * `row` is the actual spreadsheet row number within its tab (header excluded);
+ * `ref` is the quoted tab prefix for writing back: `${r.ref}!D${r.row}`.
+ */
+export async function readRows() {
+  const tabs = await pageTabs();
+  if (!tabs.length) return [];
+  const res = await sheetsClient().spreadsheets.values.batchGet({
+    spreadsheetId: SPREADSHEET_ID,
+    ranges: tabs.map((t) => `${tabRef(t.title)}!A1:E2000`),
+    valueRenderOption: 'FORMATTED_VALUE',
+  });
+  const rows = [];
+  res.data.valueRanges.forEach((vr, t) => {
+    const tab = tabs[t];
+    const values = vr.values || [];
+    for (let i = 1; i < values.length; i++) {
+      const [page = '', section = '', element = '', live = '', requested = ''] = values[i] || [];
+      rows.push({
+        tab: tab.title,
+        gid: tab.gid,
+        ref: tabRef(tab.title),
+        row: i + 1,
+        page: String(page).trim(),
+        section: String(section).trim(),
+        element: String(element).trim(),
+        live: String(live),
+        requested: String(requested),
+      });
+    }
+  });
   return rows;
 }
+
+/** Short label for a row in logs: "Home!12". */
+export const rowLabel = (r) => `${r.tab}!${r.row}`;
 
 /** True for rows that are section spacers rather than copy. */
 export function isBlankRow(r) {
   return !r.page && !r.section && !r.element && !r.live && !r.requested;
 }
 
-/** Freebie rows are the ones whose Page starts with "FREEBIE". */
+/**
+ * Freebie signup pages ("Freebie – Capable – Signup") run an A/B test and are
+ * driven from content/freebies.js. The freebie itself ("… – Read") is an
+ * ordinary page.
+ */
+export function isFreebieSignupPage(page) {
+  return /^freebie\b.*\bsignup$/i.test(page.trim());
+}
+
 export function isFreebieRow(r) {
-  return r.page.toUpperCase().startsWith('FREEBIE');
+  return isFreebieSignupPage(r.page);
 }
 
 /**
- * Writes individual cells. updates = [{ range: `${TAB}!D12`, value: 'text' }]
+ * Writes individual cells. updates = [{ range: `${r.ref}!D12`, value: 'text' }]
  * Uses RAW so copy is never reinterpreted as a formula, date, or number.
  */
 export async function writeCells(updates) {
@@ -128,11 +181,11 @@ export async function writeCells(updates) {
 }
 
 /**
- * Deletes whole rows by 1-indexed spreadsheet row number. Rows are removed
+ * Deletes whole rows from one tab by 1-indexed row number. Rows are removed
  * bottom-up internally so the caller's numbers stay valid regardless of order.
- * Structural — the pre-cleanup backup tab is the recovery path.
+ * Structural — the dated backup copy of the sheet is the recovery path.
  */
-export async function deleteRows(rowNumbers, { gid = SHEET_GID } = {}) {
+export async function deleteRows(gid, rowNumbers) {
   const rows = [...new Set(rowNumbers)].sort((a, b) => b - a);
   if (!rows.length) return 0;
   const sheets = sheetsClient();

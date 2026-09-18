@@ -21,7 +21,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { writeCells, TAB } from './sheet.mjs';
+import { writeCells } from './sheet.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const args = Object.fromEntries(
@@ -39,21 +39,22 @@ const plan = { setD: [], clearE: [], review: [], unchanged: 0 };
 
 for (const r of results) {
   if (r.freebie) continue; // freebie rows drive the site, not the other way round
-  const ov = overrides[String(r.row)];
+  // Keyed by "Page / Section / Element Type" — row numbers move, those don't.
+  const ov = overrides[`${r.page} / ${r.section} / ${r.element}`];
 
   if (ov && ov.action === 'review') {
     plan.review.push({ ...r, reason: ov.reason });
     continue;
   }
   if (ov && ov.action === 'set') {
-    if (ov.value !== r.D) plan.setD.push({ row: r.row, from: r.D, to: ov.value, why: ov.reason });
-    if (r.E && !r.eStillPending) plan.clearE.push({ row: r.row, was: r.E });
+    if (ov.value !== r.D) plan.setD.push({ ref: r.ref, tab: r.tab, row: r.row, from: r.D, to: ov.value, why: ov.reason });
+    if (r.E && !r.eStillPending) plan.clearE.push({ ref: r.ref, tab: r.tab, row: r.row, was: r.E });
     continue;
   }
 
   if (r.verdict === 'IN_SYNC') {
     // A request that produced copy already on the page is finished business.
-    if (r.E && !r.eStillPending) plan.clearE.push({ row: r.row, was: r.E });
+    if (r.E && !r.eStillPending) plan.clearE.push({ ref: r.ref, tab: r.tab, row: r.row, was: r.E });
     else if (r.E) plan.review.push({ ...r, reason: 'Column E still holds an unapplied request.' });
     else plan.unchanged++;
     continue;
@@ -63,14 +64,14 @@ for (const r of results) {
     // Prefer the text actually rendered — the previous session tidied typos and
     // punctuation on the way in, and D must match the page, not the request.
     const value = r.how === 'exact' ? r.E : (r.candidate && r.candidate.text) || r.E;
-    plan.setD.push({ row: r.row, from: r.D, to: value, why: `Column E was applied to the site (${r.how} match); writing back the live text.` });
-    plan.clearE.push({ row: r.row, was: r.E });
+    plan.setD.push({ ref: r.ref, tab: r.tab, row: r.row, from: r.D, to: value, why: `Column E was applied to the site (${r.how} match); writing back the live text.` });
+    plan.clearE.push({ ref: r.ref, tab: r.tab, row: r.row, was: r.E });
     continue;
   }
 
   if (r.verdict === 'DRIFT' && r.candidate && r.candidate.score >= CONFIDENT) {
-    plan.setD.push({ row: r.row, from: r.D, to: r.candidate.text, why: `Site copy was reworded (match ${r.candidate.score.toFixed(2)}).` });
-    if (r.E && !r.eStillPending) plan.clearE.push({ row: r.row, was: r.E });
+    plan.setD.push({ ref: r.ref, tab: r.tab, row: r.row, from: r.D, to: r.candidate.text, why: `Site copy was reworded (match ${r.candidate.score.toFixed(2)}).` });
+    if (r.E && !r.eStillPending) plan.clearE.push({ ref: r.ref, tab: r.tab, row: r.row, was: r.E });
     else if (r.E) plan.review.push({ ...r, reason: 'Column E still holds an unapplied request.' });
     continue;
   }
@@ -87,8 +88,8 @@ console.log(`Already correct : ${plan.unchanged}`);
 
 if (args.write === 'true') {
   const updates = [
-    ...plan.setD.map((u) => ({ range: `${TAB}!D${u.row}`, value: u.to })),
-    ...plan.clearE.map((u) => ({ range: `${TAB}!E${u.row}`, value: '' })),
+    ...plan.setD.map((u) => ({ range: `${u.ref}!D${u.row}`, value: u.to })),
+    ...plan.clearE.map((u) => ({ range: `${u.ref}!E${u.row}`, value: '' })),
   ];
   const n = await writeCells(updates);
   console.log(`\nWrote ${n} cells to the sheet.`);

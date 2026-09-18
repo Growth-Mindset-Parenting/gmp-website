@@ -1,5 +1,5 @@
 /**
- * refresh-writing.mjs — keeps the WRITING section of the copy sheet current.
+ * refresh-writing.mjs — keeps the Writing tab of the copy sheet current.
  *
  *   node scripts/copy-sync/refresh-writing.mjs            # dry run
  *   node scripts/copy-sync/refresh-writing.mjs --write    # apply
@@ -22,7 +22,7 @@
 import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { readRows, writeCells, TAB } from './sheet.mjs';
+import { readRows, writeCells } from './sheet.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..', '..');
@@ -47,7 +47,7 @@ function render(letter) {
 }
 
 const rows = await readRows();
-const writing = rows.filter((r) => r.page === 'WRITING');
+const writing = rows.filter((r) => r.page.toLowerCase() === 'writing');
 
 // Which article slots does the sheet track? (Article 1, Article 2, …)
 const slots = [...new Set(
@@ -66,7 +66,7 @@ for (const n of slots) {
     if (!row) return;
     if (value == null) return; // fewer posts than slots — leave the slot alone
     if (row.live !== value) {
-      updates.push({ range: `${TAB}!D${row.row}`, value });
+      updates.push({ range: `${row.ref}!D${row.row}`, value });
       changes.push({ row: row.row, what: `Article ${n} ${row.element}`, from: row.live, to: value });
     }
   };
@@ -81,15 +81,15 @@ const archive = writing.find((r) => /Archive/i.test(r.section) && /Pieces in arc
 if (archive) {
   const value = `${LETTERS.length} Pieces in archive`;
   if (archive.live !== value) {
-    updates.push({ range: `${TAB}!D${archive.row}`, value });
+    updates.push({ range: `${archive.ref}!D${archive.row}`, value });
     changes.push({ row: archive.row, what: 'Archive count', from: archive.live, to: value });
   }
 }
 
 if (!changes.length) {
-  console.log('WRITING section already current — nothing to refresh.');
+  console.log('Writing tab already current — nothing to refresh.');
 } else {
-  console.log(`WRITING rows needing refresh: ${changes.length}\n`);
+  console.log(`Writing rows needing refresh: ${changes.length}\n`);
   for (const c of changes) {
     console.log(`  r${c.row}  ${c.what}\n     from: ${JSON.stringify(c.from.slice(0, 70))}\n     to:   ${JSON.stringify(c.to.slice(0, 70))}`);
   }

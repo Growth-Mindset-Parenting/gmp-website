@@ -7,12 +7,16 @@
  *   node scripts/copy-sync/extract-live.mjs --base http://localhost:3456 --out /tmp/live.json
  *   node scripts/copy-sync/extract-live.mjs --base https://growthmindsetparenting.com --out /tmp/prod.json
  *
- * Freebie pages are captured twice — once per A/B variant — by pinning the
- * `freebie-variant` cookie, plus the capture modal's contents.
+ * Which pages to capture comes from the sheet's Pages tab (page name + web
+ * address), so a new page needs no code change here.
+ *
+ * Freebie signup pages are captured twice — once per A/B variant — by pinning
+ * the `freebie-variant` cookie, plus the capture modal's contents.
  */
 
 import { chromium } from 'playwright';
 import { writeFileSync } from 'fs';
+import { readPages, isFreebieSignupPage } from './sheet.mjs';
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((acc, a, i, arr) => {
@@ -23,26 +27,6 @@ const args = Object.fromEntries(
 
 const BASE = (args.base || 'http://localhost:3456').replace(/\/$/, '');
 const OUT = args.out || '/tmp/live-copy.json';
-
-/** Sheet "Page" value → site path. */
-export const PAGE_MAP = {
-  'HOME': '/',
-  'WRITING': '/writing/',
-  'COURSE': '/course/',
-  'ABOUT': '/about/',
-  'WORK WITH ME': '/work-with-me/',
-  'AUTOPILOT / WAITLIST': '/autopilot/',
-  'AUTOPILOT / WORKSHOP': '/workshop/',
-  'AUTOPILOT / WORKSHOP REPLAY': '/workshop/replay/',
-  'AUTOPILOT / WORKSHOP THANK YOU': '/workshop/thank-you/',
-  'FREEBIE / 4S FLOWCHART': '/freebies/4s-flowchart/',
-  'FREEBIE / FIVE-MINUTE MEETING': '/freebies/five-minute-meeting/',
-  'FREEBIE / RELEASE REPLAY REPAIR RETURN': '/freebies/release-replay-repair-return/',
-  'FREEBIE / SIX MIDDLE SKILLS': '/freebies/six-middle-skills/',
-  'FREEBIE / EMOTIONAL LITERACY': '/freebies/emotional-literacy/',
-  'FREEBIE / CAPABLE': '/freebies/capable/',
-  'FREEBIE / COLLAPSING CRUELTY': '/freebies/collapsing-cruelty/',
-};
 
 /**
  * Pull the visible copy at every granularity, plus placeholders and alt text.
@@ -173,8 +157,8 @@ async function capture(context, path, { openModal = false, trigger = '.fb-cta bu
 const browser = await chromium.launch();
 const result = { base: BASE, capturedAt: new Date().toISOString(), pages: {} };
 
-for (const [sheetPage, path] of Object.entries(PAGE_MAP)) {
-  const isFreebie = sheetPage.startsWith('FREEBIE');
+for (const { page: sheetPage, path } of await readPages()) {
+  const isFreebie = isFreebieSignupPage(sheetPage);
   if (!isFreebie) {
     const ctx = await browser.newContext();
     const trigger = MODAL_TRIGGERS[path];

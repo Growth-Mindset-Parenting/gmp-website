@@ -131,7 +131,7 @@ for (const r of rows) {
   if (!r.live.trim() && !r.requested.trim() && !r.element) continue;
   const corpus = corpora[r.page];
   if (!corpus) {
-    results.push({ ...r, verdict: 'NO_PAGE', note: `No live capture for page "${r.page}"` });
+    results.push({ tab: r.tab, ref: r.ref, row: r.row, page: r.page, section: r.section, element: r.element, verdict: 'NO_PAGE', note: `No live capture for page "${r.page}" — is it listed in the Pages tab?` });
     continue;
   }
   const D = r.live.trim();
@@ -152,7 +152,7 @@ for (const r of rows) {
   }
 
   results.push({
-    row: r.row, page: r.page, section: r.section, element: r.element,
+    tab: r.tab, ref: r.ref, row: r.row, page: r.page, section: r.section, element: r.element,
     freebie, D, E, verdict, how,
     eStillPending: !!E && !eHit.hit && !dHit.hit,
     candidate,
@@ -163,7 +163,7 @@ writeFileSync(OUT, JSON.stringify({ live: args.live, results }, null, 2));
 
 const tally = {};
 for (const r of results) {
-  const k = (r.freebie ? 'FREEBIE ' : 'SITE    ') + r.verdict;
+  const k = (r.freebie ? 'SIGNUP ' : 'PAGE   ') + r.verdict;
   tally[k] = (tally[k] || 0) + 1;
 }
 console.log('Rows audited:', results.length, '\n');

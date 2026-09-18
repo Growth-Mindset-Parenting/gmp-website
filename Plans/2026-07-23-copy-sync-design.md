@@ -23,6 +23,32 @@ Skill: `gmp-copy-sync` · Tooling: `Website/scripts/copy-sync/` · Related: [[20
 column E (request)  →  site  →  deploy  →  verify live  →  column D ← live  →  clear E
 ```
 
+## How the sheet is laid out
+
+Since 2026-09-18 the sheet has **one tab per page**, plus a **Pages** tab first.
+
+- **Pages** (the tab with gid 0) lists every page: its name (links to its tab),
+  its web address, and its type. It is also the tooling's list of what to check —
+  `extract-live.mjs` reads page names and addresses from here. **A new page = a
+  new tab + a new row in Pages.** No code change.
+- **Tab names follow one pattern:** `Home`, `About`, `Workshop – Thank You`,
+  `Freebie – Capable – Signup` (the page where people give their email),
+  `Freebie – Capable – Read` (the freebie itself), `Legal – Terms`.
+- **Column A on every row repeats the page name.** The tooling identifies pages
+  by column A, not by tab title, so renaming a tab in the Sheets UI breaks
+  nothing.
+- Tabs whose title starts with `BACKUP` or `ARCHIVE` are ignored.
+- Rows are addressed as `Tab!row` (e.g. `Home!12`). Hand-resolved decisions in
+  `overrides.json` are keyed `Page / Section / Element Type` so they survive
+  rows moving.
+- Freebie **signup** pages (`… – Signup`) are A/B tested and captured in both
+  variants; `… – Read` pages are ordinary pages.
+
+The pre-split single tab is preserved as a separate Drive file,
+"BACKUP 2026-09-18 before tab split — SOT: GMP Website". The old 140-row
+`AUTOPILOT` block (a retired 4-week-cohort sales page with no live URL) was
+dropped in the split, per Katie.
+
 | Column | Meaning |
 |---|---|
 | A | Page |
@@ -112,7 +138,7 @@ whitespace collapsed — before anything is compared.
 Some rows describe content the page generates rather than fixed copy. Resolved
 2026-07-23 per Katie:
 
-- **`WRITING / Archive Stats`, `WRITING / Article N` — kept, and auto-refreshed.**
+- **`Writing / Archive Stats`, `Writing / Article N` — kept, and auto-refreshed.**
   The writing index is a live feed, so `refresh-writing.mjs` rewrites these
   positionally from `content/letters.js` on every sync (Article N ← the Nth
   newest post; archive count ← total posts). The sheet stays a complete
@@ -123,8 +149,8 @@ Some rows describe content the page generates rather than fixed copy. Resolved
   six-skills section was rebuilt (`SixSkillsSection`) with no subtitle element,
   so there was nothing on the site to sync to. The skill Title and Description
   rows remain.
-- `COURSE / Pricing / Fine Print` — replaced on the site by the pre-order steps
-  list; held for a Sean decision in `overrides.json`.
+- `Course – Middle Skills / Pricing / Fine Print` — replaced on the site by the
+  pre-order steps list; resolved 2026-08-28 (recorded in `overrides.json`).
 - Modal confirmation rows (`[First Name]` / `[email]`) and the struck-out price
   (`$499 (crossed out: $599)`) — recognised by the audit's `ANNOTATION` rule and
   left as written; no override entry needed.

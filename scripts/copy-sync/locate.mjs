@@ -2,7 +2,7 @@
  * locate.mjs — finds where a piece of copy lives in the source.
  *
  *   node scripts/copy-sync/locate.mjs "Feelings aren't facts"
- *   node scripts/copy-sync/locate.mjs --row 341
+ *   node scripts/copy-sync/locate.mjs --row "Home!12"      (tab name ! row number)
  *
  * Copy is written into JSX as entities (&rsquo; &mdash;), wrapped across lines
  * at arbitrary indentation, and broken up by inline elements, so grepping the
@@ -89,11 +89,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
   let text = args.join(' ');
   if (args[0] === '--row') {
+    const [, tab, n] = String(args[1]).match(/^(.*)!(\d+)$/) || [];
+    if (!tab) { console.error('Use --row "Tab name!12"'); process.exit(1); }
     const rows = await readRows();
-    const r = rows.find((x) => x.row === Number(args[1]));
+    const r = rows.find((x) => x.tab === tab && x.row === Number(n));
     if (!r) { console.error(`No row ${args[1]}`); process.exit(1); }
     text = r.live || r.requested;
-    console.log(`Row ${r.row}: ${r.page} / ${r.section} / ${r.element}\n  ${JSON.stringify(text.slice(0, 120))}\n`);
+    console.log(`${r.tab}!${r.row}: ${r.section} / ${r.element}\n  ${JSON.stringify(text.slice(0, 120))}\n`);
   }
   const hits = locate(text);
   if (!hits.length) { console.log('No source match — the copy may be generated, or no longer on the site.'); process.exit(0); }

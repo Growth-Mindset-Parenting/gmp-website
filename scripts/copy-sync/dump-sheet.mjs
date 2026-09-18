@@ -1,4 +1,4 @@
-/** dump-sheet.mjs — writes the copy sheet to JSON for inspection. */
+/** dump-sheet.mjs — writes the copy sheet (every page tab) to JSON and prints a per-tab summary. */
 import { readRows } from './sheet.mjs';
 import { writeFileSync } from 'fs';
 
@@ -6,17 +6,19 @@ const out = process.argv[2] || '/tmp/sheet.json';
 const rows = await readRows();
 writeFileSync(out, JSON.stringify(rows, null, 2));
 
-const pages = new Map();
+const tabs = new Map();
 for (const r of rows) {
-  if (!r.page) continue;
-  if (!pages.has(r.page)) pages.set(r.page, { rows: 0, first: r.row, last: r.row, withRequest: 0 });
-  const p = pages.get(r.page);
-  p.rows++; p.last = r.row;
-  if (r.requested.trim()) p.withRequest++;
+  if (!tabs.has(r.tab)) tabs.set(r.tab, { rows: 0, withRequest: 0, pages: new Set() });
+  const t = tabs.get(r.tab);
+  if (!r.page && !r.live.trim() && !r.requested.trim()) continue;
+  t.rows++;
+  if (r.page) t.pages.add(r.page);
+  if (r.requested.trim()) t.withRequest++;
 }
-console.log(`Total data rows: ${rows.filter((r) => r.page).length}  (sheet rows 2-${rows[rows.length - 1].row})\n`);
-console.log('Page'.padEnd(40), 'rows'.padStart(5), 'range'.padStart(12), 'col E'.padStart(7));
-for (const [page, p] of pages) {
-  console.log(page.padEnd(40), String(p.rows).padStart(5), `${p.first}-${p.last}`.padStart(12), String(p.withRequest).padStart(7));
+console.log(`Total rows: ${rows.filter((r) => r.page).length} across ${tabs.size} page tabs\n`);
+console.log('Tab'.padEnd(50), 'rows'.padStart(5), 'col E'.padStart(7));
+for (const [tab, t] of tabs) {
+  const warn = t.pages.size !== 1 || ![...t.pages][0] ? `   ⚠ column A says: ${[...t.pages].join(', ') || '(blank)'}` : '';
+  console.log(tab.padEnd(50), String(t.rows).padStart(5), String(t.withRequest).padStart(7), warn);
 }
 console.log(`\nWrote ${out}`);

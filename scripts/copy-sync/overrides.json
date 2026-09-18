@@ -1,28 +1,20 @@
 {
   "_readme": [
-    "Hand-resolved rows the audit cannot decide on its own. Keyed by spreadsheet",
-    "row number.",
+    "Hand-resolved rows the audit cannot decide on its own. Keyed by",
+    "\"Page / Section / Element Type\" (columns A / B / C of the page's tab), so",
+    "keys survive rows being added, deleted or re-sorted.",
     "",
     "  set    -> write this exact value into column D",
     "  review -> do NOT write; surface the row to Katie/Sean for a decision",
+    "  ok     -> a resolved decision kept for the record; no effect",
     "",
-    "This file should stay nearly empty. The 2026-07-23 cleanup entries are gone:",
-    "  - HOME 'Skill NN Subtitle' rows were DELETED from the sheet (the current",
-    "    SixSkillsSection has no subtitle element; Katie's call, 2026-07-23).",
-    "  - WRITING 'Article N' + 'Archive Stats' rows are now refreshed positionally",
-    "    every sync by refresh-writing.mjs, so they never drift and need no entry.",
-    "  - The one-time 'set' corrections were applied and are now IN_SYNC.",
-    "",
-    "Row numbers shift when rows are inserted or deleted. After any such change,",
-    "re-derive keys from a fresh dump-sheet.mjs before trusting this file.",
+    "This file should stay nearly empty.",
     "",
     "Note: modal confirmation rows ('[First Name]', '[email]') and the struck-out",
     "price ('$499 (crossed out: $599)') do NOT need entries here — the audit's",
-    "ANNOTATION rule already recognises them.",
-    "",
-    "As of 2026-07-23 the only unresolved row is the COURSE pricing fine print."
+    "ANNOTATION rule already recognises them."
   ],
-  "226": {
+  "Course – Middle Skills / Pricing / Fine Print": {
     "action": "ok",
     "reason": "COURSE / Pricing / Fine Print. Resolved 2026-08-28: the old fine print was replaced on the site by the three-step pre-order list (Today / Fall 2026 / 14-day guarantee). Column D now mirrors that list verbatim. The stale '30-day Parent Confidence Guarantee' wording is gone; the standard is 14 days from access (data/guarantee.js)."
   }
