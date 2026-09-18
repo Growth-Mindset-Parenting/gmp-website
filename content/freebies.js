@@ -237,7 +237,7 @@ export const FREEBIES = {
   },
   'collapsing-cruelty': {
     slug: 'collapsing-cruelty',
-    kitFormId: '9223249', // existing Kit form "Collapsing Cruelty Download" (its email delivers the essay)
+    kitFormId: '9934137', // Kit form "Freebie: Collapsing Cruelty"
     pdfUrl: null, // no PDF on the site; delivery is the Kit email only
     title: 'Collapsing Cruelty',
     heroEyebrow: 'Free essay · For parents of middle schoolers',

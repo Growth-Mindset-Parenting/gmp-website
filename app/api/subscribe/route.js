@@ -19,7 +19,7 @@ const FREEBIE_FORMS = {
   'release-replay-repair-return': '9672219',
   'emotional-literacy': '9852097',
   capable: '9926763',
-  'collapsing-cruelty': '9223249', // existing "Collapsing Cruelty Download" form
+  'collapsing-cruelty': '9934137', // "Freebie: Collapsing Cruelty" (created 2026-09-18)
 };
 
 // Segmentation tags applied on every signup (in addition to the form's own
