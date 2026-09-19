@@ -14,6 +14,8 @@ import '../styles/autopilot-replay.css';
 import '../styles/autopilot-thank-you.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import AttributionCapture from '../components/AttributionCapture';
+import MetaPixel from '../components/MetaPixel';
+import TikTokPixel from '../components/TikTokPixel';
 import { Inter, Lora, Source_Serif_4 } from 'next/font/google';
 
 const inter = Inter({
@@ -77,6 +79,8 @@ export default function RootLayout({ children }) {
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         )}
+        <MetaPixel />
+        <TikTokPixel />
       </body>
     </html>
   );

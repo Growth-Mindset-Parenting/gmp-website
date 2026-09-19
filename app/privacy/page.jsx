@@ -17,7 +17,7 @@ export default function PrivacyPage() {
         <span className="v6-page-head-eyebrow">Legal</span>
         <h1 className="v6-page-head-h1">Privacy Policy</h1>
         <div className="v6-page-head-meta">
-          <div><b>Last updated</b> May 2026</div>
+          <div><b>Last updated</b> September 2026</div>
         </div>
       </header>
 
@@ -47,12 +47,32 @@ export default function PrivacyPage() {
           <p>Email addresses are used only to send the Saturday letter and occasional
           announcements about new content or resources. Analytics data is used to
           understand what content is most useful and to improve the site over time.
-          No personal data is sold to third parties.</p>
+          We never sell your email address or contact information. Some state privacy
+          laws use a broad definition of &ldquo;sale&rdquo; that includes sharing browsing
+          activity with advertising platforms &mdash; see Cookies below for exactly what
+          is shared and how to turn it off.</p>
 
           <h2>Cookies</h2>
 
-          <p>Google Analytics 4 uses cookies to distinguish visitors. No advertising
-          cookies are used on this site.</p>
+          <p>This site uses cookies — small files your browser stores — for three things:</p>
+
+          <p><strong>Understanding the site.</strong> Google Analytics uses cookies to tell
+          repeat visitors apart and show which pages get read.</p>
+
+          <p><strong>Remembering where you came from.</strong> If you arrive through a link
+          shared on social media or in an email, a cookie remembers that link so we know
+          which posts are actually helping people find us.</p>
+
+          <p><strong>Advertising.</strong> Meta (Facebook and Instagram) and TikTok place
+          cookies so we can show ads to people who have already visited this site, and see
+          whether those ads led anywhere. These companies may use that information for their
+          own advertising purposes as described in their privacy policies.</p>
+
+          <p>You can turn off ad tracking in your{' '}
+          <a href="https://accountscenter.facebook.com/ad_preferences" style={{ color: 'var(--accent)' }}>Meta ad preferences</a>, read{' '}
+          <a href="https://www.tiktok.com/legal/page/us/privacy-policy/en" style={{ color: 'var(--accent)' }}>TikTok&apos;s privacy policy</a>, or
+          block cookies in your browser. Blocking them will not break anything on
+          this site.</p>
 
           <h2>Contact</h2>
 
