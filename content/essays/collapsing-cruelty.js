@@ -15,8 +15,7 @@ export const COLLAPSING_CRUELTY_ESSAY = {
   titleLead: 'Collapsing',
   titleItalic: 'cruelty',
   dek: 'How parents can disrupt the function inside sibling cruelty and conflict.',
-  // No top waitlist button on this one: Autopilot is only mentioned at the bottom.
-  showTopCta: false,
+  topCtaNote: 'Kids don’t learn executive function by being reminded. They learn it by succeeding inside good systems. Autopilot is my five-week course on building those systems at home. Launches in October. The waitlist hears first.',
   inside: [
     'Why cruelty is rewarding, and why that reward can be collapsed',
     'How to interrupt, separate and follow through without escalating',
@@ -172,7 +171,8 @@ export const COLLAPSING_CRUELTY_ESSAY = {
     ],
     ctaLead: 'The waitlist hears first and gets access to the free workshop.',
     ctaLabel: 'Join the Autopilot waitlist',
-    ctaHref: '/autopilot/',
+    // Tagged so waitlist joins from this page show up in the "GMP Link Tracker" sheet (UTM tab).
+    ctaHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=collapsing-cruelty-essay',
     signoffByline: 'Growth Mindset Parenting · Austin, TX',
     colophon: 'From Growth Mindset Parenting — the same practices Sean used in room 201, now at the kitchen table. Built on educational research, fourteen years in middle school classrooms, and three boys at home.',
   },
