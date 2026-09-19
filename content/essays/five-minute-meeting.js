@@ -16,7 +16,7 @@ export const FIVE_MINUTE_MEETING_ESSAY = {
   titleLead: 'The five minute',
   titleItalic: 'meeting',
   dek: 'A simple, repeatable conversation that helps your kid build executive function, without taking over their afternoon.',
-  topCtaNote: 'Autopilot, Sean’s five-week course, launches in October. The waitlist hears first.',
+  topCtaNote: 'Autopilot is Sean’s five-week live course for parents of middle schoolers. It moves the management of your kid’s life from you to them, one routine at a time. Launches in October; the waitlist hears first.',
   inside: [
     'Why struggle is how executive function gets built',
     'The three questions, in order',
