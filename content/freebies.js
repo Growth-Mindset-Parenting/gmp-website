@@ -50,6 +50,7 @@ export const FREEBIES = {
     slug: 'five-minute-meeting',
     kitFormId: '9672214', // Kit form "Freebie: 5 Minute Meeting"
     pdfUrl: '/downloads/five-minute-meeting.pdf',
+    readUrl: '/freebies/five-minute-meeting/read/', // shown in the "You're in" popup
     title: 'The Five-Minute Meeting',
     heroHeadline: 'The three-question meeting teachers use to build executive function.',
     heroHeadlineItalic: 'executive function.',

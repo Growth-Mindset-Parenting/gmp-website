@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CAPABLE_ESSAY } from '../../../../content/essays/capable';
 import { COLLAPSING_CRUELTY_ESSAY } from '../../../../content/essays/collapsing-cruelty';
+import { FIVE_MINUTE_MEETING_ESSAY } from '../../../../content/essays/five-minute-meeting';
 import '../../../../styles/essay.css';
 
 // Web versions of freebie essays, keyed by the freebie slug.
@@ -9,6 +10,7 @@ import '../../../../styles/essay.css';
 const ESSAYS = {
   capable: CAPABLE_ESSAY,
   'collapsing-cruelty': COLLAPSING_CRUELTY_ESSAY,
+  'five-minute-meeting': FIVE_MINUTE_MEETING_ESSAY,
 };
 
 // Only the slugs above get a /read/ page; anything else 404s.
