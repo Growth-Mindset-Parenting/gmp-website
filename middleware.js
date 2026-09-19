@@ -34,6 +34,17 @@ export function middleware(request) {
 
   // Link tracking (see lib/attribution.js). Never let it break the page.
   try {
+    // Background prefetches (next/link loading a page before any click) are
+    // not visits; letting them save tags overwrote readers' real source.
+    // Not RSC alone: a real client-side navigation sends that too.
+    const h = request.headers;
+    const isPrefetch =
+      h.get('next-router-prefetch') === '1' ||
+      h.has('x-middleware-prefetch') ||
+      /prefetch/i.test(h.get('purpose') || '') ||
+      /prefetch/i.test(h.get('sec-purpose') || '');
+    if (isPrefetch) return response;
+
     const next = nextAttribution({
       searchParams,
       referrer: request.headers.get('referer'),

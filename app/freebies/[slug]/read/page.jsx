@@ -153,6 +153,8 @@ function Author({ byline }) {
   );
 }
 
+// The waitlist buttons are plain <a> links, not next/link: next/link loads the
+// tagged URL in the background, and the tags must only count on a real click.
 export default function EssayPage({ params }) {
   const e = ESSAYS[params.slug];
   if (!e) notFound();
@@ -183,9 +185,9 @@ export default function EssayPage({ params }) {
           )}
           {e.showTopCta !== false && (
             <div className="es-top-cta">
-              <Link href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
+              <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
                 {n.ctaLabel} <span aria-hidden="true">→</span>
-              </Link>
+              </a>
               <p>{e.topCtaNote}</p>
             </div>
           )}
@@ -205,9 +207,9 @@ export default function EssayPage({ params }) {
             <Heading s={n} />
             {n.blocks.map((b, i) => <Block key={i} b={b} />)}
             <p className="es-cta-lead">{n.ctaLead}</p>
-            <Link href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
+            <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
               {n.ctaLabel} <span aria-hidden="true">→</span>
-            </Link>
+            </a>
             <hr className="es-rule" />
             <Author byline={n.signoffByline} />
             <p className="es-colophon">{n.colophon}</p>
