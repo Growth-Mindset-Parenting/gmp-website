@@ -134,17 +134,22 @@ export const WORKSHOP = {
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
     intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send your link for Wednesday, October 7 at 6pm Central (7pm Eastern). I'll remind you before we go live, too. You've got enough to remember.",
-    loading: 'Loading the form…',
     smallPrint: "Come live and you'll get my free Sunday night meeting agenda.",
   },
 
-  // The form inside the modal is EasyWebinar's embed widget (event 207720).
-  // Its fields, colors and button text are set in EasyWebinar → Promote &
-  // Share → Customize Widget, not here. After signup it sends people to
-  // /workshop/thank-you/ with their personal join key in the URL.
-  registration: {
-    widgetId: '4HeoEjtfUBEQStWSZ7iaJw==',
-    scriptSrc: 'https://ewpcdn-ecs.easywebinar.com/widget/js/new/ew-script.js',
+  // The form inside the modal posts to /api/workshop-register/, which
+  // registers the person with Zoom (meeting ZOOM_WORKSHOP_MEETING_ID) and
+  // adds them to Kit. Replaced the EasyWebinar widget on 2026-09-19.
+  form: {
+    nameLabel: 'First name',
+    namePlaceholder: 'First name',
+    emailLabel: 'Email address',
+    emailPlaceholder: 'Email address',
+    button: 'Save my seat',
+    buttonBusy: 'Saving your seat…',
+    errorName: 'Pop your first name in so I know who I\u2019m talking to.',
+    errorInvalid: 'That email doesn\u2019t look right. Mind checking it?',
+    errorServer: 'Something went wrong on my end. Try that once more?',
   },
 
   // Calendar buttons on the thank-you page. Times are UTC:
@@ -154,8 +159,6 @@ export const WORKSHOP = {
     endUtc: '2026-10-08T00:00:00Z',
     calendarTitle: 'Autopilot free live workshop with Sean Kane',
     calendarDescription: 'Show up live and get the Sunday meeting agenda.',
-    // Personal join link = this + the key EasyWebinar puts in the thank-you URL.
-    joinLinkBase: 'https://katie.easywebinar.live/login?key=',
   },
 
   // Thank-you page (/workshop/thank-you/).
@@ -167,9 +170,13 @@ export const WORKSHOP = {
     headline: "You're on the list.",
     headlineAccent: 'See you Wednesday.',
     dek: "Your link is on its way to your inbox right now. If it isn't there in ten minutes, check promotions — that's where I usually end up.",
+    // Shown when this page has no personal link to work with (a reload in a
+    // new tab, private browsing, or a hiccup registering with Zoom).
+    dekNoLink: "Check your inbox for your link. If it isn't there in ten minutes, check promotions — that's where I usually end up — or just reply and I'll send it again.",
     dateLine: 'Wednesday, October 7',
     timeLine: '6:00 pm Central · 7:00 pm Eastern',
     calendarIntro: 'Add it to your calendar. Your link is saved in the event.',
+    calendarIntroNoLink: 'Add it to your calendar. Your link is in your email.',
     google: 'Google Calendar',
     apple: 'Apple Calendar',
     outlook: 'Outlook',

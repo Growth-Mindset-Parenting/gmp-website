@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { withAttribution } from '../lib/attribution';
 
 // Hosts whose links should carry the visitor's saved tags along
-// (Kajabi checkout/course pages, EasyWebinar).
-const CARRY_TO = /(^|\.)(courses\.growthmindsetparenting\.com|mykajabi\.com|easywebinar\.live)$/i;
+// (Kajabi checkout/course pages, Zoom registration).
+const CARRY_TO = /(^|\.)(courses\.growthmindsetparenting\.com|mykajabi\.com|zoom\.us)$/i;
 
 // Mounted once in the root layout. Renders nothing. (The source itself is
 // saved by middleware.js.)

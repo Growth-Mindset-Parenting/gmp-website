@@ -7,8 +7,8 @@ const KIT_API_SECRET = process.env.KIT_API_SECRET;
 //   autopilot: "Autopilot Interest List" form (has Sean's confirmation email)
 //   + `waitlist: autopilot` tag.
 //   autopilot-workshop: "Autopilot Workshop Registrants" form + `Registered:
-//   Autopilot Workshop` tag. No longer used by /workshop/ (signup moved to the
-//   EasyWebinar widget on 2026-09-15, which adds people to Kit itself).
+//   Autopilot Workshop` tag. No longer used by /workshop/, which posts to
+//   /api/workshop-register/ instead (Zoom + Kit) since 2026-09-19.
 const WAITLISTS = {
   autopilot: { formId: '9852683', tagId: 22826067 },
   'autopilot-workshop': { formId: '9921406', tagId: 23446662 },

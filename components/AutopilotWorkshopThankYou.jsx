@@ -2,37 +2,61 @@
 
 import { useEffect, useState } from 'react';
 import { WORKSHOP } from '../data/autopilot-workshop';
-import { googleCalendarUrl, icsUrl, joinLink, outlookCalendarUrl, validKey } from '../lib/workshop-calendar';
+import { COUNTED_KEY, JOIN_LINK_KEY, buildIcs, googleCalendarUrl, outlookCalendarUrl, validJoinLink } from '../lib/workshop-calendar';
 
 // Instagram, Facebook and TikTok's in-app browsers usually ignore .ics downloads.
 const IN_APP_RE = /Instagram|FBAN|FBAV|TikTok|musical_ly|Bytedance/i;
 
-function CalendarButton({ href, label, external }) {
+function CalendarButton({ href, label, external, onClick }) {
   return (
-    <a className="apty-cal" href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+    <a
+      className="apty-cal"
+      href={href}
+      onClick={onClick}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    >
       {label} <span aria-hidden="true">→</span>
     </a>
   );
 }
 
+// Apple Calendar: build the .ics in the browser so the personal join link
+// never travels through a URL or a server request.
+function downloadIcs(link) {
+  const blob = new Blob([buildIcs(link)], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'growth-mindset-workshop.ics';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 export default function AutopilotWorkshopThankYou() {
   const t = WORKSHOP.thankYou;
-  // Filled in from the query string once the page is in the browser. The
-  // calendar buttons work without it; they just won't carry the join link.
-  const [state, setState] = useState({ key: null, link: null, inApp: false });
+  // Read once the page is in the browser: the signup modal stores the
+  // personal join link in sessionStorage just before sending people here.
+  // The calendar buttons work without it; they just won't carry the link.
+  const [state, setState] = useState({ link: null, inApp: false });
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const key = validKey(params.get('key'));
-    const link = joinLink(key, params.get('ew_short_link'));
-    setState({ key, link, inApp: IN_APP_RE.test(navigator.userAgent) });
+    let link = null;
+    try {
+      link = validJoinLink(sessionStorage.getItem(JOIN_LINK_KEY));
+    } catch {
+      // Private browsing can block sessionStorage; the page still works.
+    }
+    setState({ link, inApp: IN_APP_RE.test(navigator.userAgent) });
 
-    // Count each registration once, even if the page is reloaded.
-    if (key && typeof window.gtag === 'function') {
+    // Count each registration once, even if this page is reloaded. Fired
+    // here rather than before the redirect, where the page can unload
+    // before the hit leaves the browser.
+    if (link && typeof window.gtag === 'function') {
       try {
-        const seen = `apws-registered-${key}`;
-        if (!sessionStorage.getItem(seen)) {
-          sessionStorage.setItem(seen, '1');
+        if (!sessionStorage.getItem(COUNTED_KEY)) {
+          sessionStorage.setItem(COUNTED_KEY, '1');
           window.gtag('event', 'workshop_register', { list: 'autopilot-workshop' });
         }
       } catch {
@@ -57,7 +81,7 @@ export default function AutopilotWorkshopThankYou() {
           <h1 className="apty-h1">
             {t.headline} <em>{t.headlineAccent}</em>
           </h1>
-          <p className="apty-dek">{t.dek}</p>
+          <p className="apty-dek">{state.link ? t.dek : t.dekNoLink}</p>
         </section>
 
         <section className="apty-date">
@@ -66,10 +90,24 @@ export default function AutopilotWorkshopThankYou() {
         </section>
 
         <section>
-          <p className="apty-cal-intro">{t.calendarIntro}</p>
+          <p className="apty-cal-intro">{state.link ? t.calendarIntro : t.calendarIntroNoLink}</p>
           <div className="apty-cal-list">
             <CalendarButton href={googleCalendarUrl(state.link)} label={t.google} external />
-            <CalendarButton href={icsUrl(state.key)} label={t.apple} />
+            {/* With a personal link the file is built here; without one the
+                server's plain copy is a more reliable download in in-app
+                browsers, which often block blob: downloads. */}
+            <CalendarButton
+              href="/api/workshop-ics/"
+              label={t.apple}
+              onClick={
+                state.link
+                  ? (e) => {
+                      e.preventDefault();
+                      downloadIcs(state.link);
+                    }
+                  : undefined
+              }
+            />
             <CalendarButton href={outlookCalendarUrl(state.link)} label={t.outlook} external />
           </div>
           {state.inApp && <p className="apty-note">{t.inAppNote}</p>}

@@ -7,7 +7,7 @@
 // 9pm ET / 8pm CT) — the handoff's "Thursday, October 16" was not a real date.
 
 export const REPLAY = {
-  // Replay embed URL (YouTube / Vimeo / EasyWebinar embed). Empty shows the
+  // Replay embed URL (YouTube / Vimeo / Zoom recording). Empty shows the
   // "coming soon" card instead of a video.
   videoUrl: '',
   // Where the button goes: the Autopilot sales page.

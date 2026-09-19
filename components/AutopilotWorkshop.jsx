@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import Script from 'next/script';
 import { WORKSHOP } from '../data/autopilot-workshop';
+import { getAttribution } from '../lib/attribution';
+import { COUNTED_KEY, JOIN_LINK_KEY } from '../lib/workshop-calendar';
 
 // Testimonial wall: each column is at least 280px wide with 16px gaps.
 const WALL_COL = 280;
@@ -124,11 +125,69 @@ function Ticker({ phrases }) {
   );
 }
 
-// Always mounted (hidden until opened) because EasyWebinar's widget script
-// scans the page for its container once, when it loads. Hidden with
-// visibility, not display:none, so the widget's iframe can measure itself.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const THANK_YOU = '/workshop/thank-you/';
+// Long enough for a slow phone network, short enough that the button never
+// sits on "Saving your seat…" forever.
+const SUBMIT_TIMEOUT_MS = 15000;
+
+// Always mounted (hidden until opened) so opening it is instant. Hidden with
+// visibility, not display:none, so the card can measure itself.
 function RegistrationModal({ open, onClose }) {
   const m = WORKSHOP.modal;
+  const f = WORKSHOP.form;
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const onField = (set, value) => {
+    set(value);
+    if (error) setError('');
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    const firstName = name.trim();
+    const value = email.trim();
+    const company = e.currentTarget.elements.hp_gmp_check?.value || '';
+    if (!firstName) {
+      setError(f.errorName);
+      return;
+    }
+    if (!EMAIL_RE.test(value)) {
+      setError(f.errorInvalid);
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      const res = await fetch('/api/workshop-register/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: value, firstName, utms: getAttribution(), company }),
+        signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      const data = await res.json().catch(() => ({}));
+      // Hand the personal Zoom link to the thank-you page without putting it
+      // in the URL. Private browsing can block this; the page copes.
+      try {
+        if (data.joinUrl) sessionStorage.setItem(JOIN_LINK_KEY, data.joinUrl);
+        else sessionStorage.removeItem(JOIN_LINK_KEY);
+        // Let the thank-you page count this registration in GA4, even if
+        // someone registers twice in the same tab.
+        sessionStorage.removeItem(COUNTED_KEY);
+      } catch {
+        // No storage: the thank-you page falls back to a plain event.
+      }
+      window.location.assign(THANK_YOU);
+    } catch {
+      setBusy(false);
+      setError(f.errorServer);
+    }
+  };
   const overlayRef = useRef(null);
   const closeRef = useRef(null);
   const pressedOverlay = useRef(false);
@@ -142,8 +201,12 @@ function RegistrationModal({ open, onClose }) {
     else el.setAttribute('inert', '');
   }, [open]);
 
-  // Esc closes; body scroll locks while open. (Keys pressed inside the
-  // EasyWebinar iframe never reach this page, so Esc only works outside it.)
+  // A stale error shouldn't be waiting for them the next time they open it.
+  useEffect(() => {
+    if (!open) setError('');
+  }, [open]);
+
+  // Esc closes; body scroll locks while open.
   useEffect(() => {
     if (!open) return undefined;
     closeRef.current?.focus({ preventScroll: true });
@@ -162,61 +225,8 @@ function RegistrationModal({ open, onClose }) {
     };
   }, [open, onClose]);
 
-  // The widget's iframe is same-origin (srcdoc), so give its fields the
-  // page's font and edges. EasyWebinar's own font setting doesn't load Inter.
-  useEffect(() => {
-    const box = overlayRef.current?.querySelector('.apws-ew-form');
-    if (!box) return undefined;
-    const style = (iframe) => {
-      try {
-        const doc = iframe.contentDocument;
-        if (!doc?.head || doc.getElementById('gmp-ew-style')) return;
-        const fontFaces = [];
-        for (const sheet of document.styleSheets) {
-          let rules;
-          try {
-            rules = sheet.cssRules;
-          } catch {
-            continue;
-          }
-          for (const r of rules) if (r instanceof CSSFontFaceRule && /Inter/.test(r.cssText)) fontFaces.push(r.cssText);
-        }
-        const font = getComputedStyle(document.body).getPropertyValue('--sans') || 'Helvetica Neue, Arial, sans-serif';
-        const el = doc.createElement('style');
-        el.id = 'gmp-ew-style';
-        el.textContent = `${fontFaces.join('\n')}
-          body, input, button, label, span, p, div { font-family: ${font} !important; }
-          input[type="text"] { border: 1.5px solid #241710 !important; border-radius: 8px !important; color: #241710 !important; }
-          input[type="text"]:focus { border-color: #c55123 !important; outline: none !important; }
-          button.widget-action-registration { border-radius: 999px !important; font-weight: 600 !important; }`;
-        doc.head.appendChild(el);
-      } catch {
-        // Styling is cosmetic; the form still works without it.
-      }
-    };
-    const attach = () => {
-      box.querySelectorAll('iframe').forEach((iframe) => {
-        style(iframe);
-        if (!iframe.dataset.gmpStyled) {
-          iframe.dataset.gmpStyled = '1';
-          iframe.addEventListener('load', () => style(iframe));
-        }
-      });
-    };
-    attach();
-    const mo = new MutationObserver(attach);
-    mo.observe(box, { childList: true, subtree: true });
-    const timer = setInterval(attach, 1000);
-    const stop = setTimeout(() => clearInterval(timer), 20000);
-    return () => {
-      mo.disconnect();
-      clearInterval(timer);
-      clearTimeout(stop);
-    };
-  }, []);
-
-  // Focus that tabs past either edge of the card (including out of the
-  // iframe) lands on a sentinel and is sent back to the close button.
+  // Focus that tabs past either edge of the card lands on a sentinel and is
+  // sent back to the close button.
   const trapFocus = () => closeRef.current?.focus({ preventScroll: true });
   const titleId = 'apws-modal-title';
 
@@ -250,15 +260,45 @@ function RegistrationModal({ open, onClose }) {
           after={m.headlineAfter}
         />
         <p className="apws-modal-intro">{m.intro}</p>
-        <div className="apws-ew-form">
-          <p className="apws-ew-loading" aria-hidden="true">{m.loading}</p>
-          <div
-            className="ew-wid"
-            data-wid={WORKSHOP.registration.widgetId}
-            data-loaded="no"
-            data-schloaded="no"
+        <form className="apws-form" onSubmit={onSubmit} noValidate>
+          <label htmlFor="apws-name" className="apws-sr-only">{f.nameLabel}</label>
+          <input
+            id="apws-name"
+            className="apws-input"
+            type="text"
+            name="first_name"
+            autoComplete="given-name"
+            placeholder={f.namePlaceholder}
+            value={name}
+            onChange={(e) => onField(setName, e.target.value)}
+            aria-invalid={error === f.errorName ? 'true' : undefined}
           />
-        </div>
+          <label htmlFor="apws-email" className="apws-sr-only">{f.emailLabel}</label>
+          <input
+            id="apws-email"
+            className="apws-input"
+            type="email"
+            name="email_address"
+            autoComplete="email"
+            inputMode="email"
+            placeholder={f.emailPlaceholder}
+            value={email}
+            onChange={(e) => onField(setEmail, e.target.value)}
+            aria-invalid={error === f.errorInvalid ? 'true' : undefined}
+            aria-describedby={error ? 'apws-form-error' : undefined}
+          />
+          {/* Bot trap: hidden from people, filled in by naive spam scripts. The name is
+              deliberately meaningless and the field is display:none so browser autofill
+              (which targets names like "company") never fills it for a real registrant. */}
+          <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apws-trap" />
+          <button type="submit" className="apws-submit" disabled={busy}>
+            {busy ? f.buttonBusy : f.button}
+            {!busy && <span aria-hidden="true">→</span>}
+          </button>
+        </form>
+        {error && (
+          <p id="apws-form-error" role="alert" className="apws-form-error">{error}</p>
+        )}
         <p className="apws-small-print">{m.smallPrint}</p>
       </div>
       <span tabIndex={open ? 0 : -1} className="apws-sentinel" onFocus={trapFocus} />
@@ -469,8 +509,6 @@ export default function AutopilotWorkshop() {
       </footer>
 
       <RegistrationModal open={modalOpen} onClose={closeModal} />
-      {/* EasyWebinar registration widget; loads after the page so it never slows it down. */}
-      <Script src={WORKSHOP.registration.scriptSrc} strategy="lazyOnload" />
     </div>
   );
 }

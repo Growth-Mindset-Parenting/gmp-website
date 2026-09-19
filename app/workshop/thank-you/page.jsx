@@ -1,6 +1,6 @@
 import AutopilotWorkshopThankYou from '../../../components/AutopilotWorkshopThankYou';
 
-// Where EasyWebinar sends people right after they register on /workshop/.
+// Where the /workshop/ signup form sends people right after they register.
 // Standalone: no site Nav/Footer. Copy lives in data/autopilot-workshop.js
 // (thankYou + event).
 export const metadata = {
