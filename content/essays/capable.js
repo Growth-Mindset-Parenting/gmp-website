@@ -165,7 +165,8 @@ export const CAPABLE_ESSAY = {
     ],
     ctaLead: 'The waitlist hears first, gets access to the free workshop.',
     ctaLabel: 'Join the Autopilot waitlist',
-    ctaHref: '/autopilot/',
+    // Tagged so waitlist joins from this page show up in the "GMP Link Tracker" sheet (UTM tab).
+    ctaHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=capable-essay',
     signoffByline: 'Growth Mindset Parenting · Austin, TX',
     colophon: 'From Growth Mindset Parenting — the same practices Sean used in room 201, now at the kitchen table. Built on educational research, fourteen years in middle school classrooms, and three boys at home.',
   },
