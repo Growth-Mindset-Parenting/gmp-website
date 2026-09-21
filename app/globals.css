@@ -2,16 +2,23 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* `overflow-x: hidden` turns html/body into scroll containers, which silently
+   breaks `position: sticky` on their children (the announcement bar scrolled
+   away instead of sticking). `clip` does the same horizontal trimming without
+   creating a scroll container. The `hidden` line stays first as a fallback for
+   browsers too old for `clip` (pre-Safari 16). */
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  overflow-x: clip;
   background: var(--paper, #faf9f7);
   color: var(--ink, #221f1b);
   font-family: var(--sans);

@@ -12,8 +12,12 @@ import '../styles/autopilot-waitlist.css';
 import '../styles/autopilot-workshop.css';
 import '../styles/autopilot-replay.css';
 import '../styles/autopilot-thank-you.css';
+import '../styles/site-banner.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import AttributionCapture from '../components/AttributionCapture';
+import SiteBanner from '../components/SiteBanner';
+import { BANNER, HIDDEN_PATHS } from '../data/site-banner';
+import { BANNER_COOKIE } from '../lib/analytics';
 import MetaPixel from '../components/MetaPixel';
 import TikTokPixel from '../components/TikTokPixel';
 import { Inter, Lora, Source_Serif_4 } from 'next/font/google';
@@ -70,11 +74,30 @@ export const metadata = {
   // verification: { google: 'YOUR_CODE_HERE' },
 };
 
+// Decides, before the page paints, whether this visitor sees the announcement
+// bar — so a dismissed banner (or a page that hides it) never flashes and
+// nothing on the page jumps. Kept tiny and dependency-free on purpose.
+const BANNER_SCRIPT = BANNER
+  ? `(function(){try{var h=document.documentElement;var p=location.pathname;
+if(p.slice(-1)!=='/')p+='/';
+var hide=${JSON.stringify(HIDDEN_PATHS)}.indexOf(p)>-1;
+if(!hide)hide=(document.cookie.split('; ').filter(function(c){return c.indexOf('${BANNER_COOKIE}=')===0;})[0]||'').split('=')[1]===encodeURIComponent('${BANNER.version}');
+if(hide)h.setAttribute('data-banner','hidden');}catch(e){}})();`
+  : null;
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`theme-terracotta ${inter.variable} ${lora.variable} ${sourceSerif4.variable}`}>
       <body>
+        {/* Must stay the first thing in <body>: the browser runs it while
+            parsing, before the banner below is painted. (A <script> in the
+            layout's <head>, or next/script's beforeInteractive, does not
+            reach the HTML in Next 14's App Router — checked, 2026-09-21.) */}
+        {BANNER_SCRIPT && (
+          <script dangerouslySetInnerHTML={{ __html: BANNER_SCRIPT }} />
+        )}
         <AttributionCapture />
+        <SiteBanner />
         {children}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
