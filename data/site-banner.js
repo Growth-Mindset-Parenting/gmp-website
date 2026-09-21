@@ -32,10 +32,10 @@ export const BANNERS = {
   waitlist: {
     // Bump this when the copy changes — a visitor who dismissed the old
     // banner sees the new one.
-    version: 'waitlist-2',
-    text: "Autopilot — a 5-week course built to help parents stop over-functioning and grow their kid's executive function.",
+    version: 'waitlist-3',
+    text: "Autopilot: a 5-week course, built to help parents stop over-functioning and develop their kid's executive function.",
     // Shorter line for phones, where the full sentence wraps to three lines.
-    textShort: 'Autopilot: stop over-functioning. A 5-week course.',
+    textShort: 'Stop over-functioning. Develop their executive function.',
     cta: 'Join the waitlist',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-waitlist',
   },
