@@ -16,14 +16,18 @@ and switches to the free workshop when that opens.
 > the dated workshop push, because an interruption needs a real deadline to
 > earn it. Tracked in the Ops Platform.
 
+The three switch points are on the launch plan board
+(`/dashboard/launch/plan`) alongside the bio-link switches, so the banner
+moves when everything else does.
+
 ## What it does
 
 | | |
 |---|---|
 | **Where** | Top of every page, sticky on desktop, scrolls away on phones |
 | **Not shown on** | `/autopilot/`, `/workshop/`, and the signup thank-you and replay pages |
-| **Dismissal** | Visitor can close it; stays closed 30 days, per banner version |
-| **Modes** | `waitlist` (live), `workshop`, `off` |
+| **Dismissal** | Visitor can close it; stays closed 3 days, per banner version (`DISMISS_DAYS`) |
+| **Modes** | `waitlist` (live), `workshop` (from Sep 30), `sales` (from Oct 7), `off` (after Oct 16) |
 
 ## Where the copy lives
 
@@ -89,5 +93,5 @@ time it runs.
 ## Still to do
 
 - The popup, for the workshop window only (filed in the Ops Platform).
-- Switch `MODE` to `'workshop'` when the workshop push begins, and back to
-  `'off'` once the cart closes.
+- Sep 30: `MODE = 'workshop'`. Oct 7: `MODE = 'sales'`. After the cart closes
+  Oct 16: `MODE = 'off'`. All three are on the launch plan board.

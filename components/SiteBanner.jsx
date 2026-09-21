@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BANNER, HIDDEN_PATHS } from '../data/site-banner';
+import { BANNER, DISMISS_DAYS, HIDDEN_PATHS } from '../data/site-banner';
 import { BANNER_COOKIE, trackPromotion } from '../lib/analytics';
 
 // Site-wide announcement bar. Copy and on/off live in data/site-banner.js.
@@ -62,7 +62,7 @@ export default function SiteBanner() {
 
   const dismiss = () => {
     try {
-      document.cookie = `${BANNER_COOKIE}=${encodeURIComponent(BANNER.version)}; max-age=${60 * 60 * 24 * 30}; path=/; samesite=lax`;
+      document.cookie = `${BANNER_COOKIE}=${encodeURIComponent(BANNER.version)}; max-age=${60 * 60 * 24 * DISMISS_DAYS}; path=/; samesite=lax`;
     } catch {
       // never block the click
     }

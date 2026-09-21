@@ -86,6 +86,18 @@ html[data-banner='hidden'] .gmp-banner {
   outline-offset: 2px;
 }
 
+/* Below this width the full sentence wraps to two lines, so the short line
+   takes over. Keep it in step with how long `text` is in data/site-banner.js:
+   lengthen that copy and this breakpoint has to come up with it. */
+@media (max-width: 900px) {
+  .gmp-banner-text {
+    display: none;
+  }
+  .gmp-banner-text-short {
+    display: inline;
+  }
+}
+
 @media (max-width: 720px) {
   .gmp-banner {
     /* A phone's viewport is short — a stuck bar eats too much of it, so on
@@ -94,11 +106,5 @@ html[data-banner='hidden'] .gmp-banner {
     position: relative;
     font-size: 13px;
     padding: 9px 40px 9px 16px;
-  }
-  .gmp-banner-text {
-    display: none;
-  }
-  .gmp-banner-text-short {
-    display: inline;
   }
 }
