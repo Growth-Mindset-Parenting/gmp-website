@@ -18,6 +18,22 @@ const cases = [
   [{ utm_content: 'link_in_bio', utm_source: 'linktree' }, 'bio'],
   [{ utm_content: 'banner', utm_source: 'website' }, 'banner'],
 
+  // Every row of the GMP Link Tracker sheet's UTM tab that can reach the
+  // waitlist, exactly as the sheet writes it.
+  [{ utm_source: 'instagram', utm_medium: 'dm', utm_campaign: 'freebie-collapsing-cruelty', utm_content: 'collapsing-cruelty-manychat' }, 'collapsing-cruelty'],
+  [{ utm_source: 'kit', utm_medium: 'email', utm_campaign: 'freebie-capable', utm_content: 'delivery-email' }, 'capable'],
+  [{ utm_source: 'kit', utm_medium: 'email', utm_campaign: 'freebie-five-minute-meeting', utm_content: 'delivery-email' }, 'script'],
+  [{ utm_source: 'kit', utm_medium: 'email', utm_campaign: 'freebie-collapsing-cruelty', utm_content: 'delivery-email' }, 'collapsing-cruelty'],
+  [{ utm_source: 'newsletter', utm_medium: 'email', utm_campaign: 'autopilot-waitlist', utm_content: 'forwarded' }, 'newsletter'],
+  [{ utm_source: 'instagram', utm_medium: 'story', utm_campaign: 'autopilot-waitlist', utm_content: 'story-2026-09-21' }, 'story'],
+  [{ utm_source: 'instagram', utm_medium: 'bio', utm_campaign: 'autopilot-waitlist', utm_content: 'ig-bio' }, 'bio'],
+  [{ utm_source: 'tiktok', utm_medium: 'bio', utm_campaign: 'autopilot-waitlist', utm_content: 'tiktok-bio' }, 'bio'],
+  [{ utm_source: 'website', utm_medium: 'banner', utm_campaign: 'autopilot-waitlist' }, 'banner'],
+  [{ utm_source: 'website', utm_medium: 'popup', utm_campaign: 'autopilot-sales' }, 'popup'],
+
+  // A freebie's DM link still wins over its campaign.
+  [{ utm_campaign: 'freebie-capable', utm_content: 'capable-manychat' }, 'capable'],
+
   // utm_content wins over the medium fallback.
   [{ utm_content: 'capable-manychat', utm_medium: 'email' }, 'capable'],
 
