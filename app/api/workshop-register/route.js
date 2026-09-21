@@ -24,6 +24,11 @@ const REGISTERED_TAG_ID = 23446662;
 // field comes in filled. Review and delete these subscribers in Kit.
 const POSSIBLE_SPAM_TAG_ID = 23448486;
 
+// Added when someone gives us a mobile number. Typing it into the field —
+// whose placeholder says "I'll text you a reminder" — is the opt-in, and
+// this tag is the record of who agreed. No texts are sent yet (2026-09-21).
+const SMS_OK_TAG_ID = 23797661;
+
 // Added when Zoom registration failed, so these people can be registered by
 // hand before the workshop. They have no join link yet.
 const ZOOM_FAILED_TAG_ID = 23752948;
@@ -33,6 +38,16 @@ const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', '
 const KIT_TIMEOUT_MS = 6000;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Stored in E.164 so a texting tool can use it later without cleanup.
+// Anything that isn't a plausible US mobile number is dropped rather than
+// stored wrong — the signup itself still goes through.
+function normalizePhone(value) {
+  const digits = String(value ?? '').replace(/\D/g, '');
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return null;
+}
 
 // Kit must never quietly lose a signup, so a first failure is retried once
 // before we give up on it.
@@ -66,7 +81,7 @@ async function subscribeInKit({ email, firstName, fields, tags }) {
 
 export async function POST(request) {
   try {
-    const { email, firstName, utms, company } = (await request.json()) ?? {};
+    const { email, firstName, phone, utms, company } = (await request.json()) ?? {};
     const trimmed = typeof email === 'string' ? email.trim() : '';
     const name = typeof firstName === 'string' ? firstName.trim().slice(0, 100) : '';
 
@@ -83,6 +98,8 @@ export async function POST(request) {
     }
 
     const fields = {};
+    const smsPhone = normalizePhone(phone);
+    if (smsPhone) fields.phone = smsPhone;
     if (utms && typeof utms === 'object') {
       for (const key of UTM_FIELDS) {
         if (typeof utms[key] === 'string' && utms[key]) fields[key] = utms[key].slice(0, 255);
@@ -98,6 +115,7 @@ export async function POST(request) {
     }
 
     const tags = [REGISTERED_TAG_ID];
+    if (smsPhone) tags.push(SMS_OK_TAG_ID);
     if (suspected) tags.push(POSSIBLE_SPAM_TAG_ID);
     if (!joinUrl) tags.push(ZOOM_FAILED_TAG_ID);
 

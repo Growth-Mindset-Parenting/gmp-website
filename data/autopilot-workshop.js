@@ -135,6 +135,7 @@ export const WORKSHOP = {
     headlineAfter: 'for them.',
     intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send your link for Wednesday, October 7 at 6pm Central (7pm Eastern). I'll remind you before we go live, too. You've got enough to remember.",
     smallPrint: "Come live and you'll get my free Sunday night meeting agenda.",
+    smsPrint: 'Reminders only, and only about this workshop. Msg & data rates may apply. Reply STOP any time.',
   },
 
   // The form inside the modal posts to /api/workshop-register/, which
@@ -145,10 +146,17 @@ export const WORKSHOP = {
     namePlaceholder: 'First name',
     emailLabel: 'Email address',
     emailPlaceholder: 'Email address',
+    // Optional. The placeholder carries the promise, so typing a number IS
+    // the opt-in (no separate tick box — Katie's call, 2026-09-21). The
+    // fine print under the form carries the rates/STOP notice the carriers
+    // want to see when we register a texting number.
+    phoneLabel: 'Mobile number, optional — for a reminder text',
+    phonePlaceholder: "Mobile number (optional) — I'll text you a reminder",
     button: 'Save my seat',
     buttonBusy: 'Saving your seat…',
     errorName: 'Pop your first name in so I know who I\u2019m talking to.',
     errorInvalid: 'That email doesn\u2019t look right. Mind checking it?',
+    errorPhone: 'That number looks short. Ten digits, or leave it blank.',
     errorServer: 'Something went wrong on my end. Try that once more?',
   },
 

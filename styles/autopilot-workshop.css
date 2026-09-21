@@ -709,6 +709,14 @@
 
 .apws-submit:disabled { cursor: default; }
 
+.apws-sms-print {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ink-mute);
+  text-align: center;
+  margin: 12px 0 0;
+}
+
 .apws-form-error {
   margin: 12px 0 0;
   font-weight: 600;

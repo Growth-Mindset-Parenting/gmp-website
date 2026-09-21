@@ -126,6 +126,13 @@ function Ticker({ phrases }) {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Phone is optional, so we only check that what they typed could be a US
+// mobile number: 10 digits, or 11 starting with 1.
+const phoneDigits = (value) => String(value).replace(/\D/g, '');
+const validPhone = (value) => {
+  const d = phoneDigits(value);
+  return d.length === 10 || (d.length === 11 && d.startsWith('1'));
+};
 const THANK_YOU = '/workshop/thank-you/';
 // Long enough for a slow phone network, short enough that the button never
 // sits on "Saving your seat…" forever.
@@ -138,6 +145,7 @@ function RegistrationModal({ open, onClose }) {
   const f = WORKSHOP.form;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -151,6 +159,7 @@ function RegistrationModal({ open, onClose }) {
     if (busy) return;
     const firstName = name.trim();
     const value = email.trim();
+    const phoneValue = phone.trim();
     const company = e.currentTarget.elements.hp_gmp_check?.value || '';
     if (!firstName) {
       setError(f.errorName);
@@ -160,13 +169,17 @@ function RegistrationModal({ open, onClose }) {
       setError(f.errorInvalid);
       return;
     }
+    if (phoneValue && !validPhone(phoneValue)) {
+      setError(f.errorPhone);
+      return;
+    }
     setBusy(true);
     setError('');
     try {
       const res = await fetch('/api/workshop-register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: value, firstName, utms: getAttribution(), company }),
+        body: JSON.stringify({ email: value, firstName, phone: phoneValue, utms: getAttribution(), company }),
         signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
@@ -287,6 +300,20 @@ function RegistrationModal({ open, onClose }) {
             aria-invalid={error === f.errorInvalid ? 'true' : undefined}
             aria-describedby={error ? 'apws-form-error' : undefined}
           />
+          <label htmlFor="apws-phone" className="apws-sr-only">{f.phoneLabel}</label>
+          <input
+            id="apws-phone"
+            className="apws-input"
+            type="tel"
+            name="phone"
+            autoComplete="tel"
+            inputMode="tel"
+            placeholder={f.phonePlaceholder}
+            value={phone}
+            onChange={(e) => onField(setPhone, e.target.value)}
+            aria-invalid={error === f.errorPhone ? 'true' : undefined}
+            aria-describedby="apws-sms-print"
+          />
           {/* Bot trap: hidden from people, filled in by naive spam scripts. The name is
               deliberately meaningless and the field is display:none so browser autofill
               (which targets names like "company") never fills it for a real registrant. */}
@@ -299,6 +326,7 @@ function RegistrationModal({ open, onClose }) {
         {error && (
           <p id="apws-form-error" role="alert" className="apws-form-error">{error}</p>
         )}
+        <p id="apws-sms-print" className="apws-sms-print">{m.smsPrint}</p>
         <p className="apws-small-print">{m.smallPrint}</p>
       </div>
       <span tabIndex={open ? 0 : -1} className="apws-sentinel" onFocus={trapFocus} />
