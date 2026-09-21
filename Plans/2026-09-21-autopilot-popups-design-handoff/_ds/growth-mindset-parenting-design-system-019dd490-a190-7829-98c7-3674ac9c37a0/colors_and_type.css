@@ -1,0 +1,381 @@
+/* ==========================================================================
+   Growth Mindset Parenting — colors & type foundations
+   --------------------------------------------------------------------------
+   Drop into any HTML and add a theme class to <body>:
+     <body class="theme-terracotta">  ← canonical
+   Other themes: theme-forest, theme-navy, theme-sage, theme-marigold.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+/* ── Type tokens (palette-agnostic) ───────────────────────────────────────── */
+:root {
+  /* Type families.
+     Inter is the workhorse — UI, headlines, body, and big display numerals.
+     Source Serif 4 is the long-form body face on essay pages.
+     Lora italic is the accent counter-voice — used for the one accent word
+     inside an h1/h2 and for inline italic key-phrases in body copy.
+     Cormorant Garamond was retired in v5 in favor of Lora. */
+  --serif-text:   "Source Serif 4", "Source Serif Pro", "Iowan Old Style", Georgia, serif; /* @kind font */
+  --serif-italic: "Lora", "Source Serif 4", "Iowan Old Style", Georgia, serif; /* @kind font */
+  --sans:         "Inter", "Helvetica Neue", Arial, sans-serif; /* @kind font */
+  --mono:       "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace; /* @kind font */
+
+  /* Semantic type sizes — call out as :root vars so any element can opt in. */
+  --t-display:  76px;   /* hero h1 */
+  --t-h1:       64px;
+  --t-h2:       48px;
+  --t-h3:       28px;
+  --t-h4:       22px;
+  --t-body-lg:  19px;   /* hero subtitle, essay body */
+  --t-body:     16px;
+  --t-small:    14px;
+  --t-tiny:     11px;   /* eyebrow */
+
+  /* Spacing rhythm */
+  --gutter:     56px;
+  --space-1:     8px;
+  --space-2:    16px;
+  --space-3:    24px;
+  --space-4:    32px;
+  --space-5:    56px;
+  --space-6:    80px;
+  --space-7:    96px;
+
+  /* Radii */
+  --r-xs:    4px;
+  --r-sm:    8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   24px;
+  --r-pill: 999px;
+
+  /* Borders */
+  --border-w: 1.5px;
+
+  /* Shadow */
+  --shadow-soft: 0 8px 32px rgba(0,0,0,0.10), 0 1px 0 rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 32px rgba(0,0,0,0.10);
+}
+
+/* ── Palette themes ───────────────────────────────────────────────────────── */
+/* I — Terracotta / Clay (canonical, Aesop-leaning, sun-baked) */
+.theme-terracotta {
+  --paper:  oklch(0.985 0.006 80);
+  --paper-2: oklch(0.955 0.014 70);
+  --paper-3: oklch(0.92 0.022 65);
+  --rule:   oklch(0.78 0.025 60);
+  --ink:           oklch(0.22 0.025 50);
+  --ink-charcoal:  oklch(0.30 0.005 250);
+  --ink-soft:      oklch(0.40 0.030 50);
+  --ink-mute:      oklch(0.55 0.025 55);
+  --accent:      oklch(0.58 0.16 40);
+  --accent-deep: oklch(0.42 0.13 38);
+  --accent-soft: oklch(0.92 0.045 60);
+}
+
+/* II — Forest / Olive (library-but-living) */
+.theme-forest {
+  --paper:  oklch(0.985 0.005 100);
+  --paper-2: oklch(0.95 0.015 110);
+  --paper-3: oklch(0.92 0.022 115);
+  --rule:   oklch(0.75 0.025 110);
+  --ink:           oklch(0.20 0.025 130);
+  --ink-charcoal:  oklch(0.30 0.005 250);
+  --ink-soft:      oklch(0.38 0.028 130);
+  --ink-mute:      oklch(0.54 0.022 125);
+  --accent:      oklch(0.42 0.085 145);
+  --accent-deep: oklch(0.30 0.065 145);
+  --accent-soft: oklch(0.90 0.040 130);
+}
+
+/* III — Navy + Cream (literary, calm, classic) */
+.theme-navy {
+  --paper:  oklch(0.982 0.005 90);
+  --paper-2: oklch(0.95 0.012 85);
+  --paper-3: oklch(0.91 0.020 80);
+  --rule:   oklch(0.78 0.018 80);
+  --ink:           oklch(0.20 0.030 250);
+  --ink-charcoal:  oklch(0.30 0.005 250);
+  --ink-soft:      oklch(0.38 0.035 250);
+  --ink-mute:      oklch(0.54 0.025 250);
+  --accent:      oklch(0.36 0.10 255);
+  --accent-deep: oklch(0.26 0.085 255);
+  --accent-soft: oklch(0.90 0.030 240);
+}
+
+/* IV — Sage / Dusty Teal (modern, considered) */
+.theme-sage {
+  --paper:  oklch(0.985 0.005 170);
+  --paper-2: oklch(0.95 0.013 175);
+  --paper-3: oklch(0.92 0.020 175);
+  --rule:   oklch(0.78 0.020 175);
+  --ink:           oklch(0.22 0.025 200);
+  --ink-charcoal:  oklch(0.30 0.005 250);
+  --ink-soft:      oklch(0.40 0.030 200);
+  --ink-mute:      oklch(0.55 0.022 195);
+  --accent:      oklch(0.50 0.075 195);
+  --accent-deep: oklch(0.36 0.060 200);
+  --accent-soft: oklch(0.90 0.035 180);
+}
+
+/* V — Neutral + Marigold (mostly quiet, one playful accent) */
+.theme-marigold {
+  --paper:  oklch(0.985 0.004 90);
+  --paper-2: oklch(0.95 0.008 85);
+  --paper-3: oklch(0.91 0.012 85);
+  --rule:   oklch(0.78 0.012 85);
+  --ink:           oklch(0.18 0.012 80);
+  --ink-charcoal:  oklch(0.30 0.005 250);
+  --ink-soft:      oklch(0.36 0.014 80);
+  --ink-mute:      oklch(0.54 0.012 80);
+  --accent:      oklch(0.72 0.155 75);
+  --accent-deep: oklch(0.55 0.135 65);
+  --accent-soft: oklch(0.92 0.060 90);
+}
+
+/* Card-fill swatches (shared across themes; subtle pastels) */
+:root {
+  --card-cream: oklch(0.95 0.012 80);
+  --card-blush: oklch(0.92 0.018 50);
+  --card-clay:  oklch(0.86 0.022 45);
+  --card-sage:  oklch(0.92 0.014 165);
+  --card-ink:   oklch(0.26 0.012 80);
+}
+
+/* ── Base & semantic styles ───────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+a { color: inherit; }
+
+h1, .h1 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: var(--t-display);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0 0 24px;
+  text-wrap: balance;
+}
+/* Italic accent for headlines — Lora italic, the editorial counter-voice
+   to Inter Bold. Weight 500 reads as a true italic without losing presence
+   at display sizes; letter-spacing pulled in slightly to match Inter's tight track. */
+h1 em, .h1 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  font-size: 1em;
+  letter-spacing: -0.005em;
+}
+
+h2, .h2 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: var(--t-h2);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+h2 em, .h2 em {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+h3, .h3 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: var(--t-h3);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+h4, .h4 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: var(--t-h4);
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+}
+
+p, .body {
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
+
+.body-essay {
+  font-family: var(--serif-text);
+  font-size: var(--t-body-lg);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* Inline accent within body copy — Inter Semibold key-phrase in terracotta.
+   Sits inside running serif body copy as a confident, hand-on-shoulder
+   emphasis. Distinct from the heading flourish (which is Lora italic). */
+p em, .body em, .body-essay em, .gmp-italic-accent {
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 1em;
+  line-height: inherit;
+  letter-spacing: -0.005em;
+}
+
+/* Editorial primitives lifted from shared.css */
+.gmp-eyebrow {
+  font-family: var(--sans);
+  font-size: var(--t-tiny);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+.gmp-eyebrow-italic {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  letter-spacing: -0.005em;
+  color: var(--accent);
+  display: inline-block;
+}
+
+.gmp-rule       { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+.gmp-rule-thin  { border: 0; border-top: 0.5px solid var(--rule); margin: 0; }
+
+.gmp-smallcaps  { font-variant: small-caps; letter-spacing: 0.06em; }
+
+.gmp-num {
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Display numeral — Lora italic at weight 700 to hold optical weight against
+   neighboring Inter 800 headlines, while reading as the editorial counter-voice. */
+.gmp-numeral {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 0.9;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+.gmp-dropcap::first-letter {
+  font-family: var(--sans);
+  font-weight: 800;
+  float: left;
+  font-size: 5.2em;
+  line-height: 0.86;
+  padding: 0.06em 0.12em 0 0;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+}
+
+/* Pills, chips, marks */
+.gmp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  border: var(--border-w) solid var(--ink);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13px;
+  background: var(--paper);
+}
+
+.gmp-stamp {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 6px 10px;
+  border-radius: var(--r-xs);
+}
+
+/* Buttons */
+.gmp-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 16px 24px;
+  border-radius: var(--r-pill);
+  border: var(--border-w) solid transparent;
+  transition: gap 0.18s, background 0.15s, color 0.15s, transform 0.18s;
+  cursor: pointer;
+}
+.gmp-btn-primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.gmp-btn-primary:hover { background: var(--accent); border-color: var(--accent); gap: 16px; }
+.gmp-btn-ghost   { color: var(--ink); border-color: var(--ink); background: transparent; }
+.gmp-btn-ghost:hover  { background: var(--ink); color: var(--paper); }
+.gmp-btn-link    { color: var(--ink); padding: 16px 0; }
+.gmp-btn-link:hover   { color: var(--accent); }
+
+/* Cards */
+.gmp-card {
+  display: flex; flex-direction: column;
+  padding: 28px;
+  border-radius: var(--r-lg);
+  border: var(--border-w) solid var(--ink);
+  background: var(--card-cream);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.gmp-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.gmp-card-blush { background: var(--card-blush); }
+.gmp-card-clay  { background: var(--card-clay); }
+.gmp-card-sage  { background: var(--card-sage); }
+.gmp-card-ink   { background: var(--card-ink); color: var(--paper); }
+
+/* ── Social / feed graphics ───────────────────────────────────────────────
+   For Pinterest pins AND Instagram posts/stories. Viewed as THUMBNAILS, so
+   type is deliberately ~3–5× the website scale. All canvases are ~1080px
+   wide, so these px values hold across every format below.
+   Opt in on a graphic root: <div class="gmp-social"> … </div>            */
+:root {
+  --social-hero:    104px;  /* the whole-graphic idea / hot take      */
+  --social-h1:       78px;  /* headline                               */
+  --social-h2:       64px;  /* secondary headline / Lora stat         */
+  --social-subhead:  44px;  /* framework name, section label          */
+  --social-list:     44px;  /* tip / step items (term bold)           */
+  --social-list-sub: 33px;  /* step descriptions                      */
+  --social-body:     34px;  /* context paragraph                      */
+  --social-source:   27px;  /* citation / caption                     */
+  --social-eyebrow:  22px;  /* uppercase tracked eyebrow              */
+  --social-foot:     23px;  /* footer URL                             */
+  --social-gutter:   84px;  /* edge padding (use 80–96)               */
+  --social-logo-h:   40px;  /* footer logo height                     */
+  --social-min:      28px;  /* HARD FLOOR — nothing smaller           */
+}
+
+.gmp-social { font-family: var(--sans); }
+.gmp-social .gmp-eyebrow { font-size: var(--social-eyebrow); letter-spacing: 0.20em; }

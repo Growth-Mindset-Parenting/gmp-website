@@ -1,0 +1,184 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "reference/**",
+              "ui_kits/website/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Lora|Source Serif 4|Inter|JetBrains Mono))/i]",
+        "message": "Font not provided by the design system. Available: Lora, Source Serif 4, Inter, JetBrains Mono."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {},
+    "tokens": [
+      "--accent",
+      "--accent-deep",
+      "--accent-soft",
+      "--border-w",
+      "--card-blush",
+      "--card-clay",
+      "--card-cream",
+      "--card-ink",
+      "--card-sage",
+      "--gutter",
+      "--ink",
+      "--ink-charcoal",
+      "--ink-mute",
+      "--ink-soft",
+      "--mono",
+      "--paper",
+      "--paper-2",
+      "--paper-3",
+      "--r-lg",
+      "--r-md",
+      "--r-pill",
+      "--r-sm",
+      "--r-xl",
+      "--r-xs",
+      "--rule",
+      "--sans",
+      "--serif-italic",
+      "--serif-text",
+      "--shadow-hover",
+      "--shadow-soft",
+      "--social-body",
+      "--social-eyebrow",
+      "--social-foot",
+      "--social-gutter",
+      "--social-h1",
+      "--social-h2",
+      "--social-hero",
+      "--social-list",
+      "--social-list-sub",
+      "--social-logo-h",
+      "--social-min",
+      "--social-source",
+      "--social-subhead",
+      "--space-1",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--t-body",
+      "--t-body-lg",
+      "--t-display",
+      "--t-h1",
+      "--t-h2",
+      "--t-h3",
+      "--t-h4",
+      "--t-small",
+      "--t-tiny"
+    ],
+    "tokenKinds": {
+      "--serif-text": "font",
+      "--serif-italic": "font",
+      "--sans": "font",
+      "--mono": "font",
+      "--t-display": "spacing",
+      "--t-h1": "spacing",
+      "--t-h2": "spacing",
+      "--t-h3": "spacing",
+      "--t-h4": "spacing",
+      "--t-body-lg": "spacing",
+      "--t-body": "spacing",
+      "--t-small": "spacing",
+      "--t-tiny": "spacing",
+      "--gutter": "spacing",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--r-xs": "spacing",
+      "--r-sm": "spacing",
+      "--r-md": "spacing",
+      "--r-lg": "spacing",
+      "--r-xl": "spacing",
+      "--r-pill": "spacing",
+      "--border-w": "spacing",
+      "--shadow-soft": "shadow",
+      "--shadow-hover": "shadow",
+      "--paper": "color",
+      "--paper-2": "color",
+      "--paper-3": "color",
+      "--rule": "color",
+      "--ink": "color",
+      "--ink-charcoal": "color",
+      "--ink-soft": "color",
+      "--ink-mute": "color",
+      "--accent": "color",
+      "--accent-deep": "color",
+      "--accent-soft": "color",
+      "--card-cream": "color",
+      "--card-blush": "color",
+      "--card-clay": "color",
+      "--card-sage": "color",
+      "--card-ink": "color",
+      "--social-hero": "spacing",
+      "--social-h1": "spacing",
+      "--social-h2": "spacing",
+      "--social-subhead": "spacing",
+      "--social-list": "spacing",
+      "--social-list-sub": "spacing",
+      "--social-body": "spacing",
+      "--social-source": "spacing",
+      "--social-eyebrow": "spacing",
+      "--social-foot": "spacing",
+      "--social-gutter": "spacing",
+      "--social-logo-h": "spacing",
+      "--social-min": "spacing"
+    },
+    "fontFamilies": [
+      "Inter",
+      "JetBrains Mono",
+      "Lora",
+      "Source Serif 4"
+    ]
+  }
+}
