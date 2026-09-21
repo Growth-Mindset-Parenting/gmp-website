@@ -13,9 +13,11 @@ import '../styles/autopilot-workshop.css';
 import '../styles/autopilot-replay.css';
 import '../styles/autopilot-thank-you.css';
 import '../styles/site-banner.css';
+import '../styles/site-popup.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import AttributionCapture from '../components/AttributionCapture';
 import SiteBanner from '../components/SiteBanner';
+import SitePopup from '../components/SitePopup';
 import { BANNER, HIDDEN_PATHS } from '../data/site-banner';
 import { BANNER_COOKIE } from '../lib/analytics';
 import MetaPixel from '../components/MetaPixel';
@@ -98,6 +100,7 @@ export default function RootLayout({ children }) {
         )}
         <AttributionCapture />
         <SiteBanner />
+        <SitePopup />
         {children}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />

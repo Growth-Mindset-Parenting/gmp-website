@@ -1,0 +1,346 @@
+/* Site-wide promotional popup. Copy/dates: data/site-popup.js
+   Built from Plans/2026-09-21-autopilot-popups-design-handoff/.
+
+   Two variants share every measurement and differ only in colour:
+     .gmp-popup-paper — cream card, 3px ink border  (the workshop popup)
+     .gmp-popup-ink   — near-black card, no border  (the sales popup)
+
+   Brand guidance is no fades or slide-ins, so nothing animates on open
+   except the scrim. */
+
+.gmp-popup-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(43, 35, 29, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* So the dialog never touches the edge of a small laptop screen. */
+  padding: 32px;
+  animation: gmp-popup-scrim-in 0.15s ease-out;
+}
+
+@keyframes gmp-popup-scrim-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gmp-popup-scrim { animation: none; }
+}
+
+.gmp-popup {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 580px;
+  max-width: 100%;
+  border-radius: 24px;
+  padding: 44px 48px 40px;
+  font-family: var(--sans);
+}
+
+.gmp-popup:focus {
+  outline: none;
+}
+
+.gmp-popup-paper {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  color: var(--ink);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+}
+
+.gmp-popup-ink {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+}
+
+/* --- close button ------------------------------------------------------- */
+
+.gmp-popup-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.gmp-popup-paper .gmp-popup-close {
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+.gmp-popup-paper .gmp-popup-close:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.gmp-popup-ink .gmp-popup-close {
+  border: 1.5px solid var(--paper);
+  color: var(--paper);
+}
+.gmp-popup-ink .gmp-popup-close:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* --- content ------------------------------------------------------------ */
+
+.gmp-popup-content {
+  position: relative; /* keeps the content above the aeroplane */
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gmp-popup-content > * {
+  margin: 0;
+}
+
+.gmp-popup-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+.gmp-popup-paper .gmp-popup-eyebrow { color: var(--ink-soft); }
+.gmp-popup-ink .gmp-popup-eyebrow { color: var(--paper-3); }
+
+.gmp-popup-dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.gmp-popup-title {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  max-width: 440px;
+}
+.gmp-popup-paper .gmp-popup-title { font-size: 44px; }
+
+/* The sales popup's title is the single word "Autopilot", set huge. */
+.gmp-popup-ink .gmp-popup-title {
+  font-size: 92px;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  margin-left: -4px;
+}
+
+.gmp-popup-title em {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.gmp-popup-body {
+  font-family: var(--serif-text);
+  max-width: 440px;
+}
+.gmp-popup-paper .gmp-popup-body {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.gmp-popup-ink .gmp-popup-body {
+  font-size: 20px;
+  line-height: 1.45;
+  max-width: 450px;
+  color: var(--paper-3);
+}
+
+.gmp-popup-body em {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+/* The accent is lifted on the dark card so it stays readable. */
+.gmp-popup-ink .gmp-popup-body em { color: oklch(0.78 0.13 45); }
+
+/* --- buttons ------------------------------------------------------------ */
+
+.gmp-popup-cta-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.gmp-popup-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 17px;
+  text-decoration: none;
+  transition: gap 0.2s, background 0.2s, color 0.2s;
+}
+/* The arrow steps away from the words on hover. */
+.gmp-popup-cta:hover { gap: 16px; }
+
+.gmp-popup-paper .gmp-popup-cta {
+  background: var(--ink);
+  color: var(--paper);
+}
+.gmp-popup-paper .gmp-popup-cta:hover { background: var(--accent); }
+
+.gmp-popup-ink .gmp-popup-cta {
+  background: var(--accent);
+  color: var(--paper);
+}
+.gmp-popup-ink .gmp-popup-cta:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.gmp-popup-dismiss {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s, opacity 0.2s;
+}
+.gmp-popup-paper .gmp-popup-dismiss { color: var(--ink-mute); }
+.gmp-popup-paper .gmp-popup-dismiss:hover { color: var(--accent); }
+
+.gmp-popup-ink .gmp-popup-dismiss {
+  color: var(--paper-3);
+  opacity: 0.85;
+}
+.gmp-popup-ink .gmp-popup-dismiss:hover {
+  color: var(--paper);
+  opacity: 1;
+}
+
+.gmp-popup-cta:focus-visible,
+.gmp-popup-dismiss:focus-visible,
+.gmp-popup-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* --- paper aeroplane ---------------------------------------------------- */
+
+.gmp-popup-plane {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Only the drawing built for this width is shown; see PaperPlane.jsx. */
+.gmp-popup-plane-narrow { display: none; }
+
+/* Offsets measured off the design file's own artboards, dialog corner to SVG
+   corner — not read off the spec text, which still describes an older
+   placement. */
+.gmp-popup-paper .gmp-popup-plane-wide {
+  left: -106px;
+  top: 107px;
+  width: 672px;
+  height: 296px;
+}
+.gmp-popup-ink .gmp-popup-plane-wide {
+  left: -63px;
+  top: 90px;
+  width: 661px;
+  height: 272px;
+}
+
+/* --- mobile: bottom sheet ----------------------------------------------- */
+
+@media (max-width: 480px) {
+  .gmp-popup-scrim {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .gmp-popup {
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+    padding: 36px 28px 44px;
+    box-shadow: none;
+  }
+
+  .gmp-popup-paper {
+    border-bottom: none;
+  }
+
+  .gmp-popup-content { gap: 16px; }
+
+  .gmp-popup-close {
+    top: 12px;
+    right: 12px;
+  }
+
+  .gmp-popup-paper .gmp-popup-title {
+    font-size: 34px;
+    max-width: 280px;
+  }
+  .gmp-popup-ink .gmp-popup-title {
+    font-size: 68px;
+    margin-left: -3px;
+  }
+
+  .gmp-popup-paper .gmp-popup-body,
+  .gmp-popup-ink .gmp-popup-body {
+    font-size: 17px;
+  }
+
+  .gmp-popup-cta-block { align-items: stretch; }
+
+  .gmp-popup-cta {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .gmp-popup-dismiss {
+    text-align: center;
+    padding: 8px; /* a real tap target */
+  }
+
+  .gmp-popup-plane-wide { display: none; }
+  .gmp-popup-plane-narrow { display: block; }
+
+  .gmp-popup-paper .gmp-popup-plane-narrow {
+    left: -137px;
+    top: 343px;
+    width: 568px;
+    height: 91px;
+  }
+  .gmp-popup-ink .gmp-popup-plane-narrow {
+    left: -109px;
+    top: 308px;
+    width: 522px;
+    height: 78px;
+  }
+}
