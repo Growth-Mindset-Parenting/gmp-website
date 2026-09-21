@@ -90,7 +90,13 @@ html[data-banner='hidden'] .gmp-banner {
    takes over. Keep it in step with how long `text` is in data/site-banner.js:
    lengthen that copy and this breakpoint has to come up with it. */
 @media (max-width: 1000px) {
-  .gmp-banner-text {
+  /* Below here a full sentence wraps, so the bar gets taller. Tighten the
+     type and padding to keep two lines from dominating a tablet screen. */
+  .gmp-banner {
+    font-size: 13px;
+    padding: 8px 40px 8px 16px;
+  }
+  .gmp-banner:not(.gmp-banner-single) .gmp-banner-text {
     display: none;
   }
   .gmp-banner-text-short {

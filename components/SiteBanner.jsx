@@ -71,14 +71,19 @@ export default function SiteBanner() {
   };
 
   return (
-    <aside className="gmp-banner" aria-label="Announcement">
+    <aside
+      className={`gmp-banner${BANNER.textShort ? '' : ' gmp-banner-single'}`}
+      aria-label="Announcement"
+    >
       <Link
         href={BANNER.href}
         className="gmp-banner-link"
         onClick={() => trackPromotion('select_promotion', BANNER)}
       >
         <span className="gmp-banner-text">{BANNER.text}</span>
-        <span className="gmp-banner-text-short">{BANNER.textShort}</span>
+        {BANNER.textShort && (
+          <span className="gmp-banner-text-short">{BANNER.textShort}</span>
+        )}
         <span className="gmp-banner-cta">
           {BANNER.cta} <span aria-hidden="true">&rarr;</span>
         </span>

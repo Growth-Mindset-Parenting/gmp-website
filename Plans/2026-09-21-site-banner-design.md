@@ -25,6 +25,7 @@ moves when everything else does.
 | | |
 |---|---|
 | **Where** | Top of every page, sticky on desktop, scrolls away on phones |
+| **Phone copy** | `textShort` is optional. A mode only gets one when a shorter line says the same thing (a date). The waitlist mode has none — every short line that still named Autopilot measured the same height as the full sentence, and the ones that fit were too vague to say what the waitlist was for. |
 | **Not shown on** | `/autopilot/`, `/workshop/`, and the signup thank-you and replay pages |
 | **Dismissal** | Visitor can close it; stays closed 3 days, per banner version (`DISMISS_DAYS`) |
 | **Modes** | `waitlist` (live), `workshop` (from Sep 30), `sales` (from Oct 7), `off` (after Oct 16) |

@@ -2,6 +2,11 @@
 // on/off switch live here, so changing what the banner says is a content
 // change, not a rebuild.
 //
+// `textShort` is optional. Give a mode one only when a genuinely shorter line
+// says the same thing — a date, say. A mode without one shows `text` at every
+// width. A phone reader who sees only the banner line and its button has to
+// come away knowing what they would be signing up for.
+//
 // The bar follows the launch: waitlist now, then the free workshop from
 // Sep 30, then the sales page once doors open on Oct 7, then off after the
 // cart closes Oct 16. Switching is one line — change MODE.
@@ -34,8 +39,10 @@ export const BANNERS = {
     // banner sees the new one.
     version: 'waitlist-3',
     text: "Autopilot: a 5-week course, built to help parents stop over-functioning and develop their kid's executive function.",
-    // Shorter line for phones, where the full sentence wraps to three lines.
-    textShort: 'Stop over-functioning. Develop their executive function.',
+    // No phone variant on purpose. Any short line that still named Autopilot
+    // and said what it is came out the same height as the full sentence
+    // anyway (measured at 360/390/430px), and the ones that fit were too
+    // vague to tell a phone reader what the waitlist is for.
     cta: 'Join the waitlist',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-waitlist',
   },
