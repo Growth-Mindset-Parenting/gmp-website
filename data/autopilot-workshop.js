@@ -159,6 +159,25 @@ export const WORKSHOP = {
     endUtc: '2026-10-08T00:00:00Z',
     calendarTitle: 'Autopilot free live workshop with Sean Kane',
     calendarDescription: 'Show up live and get the Sunday meeting agenda.',
+
+    // Zoom dial-in, for anyone joining by phone instead of a screen. The
+    // meeting ID and passcode are the same for everybody — only the join
+    // link is personal — so they are safe to put in a calendar event.
+    // Copied from Zoom's own confirmation email for meeting 893 4057 9247;
+    // re-copy them if the meeting is ever recreated.
+    meetingId: '893 4057 9247',
+    passcode: '685774',
+    oneTapMobile: [
+      '+16469313860,,89340579247#,,,,*685774#',
+      '+13017158592,,89340579247#,,,,*685774#',
+    ],
+    dialInNumbers: [
+      '+1 646 931 3860', '+1 301 715 8592', '+1 305 224 1968', '+1 309 205 3325',
+      '+1 312 626 6799', '+1 646 558 8656', '+1 386 347 5053', '+1 507 473 4847',
+      '+1 564 217 2000', '+1 669 444 9171', '+1 669 900 6833', '+1 689 278 1000',
+      '+1 719 359 4580', '+1 253 205 0468', '+1 253 215 8782', '+1 346 248 7799',
+      '+1 360 209 5623',
+    ],
   },
 
   // Thank-you page (/workshop/thank-you/).
