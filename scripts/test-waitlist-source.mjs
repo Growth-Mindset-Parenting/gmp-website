@@ -1,4 +1,6 @@
 // Checks the waitlist source mapping. Run: node scripts/test-waitlist-source.mjs
+// Needs Node >= 22.7 (it imports a .js file from a package with no
+// "type": "module", which older Node will not read as a module).
 import { waitlistSourceKey, WL_FROM_TAGS } from '../lib/waitlist-source.js';
 
 const cases = [
@@ -36,6 +38,12 @@ const cases = [
 
   // Junk must not throw.
   [{ utm_content: 42, utm_medium: null }, 'other'],
+  [null, 'other'],
+
+  // Values that exist on every object must not be mistaken for a source.
+  [{ utm_content: 'constructor' }, 'other'],
+  [{ utm_content: '__proto__' }, 'other'],
+  [{ utm_medium: 'tostring' }, 'other'],
 ];
 
 let failed = 0;
