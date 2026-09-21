@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { waitlistSourceTagId } from '../../../lib/waitlist-source';
 
 const KIT_API_SECRET = process.env.KIT_API_SECRET;
 
@@ -53,10 +54,19 @@ export async function POST(request) {
       }
     }
 
+    // Alongside the waitlist tag, record which entry point sent them, so each
+    // freebie flow's contribution is countable. Never replaces waitlist.tagId.
+    const tags = [waitlist.tagId];
+    if (list === 'autopilot') {
+      const sourceTagId = waitlistSourceTagId(fields);
+      if (sourceTagId) tags.push(sourceTagId);
+    }
+    if (suspected) tags.push(POSSIBLE_SPAM_TAG_ID);
+
     const body = {
       api_secret: KIT_API_SECRET,
       email: trimmed,
-      tags: suspected ? [waitlist.tagId, POSSIBLE_SPAM_TAG_ID] : [waitlist.tagId],
+      tags,
     };
     if (name) body.first_name = name;
     if (Object.keys(fields).length) body.fields = fields;
