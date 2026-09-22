@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { AUTOPILOT_BANNER } from '../../../../content/essays/autopilot-banner';
 import { CAPABLE_ESSAY } from '../../../../content/essays/capable';
 import { COLLAPSING_CRUELTY_ESSAY } from '../../../../content/essays/collapsing-cruelty';
 import { FIVE_MINUTE_MEETING_ESSAY } from '../../../../content/essays/five-minute-meeting';
@@ -183,24 +184,14 @@ export default function EssayPage({ params }) {
               {e.inside.map((t) => <li key={t}>{t}</li>)}
             </ul>
           )}
-          {!e.topBanner && e.showTopCta !== false && (
-            <div className="es-top-cta">
-              <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
-                {n.ctaLabel} <span aria-hidden="true">→</span>
-              </a>
-              <p>{e.topCtaNote}</p>
-            </div>
-          )}
           <Author byline={e.byline} />
-          {e.topBanner && (
-            <div className="es-top-cta es-top-banner">
-              <a href={n.ctaHref}>
-                <picture>
-                  <source media="(max-width: 640px)" srcSet={e.topBanner.mobileSrc} width="750" height="640" />
-                  <img src={e.topBanner.src} alt={e.topBanner.alt} width="1200" height="280" />
-                </picture>
-              </a>
-            </div>
+          {e.bannerHref && (
+            <a href={e.bannerHref} className="es-top-banner">
+              <picture>
+                <source media="(max-width: 640px)" srcSet={AUTOPILOT_BANNER.mobileSrc} width="750" height="640" />
+                <img src={AUTOPILOT_BANNER.src} alt={AUTOPILOT_BANNER.alt} width="1200" height="280" />
+              </picture>
+            </a>
           )}
         </div>
       </header>

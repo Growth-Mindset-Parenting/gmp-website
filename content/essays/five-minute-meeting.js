@@ -16,7 +16,7 @@ export const FIVE_MINUTE_MEETING_ESSAY = {
   titleLead: 'The five minute',
   titleItalic: 'meeting',
   dek: 'A simple, repeatable conversation that helps your kid build executive function, without taking over their afternoon.',
-  topCtaNote: 'Kids don’t learn executive function by being reminded. They learn it by succeeding inside good systems. Autopilot is my five-week course on building those systems at home. Launches in October. The waitlist hears first.',
+  bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=five-minute-meeting-essay-banner',
   inside: [
     'Why struggle is how executive function gets built',
     'The three questions, in order',

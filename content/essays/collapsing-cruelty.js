@@ -15,12 +15,7 @@ export const COLLAPSING_CRUELTY_ESSAY = {
   titleLead: 'Collapsing',
   titleItalic: 'cruelty',
   dek: 'How parents can disrupt the function inside sibling cruelty and conflict.',
-  topBanner: {
-    src: '/images/autopilot-banner-2x.png',
-    mobileSrc: '/images/autopilot-banner-mobile-3x.png',
-    alt: 'Autopilot: a 5 week course built to help parents stop overfunctioning and develop their kids\' executive functioning. Join the waitlist.',
-  },
-  topCtaNote: 'Kids don’t learn executive function by being reminded. They learn it by succeeding inside good systems. Autopilot is my five-week course on building those systems at home. Launches in October. The waitlist hears first.',
+  bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=collapsing-cruelty-essay-banner',
   inside: [
     'Why cruelty is rewarding, and why that reward can be collapsed',
     'How to interrupt, separate and follow through without escalating',

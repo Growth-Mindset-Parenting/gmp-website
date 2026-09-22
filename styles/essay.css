@@ -132,27 +132,15 @@
   font-weight: 400;
 }
 
-/* ── Top waitlist button ──────────────────────────────── */
-.es-top-cta {
-  margin: 0 0 28px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--rule);
-}
+/* ── Autopilot banner (under the byline) ───────────────── */
 .es-top-banner {
+  display: block;
   margin: 28px 0 0;
-  padding: 0;
-  border-bottom: 0;
 }
-.es-top-banner a { display: block; }
 .es-top-banner img {
   display: block;
   width: 100%;
   height: auto;
-}
-.essay .es-top-cta p {
-  margin: 12px 0 0;
-  font: 400 14px/1.5 var(--sans);
-  color: var(--ink-mute);
 }
 
 /* ── Author ───────────────────────────────────────────── */

@@ -17,7 +17,7 @@ export const CAPABLE_ESSAY = {
   titleLead: 'My kid is capable, so why am I still',
   titleItalic: 'doing everything?',
   dek: 'Our kids are smart, funny, and increasingly independent. And yet they are driving us to burnout. Here’s the problem hiding inside this phase, and one thing to look at differently this week.',
-  topCtaNote: 'Kids don’t learn executive function by being reminded. They learn it by succeeding inside good systems. Autopilot is my five-week course on building those systems at home. Launches in October. The waitlist hears first.',
+  bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=capable-essay-banner',
   byline: 'Growth Mindset Parenting · Fourteen years in middle school classrooms · Three boys at home',
   metaTitle: 'My Kid Is Capable, So Why Am I Still Doing Everything?',
   metaDescription: 'An essay by Sean Kane for parents of middle schoolers: why capable kids still depend on you for everything, and one thing to look at differently this week.',

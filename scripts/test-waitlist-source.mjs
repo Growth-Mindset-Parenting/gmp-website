@@ -15,6 +15,9 @@ const cases = [
   [{ utm_content: 'capable-essay', utm_medium: 'essay' }, 'essay-capable'],
   [{ utm_content: 'five-minute-meeting-essay' }, 'essay-five-minute-meeting'],
   [{ utm_content: 'collapsing-cruelty-essay' }, 'essay-collapsing-cruelty'],
+  [{ utm_source: 'website', utm_medium: 'essay', utm_campaign: 'autopilot-waitlist', utm_content: 'capable-essay-banner' }, 'essay-capable'],
+  [{ utm_source: 'website', utm_medium: 'essay', utm_campaign: 'autopilot-waitlist', utm_content: 'five-minute-meeting-essay-banner' }, 'essay-five-minute-meeting'],
+  [{ utm_source: 'website', utm_medium: 'essay', utm_campaign: 'autopilot-waitlist', utm_content: 'collapsing-cruelty-essay-banner' }, 'essay-collapsing-cruelty'],
   [{ utm_content: 'link_in_bio', utm_source: 'linktree' }, 'bio'],
   [{ utm_content: 'banner', utm_source: 'website' }, 'banner'],
 
