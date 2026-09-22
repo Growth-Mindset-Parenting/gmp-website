@@ -186,7 +186,10 @@ export default function EssayPage({ params }) {
           {e.topBanner && (
             <div className="es-top-cta es-top-banner">
               <a href={n.ctaHref}>
-                <img src={e.topBanner.src} alt={e.topBanner.alt} width="1200" height="280" />
+                <picture>
+                  <source media="(max-width: 640px)" srcSet={e.topBanner.mobileSrc} width="750" height="640" />
+                  <img src={e.topBanner.src} alt={e.topBanner.alt} width="1200" height="280" />
+                </picture>
               </a>
             </div>
           )}
