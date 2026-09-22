@@ -138,6 +138,12 @@
   padding-bottom: 28px;
   border-bottom: 1px solid var(--rule);
 }
+.es-top-banner a { display: block; }
+.es-top-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .essay .es-top-cta p {
   margin: 12px 0 0;
   font: 400 14px/1.5 var(--sans);

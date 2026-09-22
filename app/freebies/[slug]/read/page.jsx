@@ -183,7 +183,14 @@ export default function EssayPage({ params }) {
               {e.inside.map((t) => <li key={t}>{t}</li>)}
             </ul>
           )}
-          {e.showTopCta !== false && (
+          {e.topBanner && (
+            <div className="es-top-cta es-top-banner">
+              <a href={n.ctaHref}>
+                <img src={e.topBanner.src} alt={e.topBanner.alt} width="1200" height="280" />
+              </a>
+            </div>
+          )}
+          {!e.topBanner && e.showTopCta !== false && (
             <div className="es-top-cta">
               <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
                 {n.ctaLabel} <span aria-hidden="true">→</span>
