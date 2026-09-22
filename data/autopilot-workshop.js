@@ -64,10 +64,10 @@ export const WORKSHOP = {
   },
 
   testimonials: {
-    eyebrow: 'What other parents are saying',
-    headline: 'It finally',
-    headlineAccent: 'made sense.',
-    intro: 'What parents (and a few therapists) wrote after watching the videos.',
+    eyebrow: 'What parents are saying',
+    headline: 'Real changes,',
+    headlineAccent: 'in real houses.',
+    intro: 'More than 350,000 parents follow Sean for what 14 years of teaching middle schoolers taught him: how to get kids to do hard things on their own. Here’s what happened when they tried it at home.',
     // Instagram comments, verbatim. Likes as shown in the design handoff.
     comments: [
       { handle: 'amra_blesing', likes: 13, text: "My son just started first year of middle school. And I don't know what would have happened if I didn't have your videos. Thanks (and from him as well) :)." },
