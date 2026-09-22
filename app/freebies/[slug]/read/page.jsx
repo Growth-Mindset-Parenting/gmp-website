@@ -183,6 +183,15 @@ export default function EssayPage({ params }) {
               {e.inside.map((t) => <li key={t}>{t}</li>)}
             </ul>
           )}
+          {!e.topBanner && e.showTopCta !== false && (
+            <div className="es-top-cta">
+              <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
+                {n.ctaLabel} <span aria-hidden="true">→</span>
+              </a>
+              <p>{e.topCtaNote}</p>
+            </div>
+          )}
+          <Author byline={e.byline} />
           {e.topBanner && (
             <div className="es-top-cta es-top-banner">
               <a href={n.ctaHref}>
@@ -193,15 +202,6 @@ export default function EssayPage({ params }) {
               </a>
             </div>
           )}
-          {!e.topBanner && e.showTopCta !== false && (
-            <div className="es-top-cta">
-              <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
-                {n.ctaLabel} <span aria-hidden="true">→</span>
-              </a>
-              <p>{e.topCtaNote}</p>
-            </div>
-          )}
-          <Author byline={e.byline} />
         </div>
       </header>
 

@@ -138,6 +138,11 @@
   padding-bottom: 28px;
   border-bottom: 1px solid var(--rule);
 }
+.es-top-banner {
+  margin: 28px 0 0;
+  padding: 0;
+  border-bottom: 0;
+}
 .es-top-banner a { display: block; }
 .es-top-banner img {
   display: block;
