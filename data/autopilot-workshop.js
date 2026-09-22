@@ -65,9 +65,9 @@ export const WORKSHOP = {
 
   testimonials: {
     eyebrow: 'What other parents are saying',
-    headline: 'Straight from the comments,',
-    headlineAccent: 'no editing.',
-    intro: 'Parents, teachers and therapists who found the videos first. Pulled from Instagram, spelling and all.',
+    headline: 'It finally',
+    headlineAccent: 'made sense.',
+    intro: 'What parents (and a few therapists) wrote after watching the videos.',
     // Instagram comments, verbatim. Likes as shown in the design handoff.
     comments: [
       { handle: 'amra_blesing', likes: 13, text: "My son just started first year of middle school. And I don't know what would have happened if I didn't have your videos. Thanks (and from him as well) :)." },
