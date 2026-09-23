@@ -127,6 +127,7 @@ export const FREEBIES = {
     slug: 'six-middle-skills',
     kitFormId: '9544138', // was 'field-guide' in the old (never-deployed) subscribe route
     pdfUrl: '/downloads/six-middle-skills-field-guide.pdf',
+    readUrl: '/freebies/six-middle-skills/read/', // shown in the "You're in" popup
     title: 'The Six Middle Skills',
     heroHeadline: 'The skills that turn a kid into an adult.',
     heroHeadlineItalic: 'adult',

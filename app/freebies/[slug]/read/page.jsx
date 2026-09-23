@@ -4,6 +4,7 @@ import { AUTOPILOT_BANNER } from '../../../../content/essays/autopilot-banner';
 import { CAPABLE_ESSAY } from '../../../../content/essays/capable';
 import { COLLAPSING_CRUELTY_ESSAY } from '../../../../content/essays/collapsing-cruelty';
 import { FIVE_MINUTE_MEETING_ESSAY } from '../../../../content/essays/five-minute-meeting';
+import { SIX_MIDDLE_SKILLS_ESSAY } from '../../../../content/essays/six-middle-skills';
 import '../../../../styles/essay.css';
 
 // Web versions of freebie essays, keyed by the freebie slug.
@@ -12,6 +13,7 @@ const ESSAYS = {
   capable: CAPABLE_ESSAY,
   'collapsing-cruelty': COLLAPSING_CRUELTY_ESSAY,
   'five-minute-meeting': FIVE_MINUTE_MEETING_ESSAY,
+  'six-middle-skills': SIX_MIDDLE_SKILLS_ESSAY,
 };
 
 // Only the slugs above get a /read/ page; anything else 404s.
@@ -102,6 +104,18 @@ function Block({ b }) {
           ))}
         </div>
       );
+    case 'before':
+      return (
+        <ul className="es-before">
+          {b.items.map((t) => <li key={t}>{inline(t)}</li>)}
+        </ul>
+      );
+    case 'checks':
+      return (
+        <ul className="es-checks">
+          {b.items.map((t) => <li key={t}>{inline(t)}</li>)}
+        </ul>
+      );
     case 'followup':
       return (
         <ol className="es-followup">
@@ -114,11 +128,11 @@ function Block({ b }) {
 }
 
 function Heading({ s }) {
-  if (!s.headingLead) return null;
+  if (!s.headingLead && !s.headingItalic) return null;
   return (
     <h2 className="es-h2">
       {s.headingLead}
-      {s.headingBreak ? <br /> : ' '}
+      {s.headingLead && (s.headingBreak ? <br /> : ' ')}
       <em>{s.headingItalic}</em>
       {s.headingTail ? ` ${s.headingTail}` : ''}
     </h2>
@@ -129,10 +143,12 @@ function Section({ s, className = '' }) {
   return (
     <section className={`es-section ${className}`}>
       <div className="es-wrap">
-        <p className="es-label">
-          <span className="es-num">{s.num}</span>
-          {s.label}
-        </p>
+        {s.label && (
+          <p className="es-label">
+            <span className="es-num">{s.num}</span>
+            {s.label}
+          </p>
+        )}
         <Heading s={s} />
         {s.blocks.map((b, i) => <Block key={i} b={b} />)}
       </div>
@@ -197,7 +213,7 @@ export default function EssayPage({ params }) {
       </header>
 
       <article>
-        {e.sections.map((s) => <Section key={s.num} s={s} className={s.className} />)}
+        {e.sections.map((s, i) => <Section key={i} s={s} className={s.className} />)}
 
         <section className="es-section es-next">
           <div className="es-wrap">

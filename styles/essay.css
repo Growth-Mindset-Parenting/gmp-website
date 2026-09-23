@@ -261,6 +261,30 @@
   font-weight: 400;
 }
 
+/* ── Skill lists (six middle skills) ──────────────────── */
+.es-before,
+.es-checks {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.es-section .es-before li,
+.es-section .es-checks li {
+  position: relative;
+  margin: 0 0 12px;
+  padding-left: 26px;
+  font: 17px/1.5 var(--sans);
+  color: var(--ink-soft);
+}
+.es-before li::before,
+.es-checks li::before {
+  position: absolute;
+  left: 2px;
+  top: 0;
+}
+.es-before li::before { content: '—'; color: var(--ink-mute); }
+.es-checks li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+
 /* ── Toolkit (scripts and tips) ───────────────────────── */
 .es-toolkit {
   background: var(--paper-2);
