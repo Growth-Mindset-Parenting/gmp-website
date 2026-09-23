@@ -83,7 +83,7 @@ export default function CaptureModal({ freebie, variant, open, done, name, email
             </p>
             {freebie.readUrl && (
               <a className="gmp-btn gmp-btn-primary fb-btn-full" href={freebie.readUrl}>
-                Read the essay &#8594;
+                {freebie.readLabel || 'Read the essay'} &#8594;
               </a>
             )}
             {!freebie.readUrl && freebie.pdfUrl && (
