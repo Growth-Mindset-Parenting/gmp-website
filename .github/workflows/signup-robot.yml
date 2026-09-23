@@ -1,0 +1,112 @@
+name: Signup robot
+
+# Once an hour, sign up for real through each live signup form and confirm the
+# person lands in Kit with the right tag (scripts/signup-robot/robot.mjs).
+#
+# Why: on 2026-09-23 the home page field guide form showed "It's on its way"
+# while Kit silently held some signups. No error anywhere. Only a real signup
+# can catch that.
+#
+# Nobody is emailed. A broken signup (failed twice in a row within the run)
+# is filed as an urgent ops item owned by the Deploy Sentinel, and the fixer
+# agent diagnoses it: code bug → fix PR on a sentinel/* branch (a human
+# merges); config → plain instructions for Katie on the item. The item closes
+# itself on the first run the signup works again. Multi-run behaviour is
+# tested in scripts/signup-robot/decide.test.mjs.
+#
+# Loop safety: the agent only runs when a NEW item is filed. While the item
+# stays open, later failing runs change nothing.
+#
+# Manual run: Actions tab → Signup robot → Run workflow. Tick "dry run" to
+# probe without touching the ops tracker.
+#
+# Required secrets: KIT_API_SECRET, OPS_API_URL, OPS_API_TOKEN,
+# ANTHROPIC_API_KEY.
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Probe only — don't file or close ops items"
+        type: boolean
+        default: false
+
+concurrency:
+  group: signup-robot
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  robot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Multi-run decision tests
+        run: node --test scripts/signup-robot/decide.test.mjs
+
+      - name: Probe every signup form
+        id: robot
+        env:
+          KIT_API_SECRET: ${{ secrets.KIT_API_SECRET }}
+          OPS_API_URL: ${{ secrets.OPS_API_URL }}
+          OPS_API_TOKEN: ${{ secrets.OPS_API_TOKEN }}
+          ROBOT_DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: |
+          mkdir -p /tmp/signup-robot
+          node scripts/signup-robot/robot.mjs 2>&1 | tee /tmp/signup-robot/run.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Agent — diagnose and fix
+        if: steps.robot.outputs.action == 'agent'
+        timeout-minutes: 20
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          KIT_API_SECRET: ${{ secrets.KIT_API_SECRET }}
+          OPS_API_URL: ${{ secrets.OPS_API_URL }}
+          OPS_API_TOKEN: ${{ secrets.OPS_API_TOKEN }}
+          REPO: ${{ github.repository }}
+          BROKEN: ${{ steps.robot.outputs.broken }}
+          ITEM_IDS: ${{ steps.robot.outputs.item_ids }}
+        run: |
+          # Same identity rule as the Deploy Sentinel: Vercel blocks preview
+          # builds from unrecognized commit authors.
+          git config user.name "katie-we"
+          git config user.email "katie@grandladyaustin.com"
+          envsubst '$REPO $BROKEN $ITEM_IDS' < scripts/signup-robot/agent-prompt.md > /tmp/agent-prompt.md
+          npx --yes @anthropic-ai/claude-code@latest \
+            -p "$(cat /tmp/agent-prompt.md)" \
+            --dangerously-skip-permissions \
+            --max-turns 60
+
+      # If the robot itself breaks, that must not be silent either. It goes on
+      # the tracker (not email), where the daily digest shows it.
+      - name: File an ops item if the robot itself failed
+        if: failure() && !inputs.dry_run
+        env:
+          OPS_API_URL: ${{ secrets.OPS_API_URL }}
+          OPS_API_TOKEN: ${{ secrets.OPS_API_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="[signup-robot] the robot itself failed"
+          open=$(curl -sS --max-time 30 -H "Authorization: Bearer $OPS_API_TOKEN" \
+            "$OPS_API_URL/api/ops/items?workspace=growth-mindset" \
+            | jq --arg t "$title" '[.items[] | select(.title == $t and .status != "done")] | length')
+          if [ "$open" != "0" ]; then echo "already filed"; exit 0; fi
+          payload=$(jq -n --arg t "$title" --arg url "$RUN_URL" '{
+            workspace: "growth-mindset", title: $t, owner: "deploy-sentinel", priority: "high",
+            detail: ("The hourly signup robot crashed, so signup forms are currently unverified. Run: " + $url)
+          }')
+          curl -sS --fail-with-body --max-time 30 -X POST "$OPS_API_URL/api/ops/items" \
+            -H "Authorization: Bearer $OPS_API_TOKEN" -H "Content-Type: application/json" -d "$payload"

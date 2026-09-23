@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/check-no-kit-public-forms.mjs && next build",
     "start": "next start",
-    "export": "next build"
+    "export": "next build",
+    "test:signup-robot": "node --test scripts/signup-robot/decide.test.mjs"
   },
   "dependencies": {
     "@next/third-parties": "14.2.3",
