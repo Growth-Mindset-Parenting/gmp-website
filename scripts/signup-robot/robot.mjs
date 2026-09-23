@@ -1,4 +1,4 @@
-// The signup robot: once an hour, sign up for real through each live form's
+// The signup robot: every 3 hours, sign up for real through each live form's
 // endpoint and check the person actually lands in Kit with the right tag.
 //
 // Why: on 2026-09-23 the home page Middle Skills form told people "It's on its
@@ -13,7 +13,11 @@
 //   - Addresses are katie+monitor-…, which the Marketing OS dashboard already
 //     excludes from every count (EXCLUDED_EMAIL_PATTERNS: /\+monitor/).
 //   - The bot-trap field stays empty, so "Possible spam" stays meaningful.
-//   - Every test subscriber is unsubscribed afterwards, pass or fail.
+//   - Every test subscriber is unsubscribed afterwards, pass or fail. If Kit
+//     can't find one (e.g. it is holding the signup — the very bug this hunts),
+//     the address is written on the ops item so it can be cleaned up later.
+//   - The Autopilot waitlist is NOT probed here: the Marketing OS launch
+//     robot (src/lib/launch/signup-robot.ts) already does it hourly.
 //   - A failure is re-tried once with a fresh address before it counts, so a
 //     single slow Kit read doesn't file an item.
 //
@@ -33,15 +37,8 @@ const LOOKUP_ATTEMPTS = 12;
 const LOOKUP_DELAY_MS = 15000;
 
 // One row per live signup path. Keep in sync with app/api/subscribe/route.js
-// (FREEBIE_FORMS / FREEBIE_TAGS) and app/api/waitlist/route.js.
+// (FREEBIE_FORMS / FREEBIE_TAGS).
 export const TARGETS = [
-  {
-    key: 'waitlist',
-    label: 'Autopilot waitlist (/autopilot/)',
-    endpoint: '/api/waitlist/',
-    body: { list: 'autopilot' },
-    expectTag: 'waitlist: autopilot',
-  },
   {
     key: 'six-middle-skills',
     label: 'Six Middle Skills field guide (home page + /freebies/six-middle-skills/)',
@@ -148,10 +145,19 @@ async function probe(target) {
     r = await probeOnce(target);
     emails.push(r.email);
   }
+  const leftovers = [];
   for (const e of emails) {
-    try { await kitUnsubscribe(e); } catch { console.warn(`  could not unsubscribe ${e} — clean up by hand`); }
+    let ok = false;
+    try { ok = await kitUnsubscribe(e); } catch { ok = false; }
+    if (!ok) {
+      leftovers.push(e);
+      console.warn(`  could not unsubscribe ${e} — noted on the ops item if one is filed`);
+    }
   }
-  return { key: target.key, label: target.label, status: r.status, detail: r.detail };
+  const detail = leftovers.length
+    ? `${r.detail}. Test addresses Kit couldn't unsubscribe yet (unsubscribe them if they appear later): ${leftovers.join(', ')}`
+    : r.detail;
+  return { key: target.key, label: target.label, status: r.status, detail };
 }
 
 async function opsRequest(method, path, body) {

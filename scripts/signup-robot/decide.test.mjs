@@ -1,7 +1,7 @@
 // Multi-run tests for the signup robot's filing decisions.
 // Run: npm run test:signup-robot
 //
-// The ops item IS the robot's memory between hourly runs, so every case here
+// The ops item IS the robot's memory between runs, so every case here
 // feeds one run's output (the items it filed or closed) into the next run.
 
 import { test } from 'node:test';

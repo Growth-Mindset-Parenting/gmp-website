@@ -1,7 +1,14 @@
 name: Signup robot
 
-# Once an hour, sign up for real through each live signup form and confirm the
-# person lands in Kit with the right tag (scripts/signup-robot/robot.mjs).
+# Every 3 hours, sign up for real through the Six Middle Skills and newsletter
+# signup paths and confirm each person lands in Kit with the right tag
+# (scripts/signup-robot/robot.mjs). The Autopilot waitlist is already probed
+# hourly by the Marketing OS launch robot, so it isn't repeated here.
+#
+# Each run creates 2 katie+monitor-* subscribers (about 16 a day), each
+# unsubscribed right after. Their confirmation emails are auto-archived by a
+# Gmail filter on deliveredto:katie+monitor; the Marketing OS dashboard
+# excludes +monitor addresses from every count.
 #
 # Why: on 2026-09-23 the home page field guide form showed "It's on its way"
 # while Kit silently held some signups. No error anywhere. Only a real signup
@@ -14,8 +21,10 @@ name: Signup robot
 # itself on the first run the signup works again. Multi-run behaviour is
 # tested in scripts/signup-robot/decide.test.mjs.
 #
-# Loop safety: the agent only runs when a NEW item is filed. While the item
-# stays open, later failing runs change nothing.
+# Loop safety: the agent only runs when a NEW item is filed, and never while
+# an earlier sentinel/signup-* fix PR is still open (a flapping form must not
+# spawn duplicate PRs). While the item stays open, later failing runs change
+# nothing.
 #
 # Manual run: Actions tab → Signup robot → Run workflow. Tick "dry run" to
 # probe without touching the ops tracker.
@@ -25,7 +34,7 @@ name: Signup robot
 
 on:
   schedule:
-    - cron: "23 * * * *"
+    - cron: "23 */3 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -44,7 +53,7 @@ permissions:
 jobs:
   robot:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
 
@@ -67,8 +76,19 @@ jobs:
           node scripts/signup-robot/robot.mjs 2>&1 | tee /tmp/signup-robot/run.log
           exit ${PIPESTATUS[0]}
 
-      - name: Agent — diagnose and fix
+      - name: Skip the agent if a signup fix PR is already waiting
+        id: pending
         if: steps.robot.outputs.action == 'agent'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh pr list --repo "${{ github.repository }}" --state open --json headRefName \
+            --jq '[.[] | select(.headRefName | startswith("sentinel/signup-"))] | length')
+          echo "open_fix_prs=$n" >> "$GITHUB_OUTPUT"
+          echo "open sentinel/signup-* PRs: $n"
+
+      - name: Agent — diagnose and fix
+        if: steps.robot.outputs.action == 'agent' && steps.pending.outputs.open_fix_prs == '0'
         timeout-minutes: 20
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -100,13 +120,15 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           title="[signup-robot] the robot itself failed"
-          open=$(curl -sS --max-time 30 -H "Authorization: Bearer $OPS_API_TOKEN" \
+          # If the tracker can't be read, file anyway: a duplicate is better
+          # than a silent crash (an ops outage is a likely cause of the crash).
+          open=$(curl -sS --fail --max-time 30 -H "Authorization: Bearer $OPS_API_TOKEN" \
             "$OPS_API_URL/api/ops/items?workspace=growth-mindset" \
-            | jq --arg t "$title" '[.items[] | select(.title == $t and .status != "done")] | length')
-          if [ "$open" != "0" ]; then echo "already filed"; exit 0; fi
+            | jq --arg t "$title" '[.items[] | select(.title == $t and .status != "done")] | length' || echo "unknown")
+          if [ "$open" != "0" ] && [ "$open" != "unknown" ] && [ -n "$open" ]; then echo "already filed"; exit 0; fi
           payload=$(jq -n --arg t "$title" --arg url "$RUN_URL" '{
             workspace: "growth-mindset", title: $t, owner: "deploy-sentinel", priority: "high",
-            detail: ("The hourly signup robot crashed, so signup forms are currently unverified. Run: " + $url)
+            detail: ("The signup robot crashed, so signup forms are currently unverified. Run: " + $url)
           }')
           curl -sS --fail-with-body --max-time 30 -X POST "$OPS_API_URL/api/ops/items" \
             -H "Authorization: Bearer $OPS_API_TOKEN" -H "Content-Type: application/json" -d "$payload"

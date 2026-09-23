@@ -1,7 +1,7 @@
 // What the signup robot does with one run's results, given the ops items
 // already open. Pure — no network — so the multi-run behaviour is testable.
 //
-// The ops item is the robot's only memory between hourly runs:
+// The ops item is the robot's only memory between runs:
 //   broken, no open item   → file one, start the fixer agent
 //   broken, item open      → leave it (no duplicate, no second agent run)
 //   working, item open     → close it (a recovered form stops shouting)
@@ -23,7 +23,7 @@ function detailFor(r) {
       : `A real test signup did not arrive in Kit correctly.`;
   return (
     `${what}\n\nForm: ${r.label}\nWhat happened: ${r.detail}\n\n` +
-    `Filed automatically by the hourly signup robot (.github/workflows/signup-robot.yml). ` +
+    `Filed automatically by the signup robot, every 3 hours (.github/workflows/signup-robot.yml). ` +
     `It closes itself the first run this signup works again.`
   );
 }
