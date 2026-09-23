@@ -20,6 +20,8 @@ const FREEBIE_FORMS = {
   'emotional-literacy': '9852097',
   capable: '9926763',
   'collapsing-cruelty': '9934137', // "Freebie: Collapsing Cruelty" (created 2026-09-18)
+  // Not a freebie: the newsletter signup (home, about, article pages). No tag.
+  newsletter: '9228951',
 };
 
 // Segmentation tags applied on every signup (in addition to the form's own
@@ -35,6 +37,10 @@ const FREEBIE_TAGS = {
   'collapsing-cruelty': 23718184, // "Freebie: Collapsing Cruelty", created via the Kit API 2026-09-18
 };
 
+// Kit tag "Possible spam: website form" — added when the hidden bot-trap
+// field comes in filled. Review and delete these subscribers in Kit.
+const POSSIBLE_SPAM_TAG_ID = 23448486;
+
 const VARIANT_TAGS = {
   worksheet: 21015159,
   'kitchen-table': 21015160,
@@ -42,9 +48,15 @@ const VARIANT_TAGS = {
 
 export async function POST(request) {
   try {
-    const { email, firstName, slug, variant, source, utms } = await request.json();
+    const { email: rawEmail, firstName, slug, variant, source, utms, company } = (await request.json()) ?? {};
+    const email = typeof rawEmail === 'string' ? rawEmail.trim() : '';
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    // Bot trap: people never see the hidden field, so it's normally empty.
+    // If it's filled we still subscribe — a real person must never be dropped
+    // (e.g. by a browser autofilling it) — but tag them for review in Kit.
+    const suspected = Boolean(company);
+
+    if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
@@ -82,6 +94,7 @@ export async function POST(request) {
     if (FREEBIE_TAGS[slug]) tags.push(FREEBIE_TAGS[slug]);
     if (VARIANT_TAGS[variant]) tags.push(VARIANT_TAGS[variant]);
     if (source === 'pinterest') tags.push(PINTEREST_TAG_ID);
+    if (suspected) tags.push(POSSIBLE_SPAM_TAG_ID);
     if (tags.length) body.tags = tags;
 
     const res = await fetch(

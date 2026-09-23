@@ -1,8 +1,6 @@
 'use client';
-import { appendKitFields } from '../lib/attribution';
+import { getAttribution } from '../lib/attribution';
 import { useState } from 'react';
-
-const KIT_FORM_ID = process.env.NEXT_PUBLIC_KIT_FIELD_GUIDE_FORM_ID;
 
 const SKILLS = [
   { n: '01', name: 'Emotional literacy' },
@@ -23,11 +21,12 @@ export default function FieldGuideSection() {
     if (!consent) return;
     setStatus('submitting');
     try {
-      const body = appendKitFields(new URLSearchParams({ email_address: email }));
-      const res = await fetch(
-        `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`,
-        { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() }
-      );
+      const company = e.currentTarget.elements.hp_gmp_check?.value || '';
+      const res = await fetch('/api/subscribe/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), slug: 'six-middle-skills', utms: getAttribution(), company }),
+      });
       if (!res.ok) throw new Error();
       setStatus('success');
     } catch {
@@ -81,6 +80,8 @@ export default function FieldGuideSection() {
           ) : (
             <>
               <form className="v7-lead-form" onSubmit={handleSubmit} noValidate>
+                {/* Bot trap: hidden from people; a filled value tags the signup as possible spam (never drops it). */}
+                <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ display: 'none' }} />
                 <input
                   type="email"
                   placeholder="you@yourkitchen.com"

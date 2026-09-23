@@ -1,9 +1,7 @@
 'use client';
-import { appendKitFields } from '../lib/attribution';
+import { getAttribution } from '../lib/attribution';
 import { useState, useRef, useEffect, Fragment } from 'react';
 import { createPortal } from 'react-dom';
-
-const KIT_FORM_ID = process.env.NEXT_PUBLIC_KIT_FIELD_GUIDE_FORM_ID;
 
 const FGM_SKILLS = [
   'Emotional Literacy',
@@ -73,15 +71,12 @@ export default function FieldGuideModal({ open, onClose }) {
     setError('');
     setSubmitting(true);
     try {
-      const body = appendKitFields(new URLSearchParams({ email_address: value }));
-      const res = await fetch(
-        `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: body.toString(),
-        }
-      );
+      const company = e.currentTarget.elements.hp_gmp_check?.value || '';
+      const res = await fetch('/api/subscribe/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: value, slug: 'six-middle-skills', utms: getAttribution(), company }),
+      });
       if (!res.ok) throw new Error('Subscribe failed');
       setSent(true);
     } catch {
@@ -134,6 +129,8 @@ export default function FieldGuideModal({ open, onClose }) {
                 online, and the move that&rsquo;s yours to make. Read it on your phone tonight.
               </p>
               <form className="fgm-form" onSubmit={handleSubmit} noValidate>
+                {/* Bot trap: hidden from people; a filled value tags the signup as possible spam (never drops it). */}
+                <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ display: 'none' }} />
                 <div className="fgm-field">
                   <input
                     ref={inputRef}
