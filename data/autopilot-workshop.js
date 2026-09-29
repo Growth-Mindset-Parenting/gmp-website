@@ -119,11 +119,11 @@ export const WORKSHOP = {
   },
 
   modal: {
-    eyebrow: 'What fits your schedule? · Sunday, October 4 · 6:00 pm or Monday, October 5 · 12 pm CT',
+    eyebrow: 'Free live workshop · Two live sessions',
     headline: "Your kid doesn't know it yet, but you just did",
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
-    intro: "That's what great teachers do: they plan ahead. Add your name and email, and I'll send your link for both workshops. Attend whichever one fits your schedule best. Same workshop different days - Sunday, October 4 · 6:00 pm CT · or Monday, October 5  12 pm CT.",
+    intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send you links for both sessions, so you can come to whichever fits. I'll remind you before we go live, too. You've got enough to remember.",
     smsPrint: 'Reminders only, and only about this workshop. Msg & data rates may apply. Reply STOP any time.',
   },
 
@@ -132,15 +132,15 @@ export const WORKSHOP = {
   // meetings are open links now.)
   form: {
     nameLabel: 'First name',
-    namePlaceholder: 'First name',
-    emailLabel: 'Email address',
-    emailPlaceholder: 'Email address',
+    namePlaceholder: 'Sarah',
+    emailLabel: 'Email',
+    emailPlaceholder: 'you@example.com',
     // Optional. The placeholder carries the promise, so typing a number IS
     // the opt-in (no separate tick box — Katie's call, 2026-09-21). The
     // fine print under the form carries the rates/STOP notice the carriers
     // want to see when we register a texting number.
-    phoneLabel: 'Mobile number, optional — for a reminder text',
-    phonePlaceholder: "Mobile number (optional) — I'll text you a reminder",
+    phoneLabel: 'Mobile (optional)',
+    phonePlaceholder: "I'll text you a reminder",
     button: 'Save my seat',
     buttonBusy: 'Saving your seat…',
     errorName: 'Pop your first name in so I know who I\u2019m talking to.',
@@ -159,6 +159,9 @@ export const WORKSHOP = {
     {
       key: 'sun',
       dateLine: 'Sunday, October 4',
+      // The two-up card in the signup pop-up.
+      shortDate: 'Sunday, Oct 4',
+      shortTime: '6pm Central · 7pm Eastern',
       timeLine: '6:00 pm Central · 7:00 pm Eastern',
       startUtc: '2026-10-04T23:00:00Z',
       endUtc: '2026-10-05T00:00:00Z',
@@ -173,6 +176,8 @@ export const WORKSHOP = {
     {
       key: 'mon',
       dateLine: 'Monday, October 5',
+      shortDate: 'Monday, Oct 5',
+      shortTime: 'Noon Central · 1pm Eastern',
       timeLine: '12:00 pm Central · 1:00 pm Eastern',
       startUtc: '2026-10-05T17:00:00Z',
       endUtc: '2026-10-05T18:00:00Z',

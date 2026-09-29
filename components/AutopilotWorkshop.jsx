@@ -268,8 +268,16 @@ function RegistrationModal({ open, onClose }) {
           after={m.headlineAfter}
         />
         <p className="apws-modal-intro">{m.intro}</p>
+        <div className="apws-sessions">
+          {WORKSHOP.sessions.map((s) => (
+            <div key={s.key} className="apws-session">
+              <p className="apws-session-day">{s.shortDate}</p>
+              <p className="apws-session-time">{s.shortTime}</p>
+            </div>
+          ))}
+        </div>
         <form className="apws-form" onSubmit={onSubmit} noValidate>
-          <label htmlFor="apws-name" className="apws-sr-only">{f.nameLabel}</label>
+          <label htmlFor="apws-name" className="apws-label">{f.nameLabel}</label>
           <input
             id="apws-name"
             className="apws-input"
@@ -281,7 +289,7 @@ function RegistrationModal({ open, onClose }) {
             onChange={(e) => onField(setName, e.target.value)}
             aria-invalid={error === f.errorName ? 'true' : undefined}
           />
-          <label htmlFor="apws-email" className="apws-sr-only">{f.emailLabel}</label>
+          <label htmlFor="apws-email" className="apws-label">{f.emailLabel}</label>
           <input
             id="apws-email"
             className="apws-input"
@@ -295,7 +303,7 @@ function RegistrationModal({ open, onClose }) {
             aria-invalid={error === f.errorInvalid ? 'true' : undefined}
             aria-describedby={error ? 'apws-form-error' : undefined}
           />
-          <label htmlFor="apws-phone" className="apws-sr-only">{f.phoneLabel}</label>
+          <label htmlFor="apws-phone" className="apws-label">{f.phoneLabel}</label>
           <input
             id="apws-phone"
             className="apws-input"
