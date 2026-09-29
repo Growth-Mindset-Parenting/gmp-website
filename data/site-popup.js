@@ -74,12 +74,12 @@ export const POPUPS = {
   sales: {
     seenKey: 'gmp_popup_sales_seen',
     variant: 'ink',
-    eyebrow: 'Now enrolling · starts Oct 13',
+    eyebrow: 'Doors close Oct 12 · class starts Oct 13',
     headline: 'Autopilot',
     headlineAccent: null,
     body: {
-      before: 'A 5 week course, built to help parents ',
-      accent: 'stop over functioning',
+      before: 'A 5-week course, built to help parents ',
+      accent: 'stop over-functioning',
       after: " and develop their kids' executive function.",
     },
     cta: 'Enroll now',
