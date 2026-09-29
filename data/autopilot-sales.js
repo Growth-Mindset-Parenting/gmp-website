@@ -64,7 +64,6 @@ export const SALES = {
     subtitle:
       'Teach the skills that turn everyday responsibility into real independence—without lowering the standard or doing it for them.',
     support: 'Because independence builds confidence, capability, and connection.',
-    stars: '★★★★★',
     quote: '"Tools I never had that you\'re giving me." — a parent in Sean\'s community',
     photoAlt: 'Sean Kane',
     photoCaption: 'Sean Kane · Austin, TX',

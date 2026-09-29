@@ -47,12 +47,14 @@ function PriceCards({ location, variant = 'light' }) {
   const { once, plan, fine } = SALES.cards;
   const dark = variant === 'dark';
   return (
-    <div className={`aps-prices${dark ? ' aps-prices--on-ink' : ''}`}>
+    <div className="aps-prices">
       <div className={`aps-price-card ${dark ? 'aps-price-card--paper' : 'aps-price-card--ink'}`}>
         <p className="aps-eyebrow aps-price-label">{once.label}</p>
         <div className="aps-price-row">
           <span className="aps-num aps-price">{PRICES.once}</span>
-          <s className="aps-num aps-price-anchor">{PRICES.anchor}</s>
+          <s className="aps-num aps-price-anchor">
+            <span className="aps-sr-only">Regular price </span>{PRICES.anchor}
+          </s>
         </div>
         <p className="aps-price-note">{once.note}</p>
         <CheckoutLink

@@ -9,7 +9,7 @@ import AutopilotSales from '../../../components/AutopilotSales';
 //   1. move this page to app/autopilot/page.jsx (and move the waitlist page
 //      that lives there now somewhere else, or retire it),
 //   2. drop the robots noindex below and set canonical/url to /autopilot/,
-//   3. add /autopilot/ back to app/sitemap.js with a fresh lastModified,
+//   3. update the /autopilot/ lastModified in app/sitemap.js (it is already listed),
 //   4. remove /autopilot/enroll-preview/ from both HIDDEN_PATHS lists.
 // Copy lives in data/autopilot-sales.js.
 export const metadata = {

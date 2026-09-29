@@ -8,16 +8,19 @@ import { trackBeginCheckout } from '../lib/analytics';
 // click by components/AttributionCapture.jsx (mounted in the root layout),
 // so Kajabi sees where the buyer came from.
 export default function AutopilotCheckoutLink({ href, plan, location, value, className, children }) {
+  const track = () => trackBeginCheckout({
+    location: `autopilot-sales:${location}`,
+    value,
+    itemName: plan === 'plan' ? 'Autopilot (2 payments)' : 'Autopilot',
+  });
   return (
     <a
       href={href}
       className={className}
       data-checkout={plan}
-      onClick={() => trackBeginCheckout({
-        location: `autopilot-sales:${location}`,
-        value,
-        itemName: plan === 'plan' ? 'Autopilot (2 payments)' : 'Autopilot',
-      })}
+      onClick={track}
+      // Middle-click (open in new tab) does not fire onClick.
+      onAuxClick={(e) => { if (e.button === 1) track(); }}
     >
       {children}
     </a>
