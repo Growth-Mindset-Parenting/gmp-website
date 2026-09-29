@@ -210,11 +210,11 @@ export const WORKSHOP = {
   // Plans/2026-09-15-autopilot-confirmation-design-handoff/.
   thankYou: {
     eyebrow: "You're in",
-    headline: "You're on the list.",
-    headlineAccent: 'See you then.',
-    dek: "Here are your links for both times. They're on their way to your inbox too. If the email isn't there in ten minutes, check promotions — that's where I usually end up.",
+    headline: "Here's to the kid who",
+    headlineAccent: 'remembers on their own.',
+    dek: "Your Zoom links are on their way to your inbox. Not there in ten minutes? Check promotions — that's where I usually end up.",
     sessionsIntro: 'Same workshop both times. Come to whichever fits your week.',
-    join: 'Join on Zoom',
+    join: 'Zoom link',
     calendarIntro: 'Add it to your calendar:',
     google: 'Google',
     apple: 'Apple',

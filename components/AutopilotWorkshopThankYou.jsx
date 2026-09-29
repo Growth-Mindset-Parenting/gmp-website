@@ -66,10 +66,12 @@ export default function AutopilotWorkshopThankYou() {
             <div className="apty-date">
               <p className="apty-date-day">{s.dateLine}</p>
               <p className="apty-date-time">{s.timeLine}</p>
+              {/* Most people sign up days ahead, so the link is a quiet
+                  extra here; the calendar buttons do the real work. */}
+              <a className="apty-join" href={s.joinUrl} target="_blank" rel="noopener noreferrer">
+                {t.join} <span aria-hidden="true">→</span>
+              </a>
             </div>
-            <a className="apty-join" href={s.joinUrl} target="_blank" rel="noopener noreferrer">
-              {t.join} <span aria-hidden="true">→</span>
-            </a>
             <p className="apty-cal-intro">{t.calendarIntro}</p>
             <div className="apty-cal-list">
               <CalendarButton href={googleCalendarUrl(s)} label={t.google} external />
