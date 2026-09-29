@@ -27,7 +27,7 @@ export const WORKSHOP = {
     headlineAccent: 'Responsibility',
     dek: "Mornings, homework, chores, the dishwasher — you remember, you remind, they flip. In this workshop, I'll share how everyday demand turns into rupture and how we can look to education to build capacity and reduce strain.",
     cta: 'Save my seat',
-    metaLine: 'Pick a date that fits: Sunday, October 4 · 6:00 pm CT · 60 minutes OR Monday, October 5 12PM CT',
+    metaLine: 'Live Sun, Oct 4 at 6pm or Mon, Oct 5 at noon CT',
     photoCaption: 'Sean Kane · 14 years in the classroom',
   },
 
@@ -115,7 +115,7 @@ export const WORKSHOP = {
     ],
     emphasis: 'environment, development and collaboration',
     cta: 'Save my seat',
-    metaLine: 'Sunday, October 4 · 6:00 pm CT · or Monday, October 5  12 pm CT',
+    metaLine: 'Live Sun, Oct 4 at 6pm or Mon, Oct 5 at noon CT',
   },
 
   modal: {
