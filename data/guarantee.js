@@ -1,5 +1,10 @@
 // Single source of truth for the refund guarantee.
 //
+// Autopilot (2026-09-29, Katie): its own refund terms live on the sales page
+// (data/autopilot-sales.js) and win for that product — attend the first two
+// lessons, run one Plug + Play playbook, email hello@ with the worksheet
+// within 14 days of the cohort start. Refunds always go to hello@.
+//
 // The standard across every Growth Mindset product (2026-08-27, Katie):
 //   - 14 days, matching the Amy Porterfield model
 //   - the clock starts when ACCESS starts, not when money changes hands
@@ -21,5 +26,5 @@ export const GUARANTEE = {
   ],
   preorderNote: 'Pre-ordering? Your two weeks start the day the course opens, not the day you buy.',
   short: '14-day guarantee',
-  email: 'sean@growthmindsetparenting.com',
+  email: 'hello@growthmindsetparenting.com',
 };
