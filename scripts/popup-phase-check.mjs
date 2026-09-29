@@ -23,9 +23,9 @@ const CASES = [
   ['2026-10-05T17:30:00Z', 'workshop', 'during the Monday session'],
   ['2026-10-05T17:59:00Z', 'workshop', 'one minute before Monday ends'],
   ['2026-10-05T18:01:00Z', 'sales', 'one minute after Monday ends'],
-  ['2026-10-12T15:00:00Z', 'sales', 'the middle of cart week'],
-  ['2026-10-17T01:59:00Z', 'sales', 'one minute before the cart closes'],
-  ['2026-10-17T02:01:00Z', null, 'one minute after the cart closes'],
+  ['2026-10-09T15:00:00Z', 'sales', 'the middle of cart week'],
+  ['2026-10-13T02:59:00Z', 'sales', 'one minute before the cart closes'],
+  ['2026-10-13T03:01:00Z', null, 'one minute after the cart closes'],
 ];
 
 let failed = 0;

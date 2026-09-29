@@ -28,8 +28,8 @@ export const OVERRIDE = null;
 const OPENS = Date.parse('2026-09-30T05:00:00Z');
 // The last workshop session ends and the sales popup takes over.
 const WORKSHOP_ENDS = Date.parse(WORKSHOP.sessions.at(-1).endUtc);
-// Cart closes Fri Oct 16 2026, 9pm CT. After this the popup stops.
-const CART_CLOSES = Date.parse('2026-10-17T02:00:00Z');
+// Cart closes Mon Oct 12 2026, 10pm CT. After this the popup stops.
+const CART_CLOSES = Date.parse('2026-10-13T03:00:00Z');
 
 export function phaseAt(now = Date.now()) {
   if (OVERRIDE) return OVERRIDE === 'off' ? null : OVERRIDE;

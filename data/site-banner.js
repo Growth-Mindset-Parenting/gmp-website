@@ -57,10 +57,10 @@ export const BANNERS = {
   },
 
   // From when /autopilot/ becomes the sales page until the cart closes
-  // Mon Oct 12.
+  // Mon Oct 12 at 10pm CT.
   sales: {
     version: 'sales-1',
-    text: 'Autopilot is open — a 5-week live course. Doors close Monday, October 12.',
+    text: 'Autopilot is open — a 5-week live course. Doors close Monday, October 12 at 10pm CT.',
     textShort: 'Autopilot is open. Doors close Mon, Oct 12.',
     cta: 'See the course',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-sales',
