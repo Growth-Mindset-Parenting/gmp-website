@@ -193,7 +193,8 @@ export const WORKSHOP = {
 
   // Shared by both calendar invites.
   calendar: {
-    title: 'Autopilot free live workshop with Sean Kane',
+    // Same as the Zoom meeting title.
+    title: 'From Reminders to Responsibility: Free Live Workshop with Sean Kane',
     description: 'Same workshop both times. Come to whichever fits your week.',
     // Zoom's US dial-in numbers — the same list for both meetings.
     dialInNumbers: [
