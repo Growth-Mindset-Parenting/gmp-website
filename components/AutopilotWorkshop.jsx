@@ -364,7 +364,7 @@ export default function AutopilotWorkshop() {
             <div className="apws-cta-row">
               <CtaButton label={hero.cta} onOpen={openModal} />
               <p className="apws-meta">
-                {eventDate} · {hero.meta}
+                {hero.metaLine}
               </p>
             </div>
           </div>
@@ -485,7 +485,7 @@ export default function AutopilotWorkshop() {
               <div className="apws-cta-row apws-note-cta">
                 <CtaButton label={note.cta} onOpen={openModal} />
                 <p className="apws-meta">
-                  {eventDate} · {note.meta}
+                  {note.metaLine}
                 </p>
               </div>
             </div>

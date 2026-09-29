@@ -23,11 +23,11 @@ export const WORKSHOP = {
 
   hero: {
     eyebrow: 'Free live workshop for parents of middle schoolers',
-    headline: "Stop being your kid's",
-    headlineAccent: 'prefrontal cortex.',
-    dek: "Mornings, homework, chores, the dishwasher — you remember it, you remind about it, you check again. In this free workshop I'll show you the classroom method for handing that load back to your kid, one system at a time.",
+    headline: 'From Reminders to',
+    headlineAccent: 'Responsibility',
+    dek: "Mornings, homework, chores, the dishwasher — you remember, you remind, they flip. In this workshop, I'll share how everyday demand turns into rupture and how we can look to education to build capacity and reduce strain.",
     cta: 'Save my seat',
-    meta: '60 minutes · Live',
+    metaLine: 'Pick a date that fits: Sunday, October 4 · 6:00 pm CT · 60 minutes OR Monday, October 5 12PM CT',
     photoCaption: 'Sean Kane · 14 years in the classroom',
   },
 
@@ -45,10 +45,10 @@ export const WORKSHOP = {
     headlineAccent: 'teach independence',
     headlineAfter: 'instead of demanding it.',
     items: [
-      { title: 'What executive function actually is', body: "The eleven skills your kid's prefrontal cortex is still building, when each one comes online, and why we keep mislabeling a skill gap as laziness or disrespect." },
-      { title: "Why your reminders aren't working", body: "When a parent carries the remembering, the kid never has to. The cycle that turns 'unload the dishwasher' into 'why are you always on my case.'" },
-      { title: 'How teachers diagnose the gap', body: "Behavior is communication. You'll learn the classroom move for spotting where a routine breaks down before you decide what to do about it." },
-      { title: 'How to hand the job back', body: 'One recurring problem in your house, turned into a system your kid can run. Firm standard, first-draft strategy, and a plan for stepping away.' },
+      { title: "What's actually going on with my kid", body: 'How rapid adolescent development in middle school collides with daily demand' },
+      { title: "Why your reminders aren't working", body: 'How every reminder to unload the dishwasher makes it worse and leads to a fight' },
+      { title: 'How teachers diagnose the gap', body: "Behavior is communication. You'll learn what educators see when learning breaks down and how they decide what to do about it." },
+      { title: 'How to hand the job back', body: 'What high standards and high support really look like in our homes' },
     ],
   },
 
@@ -56,13 +56,13 @@ export const WORKSHOP = {
     eyebrow: 'Who this is for',
     headline: 'Does any of this sound like',
     headlineAccent: 'your kitchen?',
-    intro: "You're not in crisis. You're just always behind, and the same argument keeps showing up on schedule.",
+    intro: "You're not in crisis. You just need a new lens, and a different tool.",
     cta: 'Yes! Sign me up',
     items: [
       { quote: "I say it six times every morning and we're still late.", body: "You're not a nag. You've become the household's working memory, and you never applied for the job. Reminders are a system that runs on you." },
       { quote: 'How can a kid this smart be this careless?', body: "Straight-A student, bedroom like a bomb went off. Skills don't develop evenly, and the ones that lag look a lot like a character flaw from the outside." },
       { quote: 'The smallest request gets the biggest reaction.', body: "People have quietly stopped asking anything of your kid because it isn't worth the blowup. You'd like to ask again without starting a war." },
-      { quote: "I've read the gentle parenting books. The mornings didn't change.", body: "Regulation and repair matter. But if the same fight happens every morning, maybe the fight isn't the thing to fix. The morning is." },
+      { quote: "I've tried connection and repair and endless conversation. The mornings didn't change.", body: "Regulation and repair matter. But if the same fight happens every morning, maybe the fight isn't the thing to fix. The system is." },
     ],
   },
 
@@ -92,8 +92,8 @@ export const WORKSHOP = {
     headlineAccent: "I've got answers.",
     cta: "Let's do this",
     items: [
-      { q: 'Is this actually live, or is it a recording?', a: "It's live. That's me, in real time, Sunday, October 4 at 6pm Central (7pm Eastern), and again Monday, October 5 at 12pm Central (1pm Eastern). Same workshop both times, so come to whichever fits your week. Not a recording with a \"live\" badge slapped on it. And bring your questions. The real ones. The \"what do I do when he says 'I got it' and then doesn't\" ones. I'll answer as many as I can." },
-      { q: "I'm not sure this is really for me. Who is the workshop for?", a: "It's for parents of middle schoolers, and kids about to get there, who are tired of being the reminder system for the whole house. You don't need a diagnosis, a partner who's on board, or a kid who's excited about any of this. You just need to be a little curious whether there's a better way than reminding louder. There is, and that's what we'll dig into." },
+      { q: 'Is this actually live, or is it a recording?', a: "It's live. Twice. Once Sunday, October 4 at 6pm Central. And again on Monday, October 5 at 12PM Central. I know things for parents are chaotic. Just pick the time that works best for you. Come to either one." },
+      { q: "I'm not sure this is really for me. Who is the workshop for?", a: "It's for parents of a kid who is in the middle- capable and kind, but can't manage the daily systems. Parents who are tired of being the system. You don't need a diagnosis, a partner who's on board, or a kid who's excited about any of this. You just need to be a little curious whether there's a better way than reminding louder. There is, and that's what we'll dig into." },
       { q: 'My kid has ADHD. Or I do. Is this still for us?', a: "Yes. Some of the most-liked questions on my videos aren't about kids at all. They're parents asking how to stick to routines when they have ADHD too. Every kid's planning brain is under construction until about 25, and kids with ADHD are further behind on the build. That means more scaffolding, not a lower bar. And for you, it means building a structure that doesn't depend on you remembering everything." },
       { q: "I've already read the parenting books. Will I actually learn anything new?", a: "Probably. Most parenting advice comes from psychologists and therapists, and a lot of it is great. I read it too. But I spent 14 years teaching kids 10 to 15, and educators know something that isn't being said in the research or on parent blogs. We know how to get a kid to finish the essay they just threw in the trash. Not with a better talk. With structure. And you'll get real examples of what that sounds like on a school morning, not just what it's called." },
       { q: "What if I can't make it live?", a: "Sign up anyway. You'll get the links for both times, and if neither one works, I'll send you the replay." },
@@ -115,15 +115,15 @@ export const WORKSHOP = {
     ],
     emphasis: 'environment, development and collaboration',
     cta: 'Save my seat',
-    meta: 'Free',
+    metaLine: 'Sunday, October 4 · 6:00 pm CT · or Monday, October 5  12 pm CT',
   },
 
   modal: {
-    eyebrow: 'Free live workshop · Sun Oct 4 or Mon Oct 5',
+    eyebrow: 'What fits your schedule? · Sunday, October 4 · 6:00 pm or Monday, October 5 · 12 pm CT',
     headline: "Your kid doesn't know it yet, but you just did",
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
-    intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send you the links for both times: Sunday, October 4 at 6pm Central, and Monday, October 5 at 12pm Central. Come to whichever works. I'll remind you before we go live, too. You've got enough to remember.",
+    intro: "That's what great teachers do: they plan ahead. Add your name and email, and I'll send your link for both workshops. Attend whichever one fits your schedule best. Same workshop different days - Sunday, October 4 · 6:00 pm CT · or Monday, October 5  12 pm CT.",
     smsPrint: 'Reminders only, and only about this workshop. Msg & data rates may apply. Reply STOP any time.',
   },
 
@@ -206,7 +206,7 @@ export const WORKSHOP = {
   thankYou: {
     eyebrow: "You're in",
     headline: "You're on the list.",
-    headlineAccent: 'See you there.',
+    headlineAccent: 'See you then.',
     dek: "Here are your links for both times. They're on their way to your inbox too. If the email isn't there in ten minutes, check promotions — that's where I usually end up.",
     sessionsIntro: 'Same workshop both times. Come to whichever fits your week.',
     join: 'Join on Zoom',
