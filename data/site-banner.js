@@ -28,6 +28,7 @@ export const DISMISS_DAYS = 3;
 export const HIDDEN_PATHS = [
   '/autopilot/',
   '/autopilot/thank-you/',
+  '/autopilot/enroll-preview/', // hidden sales-page preview
   '/workshop/',
   '/workshop/thank-you/',
   '/workshop/replay/',

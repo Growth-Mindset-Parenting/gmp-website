@@ -48,6 +48,7 @@ export const TRIGGER = { scrollPercent: 40, afterSeconds: 20 };
 export const HIDDEN_PATHS = [
   '/autopilot/',
   '/autopilot/thank-you/',
+  '/autopilot/enroll-preview/', // hidden sales-page preview
   '/workshop/',
   '/workshop/thank-you/',
   '/workshop/replay/',

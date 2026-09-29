@@ -12,6 +12,7 @@ import '../styles/autopilot-waitlist.css';
 import '../styles/autopilot-workshop.css';
 import '../styles/autopilot-replay.css';
 import '../styles/autopilot-thank-you.css';
+import '../styles/autopilot-sales.css';
 import '../styles/site-banner.css';
 import '../styles/site-popup.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
