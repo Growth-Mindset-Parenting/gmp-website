@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { WORKSHOP } from '../data/autopilot-workshop';
 import { getAttribution } from '../lib/attribution';
-import { COUNTED_KEY, JOIN_LINK_KEY } from '../lib/workshop-calendar';
+import { REGISTERED_KEY } from '../lib/workshop-calendar';
 
 // Testimonial wall: each column is at least 280px wide with 16px gaps.
 const WALL_COL = 280;
@@ -183,17 +183,12 @@ function RegistrationModal({ open, onClose }) {
         signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
-      const data = await res.json().catch(() => ({}));
-      // Hand the personal Zoom link to the thank-you page without putting it
-      // in the URL. Private browsing can block this; the page copes.
+      // Let the thank-you page count this registration in GA4 once.
+      // Private browsing can block this; the signup still stands.
       try {
-        if (data.joinUrl) sessionStorage.setItem(JOIN_LINK_KEY, data.joinUrl);
-        else sessionStorage.removeItem(JOIN_LINK_KEY);
-        // Let the thank-you page count this registration in GA4, even if
-        // someone registers twice in the same tab.
-        sessionStorage.removeItem(COUNTED_KEY);
+        sessionStorage.setItem(REGISTERED_KEY, '1');
       } catch {
-        // No storage: the thank-you page falls back to a plain event.
+        // No storage: the registration just isn't counted in GA4.
       }
       window.location.assign(THANK_YOU);
     } catch {
@@ -327,7 +322,6 @@ function RegistrationModal({ open, onClose }) {
           <p id="apws-form-error" role="alert" className="apws-form-error">{error}</p>
         )}
         <p id="apws-sms-print" className="apws-sms-print">{m.smsPrint}</p>
-        <p className="apws-small-print">{m.smallPrint}</p>
       </div>
       <span tabIndex={open ? 0 : -1} className="apws-sentinel" onFocus={trapFocus} />
     </div>
@@ -337,7 +331,7 @@ function RegistrationModal({ open, onClose }) {
 export default function AutopilotWorkshop() {
   const [modalOpen, setModalOpen] = useState(false);
   const triggerRef = useRef(null);
-  const { hero, learn, who, testimonials, bonus, faq, note, eventDate } = WORKSHOP;
+  const { hero, learn, who, testimonials, faq, note, eventDate } = WORKSHOP;
 
   const openModal = (e) => {
     triggerRef.current = e.currentTarget;
@@ -445,32 +439,7 @@ export default function AutopilotWorkshop() {
           <CommentWall comments={testimonials.comments} />
         </section>
 
-        {/* 7. Show-up bonus */}
-        <section className="apws-wrap apws-section">
-          <div className="apws-bonus">
-            <div>
-              <span className="apws-stamp">{bonus.stamp}</span>
-              <Heading className="apws-h2 apws-bonus-h2" before={bonus.headline} accent={bonus.headlineAccent} />
-              {bonus.paragraphs.map((p) => (
-                <p key={p} className="apws-body apws-bonus-p">{p}</p>
-              ))}
-              <CtaButton label={bonus.cta} onOpen={openModal} className="apws-bonus-cta" />
-            </div>
-            <div className="apws-agenda">
-              <p className="gmp-eyebrow apws-agenda-eyebrow">{bonus.cardEyebrow}</p>
-              <ol className="apws-agenda-list">
-                {bonus.agenda.map((a, i) => (
-                  <li key={a} className="apws-agenda-row">
-                    <span className="apws-agenda-num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="apws-agenda-label">{a}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
-
-        {/* 8. FAQ */}
+        {/* 7. FAQ */}
         <section className="apws-wrap apws-section">
           <div className="apws-split">
             <div>
@@ -491,7 +460,7 @@ export default function AutopilotWorkshop() {
           </div>
         </section>
 
-        {/* 9. A note from Sean */}
+        {/* 8. A note from Sean */}
         <section className="apws-wrap apws-section apws-note">
           <div className="apws-split">
             <div className="apws-photo-wrap">
@@ -524,7 +493,7 @@ export default function AutopilotWorkshop() {
         </section>
       </main>
 
-      {/* 10. Footer */}
+      {/* 9. Footer */}
       <footer className="apws-footer">
         <div className="apws-wrap apws-footer-inner">
           <span>{WORKSHOP.copyright}</span>

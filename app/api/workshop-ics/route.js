@@ -1,16 +1,15 @@
-import { buildIcs } from '../../../lib/workshop-calendar';
+import { buildIcs, sessionByKey } from '../../../lib/workshop-calendar';
 
-// Plain .ics for the workshop, with no personal join link in it.
-//
-// The thank-you page builds the personal version in the browser (so the link
-// never travels through a URL) and only falls back to this route when it has
-// no link to work with — a reload in a new tab, private browsing, or a hiccup
-// registering with Zoom. Same file for everyone, so it can be cached.
-export function GET() {
-  return new Response(buildIcs(null), {
+// .ics for one workshop session: /api/workshop-ics/?s=sun or ?s=mon.
+// The join links are the same for everyone, so every visitor gets the same
+// file for a given session.
+export function GET(request) {
+  const session = sessionByKey(request.nextUrl.searchParams.get('s'));
+  if (!session) return new Response('Unknown session', { status: 400 });
+  return new Response(buildIcs(session), {
     headers: {
       'Content-Type': 'text/calendar; charset=utf-8',
-      'Content-Disposition': 'attachment; filename="growth-mindset-workshop.ics"',
+      'Content-Disposition': `attachment; filename="growth-mindset-workshop-${session.key}.ics"`,
     },
   });
 }

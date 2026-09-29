@@ -74,14 +74,20 @@
   text-wrap: pretty;
 }
 
-/* ── Date ────────────────────────────────────────────────── */
+/* ── Sessions ────────────────────────────────────────────── */
 
-.apty-date {
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding: 20px 0;
-  text-align: center;
+.apty-session {
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
+.apty-main > .apty-cal-intro { margin-bottom: -16px; }
+
+.apty-date { text-align: center; }
 
 .apty-date-day {
   font-weight: 700;
@@ -96,6 +102,31 @@
   margin-top: 4px;
 }
 
+.apty-join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 16px 24px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.apty-join:hover,
+.apty-join:focus-visible { background: var(--accent); }
+
+.apty-join:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.apty-session .apty-cal-intro { font-size: 14px; margin-bottom: -6px; }
+
 /* ── Calendar ────────────────────────────────────────────── */
 
 .apty-cal-intro {
@@ -108,19 +139,19 @@
 }
 
 .apty-cal-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .apty-cal {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
+  justify-content: center;
   font-weight: 600;
-  font-size: 16px;
-  padding: 16px 24px;
+  font-size: 15px;
+  padding: 12px 10px;
   border-radius: 999px;
   border: 1.5px solid var(--ink);
   color: var(--ink);
@@ -150,21 +181,6 @@
 /* ── Closing ─────────────────────────────────────────────── */
 
 .apty-close { text-align: center; }
-
-.apty-bonus {
-  font-family: var(--serif-text);
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  text-wrap: pretty;
-  margin-bottom: 12px;
-}
-
-.apty-bonus strong {
-  font-family: var(--sans);
-  font-weight: 600;
-  color: var(--accent);
-}
 
 .apty-signoff {
   font-family: var(--serif-italic);

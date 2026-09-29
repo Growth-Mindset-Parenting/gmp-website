@@ -10,13 +10,13 @@
 //   workshop ends →      the sales popup
 //   cart closes →        nothing
 //
-// It switches itself because the handover lands at about 7pm on a Wednesday,
-// right after Sean finishes teaching live, and the "doors are open" email goes
-// out the same evening. Nobody should need to run a deploy in that hour.
+// It switches itself because the handover lands at 1pm CT on Monday Oct 5,
+// right after Sean finishes the second live session. Nobody should need to
+// run a deploy in that hour.
 //
-// The workshop hand-over reuses WORKSHOP.event.endUtc — the same instant the
-// calendar invites are built from — so there is only ever one workshop time on
-// this site to keep right.
+// The workshop hand-over reuses the last session's endUtc in
+// WORKSHOP.sessions — the same instant the calendar invites are built from —
+// so there is only ever one set of workshop times on this site to keep right.
 import { WORKSHOP } from './autopilot-workshop';
 
 // Force a phase instead of working it out from the clock: 'workshop',
@@ -26,8 +26,8 @@ export const OVERRIDE = null;
 
 // When the workshop popup starts: Sep 30 2026, 00:00 CT.
 const OPENS = Date.parse('2026-09-30T05:00:00Z');
-// The workshop ends and the sales popup takes over.
-const WORKSHOP_ENDS = Date.parse(WORKSHOP.event.endUtc);
+// The last workshop session ends and the sales popup takes over.
+const WORKSHOP_ENDS = Date.parse(WORKSHOP.sessions.at(-1).endUtc);
 // Cart closes Fri Oct 16 2026, 9pm CT. After this the popup stops.
 const CART_CLOSES = Date.parse('2026-10-17T02:00:00Z');
 
@@ -60,7 +60,7 @@ export const POPUPS = {
     seenKey: 'gmp_popup_workshop_seen',
     variant: 'paper',
     // Keep the date in step with WORKSHOP.eventDate in data/autopilot-workshop.js.
-    eyebrow: 'Free live workshop · Oct 7, 6pm CT',
+    eyebrow: 'Free live workshop · Sun Oct 4 or Mon Oct 5',
     // PLACEHOLDER — final title comes from Sean once the workshop is set.
     // `accent` is the phrase set in italic serif.
     headline: 'Placeholder workshop',
@@ -75,7 +75,7 @@ export const POPUPS = {
   sales: {
     seenKey: 'gmp_popup_sales_seen',
     variant: 'ink',
-    eyebrow: 'Now enrolling · starts Oct 20',
+    eyebrow: 'Now enrolling · starts Oct 13',
     headline: 'Autopilot',
     headlineAccent: null,
     body: {

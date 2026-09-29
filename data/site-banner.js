@@ -7,9 +7,9 @@
 // width. A phone reader who sees only the banner line and its button has to
 // come away knowing what they would be signing up for.
 //
-// The bar follows the launch: waitlist now, then the free workshop from
-// Sep 30, then the sales page once doors open on Oct 7, then off after the
-// cart closes Oct 16. Switching is one line — change MODE.
+// The bar follows the launch: waitlist now, then the free workshop
+// (sessions Sun Oct 4 and Mon Oct 5), then the sales page, then off after the
+// cart closes Mon Oct 12. Switching is one line — change MODE.
 //
 // Every banner link carries utm_source=website (see lib/attribution.js).
 // Our own buttons never replace an outside source, so a visitor who arrived
@@ -48,20 +48,20 @@ export const BANNERS = {
   },
 
   workshop: {
-    version: 'workshop-1',
+    version: 'workshop-2',
     // Keep this date in step with WORKSHOP.eventDate in data/autopilot-workshop.js.
-    text: "Free live workshop · Wednesday, October 7 · 6:00 pm CT — Stop being your kid's prefrontal cortex.",
-    textShort: 'Free live workshop · Wed, Oct 7 · 6:00 pm CT',
+    text: "Free live workshop · Sunday, Oct 4 or Monday, Oct 5 — Stop being your kid's prefrontal cortex.",
+    textShort: 'Free live workshop · Sun Oct 4 or Mon Oct 5',
     cta: 'Save my spot',
     href: '/workshop/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-workshop',
   },
 
-  // From Oct 7, when /autopilot/ becomes the sales page, until the cart
-  // closes Oct 16 at 9pm CT.
+  // From when /autopilot/ becomes the sales page until the cart closes
+  // Mon Oct 12.
   sales: {
     version: 'sales-1',
-    text: 'Autopilot is open — a 5-week live course. Doors close Friday, October 16.',
-    textShort: 'Autopilot is open. Doors close Fri, Oct 16.',
+    text: 'Autopilot is open — a 5-week live course. Doors close Monday, October 12.',
+    textShort: 'Autopilot is open. Doors close Mon, Oct 12.',
     cta: 'See the course',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-sales',
   },

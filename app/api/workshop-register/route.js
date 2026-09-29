@@ -1,19 +1,13 @@
 import { NextResponse } from 'next/server';
-import { registerForWorkshop } from '../../../lib/zoom';
 
 // Signup for the free Autopilot workshop (/workshop/).
 //
-// Two things happen per signup:
-//   1. Zoom registers them for meeting ZOOM_WORKSHOP_MEETING_ID and hands
-//      back their personal join link. Zoom emails them that link itself.
-//   2. Kit adds them to form 9921406 "Autopilot Workshop Registrants" with
-//      the `Registered: Autopilot Workshop` tag, their utm_* attribution and
-//      their join link in the `zoom_join_url` field, so Sean's reminder
-//      emails can carry the link too.
-//
-// A signup is never dropped: if Zoom fails we still subscribe them in Kit
-// and tag it for follow-up, and if Kit fails the Zoom registration (and its
-// confirmation email) still stands.
+// Kit adds them to form 9921406 "Autopilot Workshop Registrants" with the
+// `Registered: Autopilot Workshop` tag and their utm_* attribution. The two
+// Zoom sessions are open links (the same for everyone, in
+// data/autopilot-workshop.js), so there is no Zoom step: the thank-you page
+// and Sean's Kit emails carry both links. Until 2026-09-29 this route also
+// registered each person with Zoom for a personal link.
 
 const KIT_API_SECRET = process.env.KIT_API_SECRET;
 
@@ -28,10 +22,6 @@ const POSSIBLE_SPAM_TAG_ID = 23448486;
 // whose placeholder says "I'll text you a reminder" — is the opt-in, and
 // this tag is the record of who agreed. No texts are sent yet (2026-09-21).
 const SMS_OK_TAG_ID = 23797661;
-
-// Added when Zoom registration failed, so these people can be registered by
-// hand before the workshop. They have no join link yet.
-const ZOOM_FAILED_TAG_ID = 23752948;
 
 const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
 
@@ -106,30 +96,20 @@ export async function POST(request) {
       }
     }
 
-    let joinUrl = null;
-    try {
-      joinUrl = await registerForWorkshop({ email: trimmed, firstName: name });
-      fields.zoom_join_url = joinUrl.slice(0, 255);
-    } catch (err) {
-      console.error('[workshop-register] zoom:', err);
-    }
-
     const tags = [REGISTERED_TAG_ID];
     if (smsPhone) tags.push(SMS_OK_TAG_ID);
     if (suspected) tags.push(POSSIBLE_SPAM_TAG_ID);
-    if (!joinUrl) tags.push(ZOOM_FAILED_TAG_ID);
 
     try {
       await subscribeInKit({ email: trimmed, firstName: name, fields, tags });
     } catch (err) {
-      // Logged loudly: this person is registered with Zoom (and has their
-      // link by email) but is NOT on Sean's list, so no reminders reach
-      // them. Vercel logs are the record; check them after a launch push.
+      // Kit is the only record of this signup, so tell the form it failed
+      // and let them try again rather than show a false "you're in".
       console.error('[workshop-register] KIT SUBSCRIBE FAILED — not on the list:', trimmed, err);
-      if (!joinUrl) return NextResponse.json({ error: 'Subscription failed' }, { status: 502 });
+      return NextResponse.json({ error: 'Subscription failed' }, { status: 502 });
     }
 
-    return NextResponse.json({ success: true, joinUrl });
+    return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[workshop-register]', err);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
