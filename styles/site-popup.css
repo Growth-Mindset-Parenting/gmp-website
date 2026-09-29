@@ -264,8 +264,8 @@
    corner — not read off the spec text, which still describes an older
    placement. */
 .gmp-popup-paper .gmp-popup-plane-wide {
-  left: -106px;
-  top: 107px;
+  left: -80px;
+  top: 80px;
   width: 672px;
   height: 296px;
 }
@@ -331,9 +331,12 @@
   .gmp-popup-plane-wide { display: none; }
   .gmp-popup-plane-narrow { display: block; }
 
+  /* Anchored to the bottom of the sheet (with room made for it) so it
+     never lands on the copy, however many lines the headline takes. */
+  .gmp-popup-paper { padding-bottom: 104px; }
   .gmp-popup-paper .gmp-popup-plane-narrow {
     left: -137px;
-    top: 343px;
+    bottom: 12px;
     width: 568px;
     height: 91px;
   }
