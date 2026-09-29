@@ -61,12 +61,11 @@ export const POPUPS = {
     variant: 'paper',
     // Keep the date in step with WORKSHOP.eventDate in data/autopilot-workshop.js.
     eyebrow: 'Free live workshop · Sun Oct 4 or Mon Oct 5',
-    // PLACEHOLDER — final title comes from Sean once the workshop is set.
-    // `accent` is the phrase set in italic serif.
-    headline: 'Placeholder workshop',
-    headlineAccent: 'title goes here',
-    // PLACEHOLDER — same.
-    body: "Placeholder tagline — one sentence on what parents will walk away with. Sixty minutes, recorded if you can't make it.",
+    // Matches the workshop page headline. `accent` is the phrase set in
+    // italic serif.
+    headline: 'From reminders to',
+    headlineAccent: 'responsibility.',
+    body: 'A free, 60-minute live workshop on handing the load back to your kid, one system at a time.',
     cta: 'Save my seat',
     href: '/workshop/?utm_source=website&utm_medium=popup&utm_campaign=autopilot-workshop',
     dismiss: "No thanks, I'll keep reminding them myself",
