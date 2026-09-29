@@ -124,7 +124,11 @@ export const WORKSHOP = {
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
     intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send you links for both sessions, so you can come to whichever fits. I'll remind you before we go live, too. You've got enough to remember.",
-    smsPrint: 'Reminders only, and only about this workshop. Msg & data rates may apply. Reply STOP any time.',
+    smsPrint: 'By adding your number you agree to receive text reminders about this workshop from Growth Mindset Parenting. Msg & data rates may apply. Reply HELP for help, STOP to cancel.',
+    smsLinks: [
+      { label: 'Privacy Policy', href: '/privacy/' },
+      { label: 'Terms', href: '/terms/' },
+    ],
   },
 
   // The form inside the modal posts to /api/workshop-register/, which adds

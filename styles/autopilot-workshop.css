@@ -749,6 +749,12 @@
   margin: 12px 0 0;
 }
 
+.apws-sms-print a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .apws-form-error {
   margin: 12px 0 0;
   font-weight: 600;

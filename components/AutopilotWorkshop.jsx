@@ -329,7 +329,16 @@ function RegistrationModal({ open, onClose }) {
         {error && (
           <p id="apws-form-error" role="alert" className="apws-form-error">{error}</p>
         )}
-        <p id="apws-sms-print" className="apws-sms-print">{m.smsPrint}</p>
+        <p id="apws-sms-print" className="apws-sms-print">
+          {m.smsPrint}{' '}
+          {m.smsLinks.map((l, i) => (
+            <span key={l.href}>
+              {i > 0 && ' · '}
+              <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+            </span>
+          ))}
+          .
+        </p>
       </div>
       <span tabIndex={open ? 0 : -1} className="apws-sentinel" onFocus={trapFocus} />
     </div>
