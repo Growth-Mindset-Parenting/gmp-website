@@ -143,7 +143,6 @@ const SUBMIT_TIMEOUT_MS = 15000;
 function RegistrationModal({ open, onClose }) {
   const m = WORKSHOP.modal;
   const f = WORKSHOP.form;
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
@@ -157,14 +156,9 @@ function RegistrationModal({ open, onClose }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (busy) return;
-    const firstName = name.trim();
     const value = email.trim();
     const phoneValue = phone.trim();
     const company = e.currentTarget.elements.hp_gmp_check?.value || '';
-    if (!firstName) {
-      setError(f.errorName);
-      return;
-    }
     if (!EMAIL_RE.test(value)) {
       setError(f.errorInvalid);
       return;
@@ -179,7 +173,7 @@ function RegistrationModal({ open, onClose }) {
       const res = await fetch('/api/workshop-register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: value, firstName, phone: phoneValue, utms: getAttribution(), company }),
+        body: JSON.stringify({ email: value, phone: phoneValue, utms: getAttribution(), company }),
         signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
@@ -277,18 +271,6 @@ function RegistrationModal({ open, onClose }) {
           ))}
         </div>
         <form className="apws-form" onSubmit={onSubmit} noValidate>
-          <label htmlFor="apws-name" className="apws-label">{f.nameLabel}</label>
-          <input
-            id="apws-name"
-            className="apws-input"
-            type="text"
-            name="first_name"
-            autoComplete="given-name"
-            placeholder={f.namePlaceholder}
-            value={name}
-            onChange={(e) => onField(setName, e.target.value)}
-            aria-invalid={error === f.errorName ? 'true' : undefined}
-          />
           <label htmlFor="apws-email" className="apws-label">{f.emailLabel}</label>
           <input
             id="apws-email"

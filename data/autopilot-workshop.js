@@ -123,7 +123,7 @@ export const WORKSHOP = {
     headline: "Your kid doesn't know it yet, but you just did",
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
-    intro: "That's what great teachers do: they plan ahead. Pop in your name and email, and I'll send you links for both sessions, so you can come to whichever fits. I'll remind you before we go live, too. You've got enough to remember.",
+    intro: "That's what great teachers do: they plan ahead. Pop in your email, and I'll send you links for both sessions, so you can come to whichever fits. I'll remind you before we go live, too. You've got enough to remember.",
     smsPrint: 'By adding your number you agree to receive text reminders about this workshop from Growth Mindset Parenting. Msg & data rates may apply. Reply HELP for help, STOP to cancel.',
     smsLinks: [
       { label: 'Privacy Policy', href: '/privacy/' },
@@ -135,8 +135,6 @@ export const WORKSHOP = {
   // them to Kit. (Until 2026-09-29 it also registered them with Zoom; the
   // meetings are open links now.)
   form: {
-    nameLabel: 'First name',
-    namePlaceholder: 'Sarah',
     emailLabel: 'Email',
     emailPlaceholder: 'you@example.com',
     // Optional. The placeholder carries the promise, so typing a number IS
@@ -147,7 +145,6 @@ export const WORKSHOP = {
     phonePlaceholder: "I'll text you a reminder",
     button: 'Save my seat',
     buttonBusy: 'Saving your seat…',
-    errorName: 'Pop your first name in so I know who I\u2019m talking to.',
     errorInvalid: 'That email doesn\u2019t look right. Mind checking it?',
     errorPhone: 'That number looks short. Ten digits, or leave it blank.',
     errorServer: 'Something went wrong on my end. Try that once more?',
