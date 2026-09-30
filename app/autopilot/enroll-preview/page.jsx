@@ -10,7 +10,8 @@ import AutopilotSales from '../../../components/AutopilotSales';
 //      that lives there now somewhere else, or retire it),
 //   2. drop the robots noindex below and set canonical/url to /autopilot/,
 //   3. update the /autopilot/ lastModified in app/sitemap.js (it is already listed),
-//   4. remove /autopilot/enroll-preview/ from both HIDDEN_PATHS lists.
+//   4. remove /autopilot/enroll-preview/ from HIDDEN_PATHS in data/site-banner.js
+//      and from WORKSHOP_HIDDEN in data/site-popup.js.
 // Copy lives in data/autopilot-sales.js.
 export const metadata = {
   title: { absolute: 'Autopilot — A live course for parents of kids 9 to 15 · Growth Mindset Parenting' },

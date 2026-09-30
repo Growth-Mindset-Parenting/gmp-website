@@ -12,31 +12,24 @@
 //
 // It switches itself because the handover lands at 1pm CT on Monday Oct 5,
 // right after Sean finishes the second live session. Nobody should need to
-// run a deploy in that hour.
-//
-// The workshop hand-over reuses the last session's endUtc in
-// WORKSHOP.sessions — the same instant the calendar invites are built from —
-// so there is only ever one set of workshop times on this site to keep right.
-import { WORKSHOP } from './autopilot-workshop';
+// run a deploy in that hour. The switch times live in data/launch-schedule.js,
+// shared with the site banner, so the two always change at the same moment.
+import { CART_CLOSES, POPUP_OPENS, SALES_STARTS, phaseFrom } from './launch-schedule';
 
 // Force a phase instead of working it out from the clock: 'workshop',
 // 'sales', or 'off'. For checking the popups look right before their date,
 // and as the handle to grab if the workshop moves. null = follow the dates.
 export const OVERRIDE = null;
 
-// When the workshop popup starts: Sep 30 2026, 00:00 CT.
-const OPENS = Date.parse('2026-09-30T05:00:00Z');
-// The last workshop session ends and the sales popup takes over.
-const WORKSHOP_ENDS = Date.parse(WORKSHOP.sessions.at(-1).endUtc);
-// Cart closes Mon Oct 12 2026, 10pm CT. After this the popup stops.
-const CART_CLOSES = Date.parse('2026-10-13T03:00:00Z');
+const SCHEDULE = [
+  [POPUP_OPENS, 'workshop'],
+  [SALES_STARTS, 'sales'],
+  [CART_CLOSES, null],
+];
 
 export function phaseAt(now = Date.now()) {
   if (OVERRIDE) return OVERRIDE === 'off' ? null : OVERRIDE;
-  if (now < OPENS) return null;
-  if (now < WORKSHOP_ENDS) return 'workshop';
-  if (now < CART_CLOSES) return 'sales';
-  return null;
+  return phaseFrom(SCHEDULE, now);
 }
 
 // Appears once the visitor has read a little — never on arrival. Whichever of
@@ -44,15 +37,25 @@ export function phaseAt(now = Date.now()) {
 export const TRIGGER = { scrollPercent: 40, afterSeconds: 20 };
 
 // Pages where the popup would be pushing someone to the page they are already
-// on, or interrupting a signup they have just finished.
-export const HIDDEN_PATHS = [
-  '/autopilot/',
+// on, or interrupting a signup they have just finished. Per phase:
+//
+// - workshop: DOES show on /autopilot/ (the waitlist page, then the sales page
+//   from Oct 3) — a waitlist visitor should hear about the workshop (Katie,
+//   2026-09-30).
+// - sales: hidden on /autopilot/ too, because that page IS the sales page the
+//   popup points to.
+const WORKSHOP_HIDDEN = [
   '/autopilot/thank-you/',
   '/autopilot/enroll-preview/', // hidden sales-page preview
   '/workshop/',
   '/workshop/thank-you/',
   '/workshop/replay/',
 ];
+
+export const HIDDEN_PATHS = {
+  workshop: WORKSHOP_HIDDEN,
+  sales: [...WORKSHOP_HIDDEN, '/autopilot/'],
+};
 
 export const POPUPS = {
   workshop: {

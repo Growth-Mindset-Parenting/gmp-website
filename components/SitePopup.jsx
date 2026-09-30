@@ -17,9 +17,10 @@ import PaperPlane from './PaperPlane';
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-function isHiddenPath(pathname) {
+// Which pages hide it depends on the phase (see data/site-popup.js).
+function isHiddenPath(pathname, phase) {
   const p = pathname?.endsWith('/') ? pathname : `${pathname || ''}/`;
-  return HIDDEN_PATHS.includes(p);
+  return (HIDDEN_PATHS[phase] || []).includes(p);
 }
 
 function alreadySeen(key) {
@@ -51,9 +52,8 @@ export default function SitePopup() {
 
   // Decide whether this page could ever show a popup, then arm the triggers.
   useEffect(() => {
-    if (isHiddenPath(pathname)) return undefined;
     const current = phaseAt();
-    if (!current) return undefined;
+    if (!current || isHiddenPath(pathname, current)) return undefined;
     const config = POPUPS[current];
     if (!config || alreadySeen(config.seenKey)) return undefined;
 
@@ -64,6 +64,9 @@ export default function SitePopup() {
       if (done) return;
       done = true;
       cleanup();
+      // The clock crossed a switch time while it waited: skip it. The next
+      // page view arms the new phase.
+      if (phaseAt() !== current) return;
       openerRef.current = document.activeElement;
       setOpen(true);
     };

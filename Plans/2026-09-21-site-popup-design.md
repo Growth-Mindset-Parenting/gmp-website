@@ -75,9 +75,15 @@ npx tsx scripts/popup-phase-check.mjs
   `gmp_popup_sales_seen`). Seeing the workshop popup does not use up the sales
   one — they are separate flags.
 - **Closes** on the ×, the backdrop, Esc, or the dismiss link.
-- **Never shows** on `/autopilot/`, `/workshop/`, or the thank-you and replay
-  pages — it would be pointing at the page you are already on, or interrupting
-  a signup just finished.
+- **Never shows** on `/workshop/` or the thank-you and replay pages — it would
+  be pointing at the page you are already on, or interrupting a signup just
+  finished. The **workshop** popup DOES show on `/autopilot/` (the waitlist,
+  then the sales page from Oct 3), so course-page visitors hear about the
+  workshop. The **sales** popup is hidden on `/autopilot/`, because that page
+  is the sales page it points to. Lists per phase: `HIDDEN_PATHS` in
+  `data/site-popup.js`.
+- **Switch times** live in `data/launch-schedule.js`, shared with the site
+  banner, so both change at the same moment.
 - **Accessibility:** `role="dialog"`, `aria-modal`, labelled by its own
   heading, focus moves into the dialog and returns to where the reader was,
   Tab is trapped inside, page scroll is locked while it is open.

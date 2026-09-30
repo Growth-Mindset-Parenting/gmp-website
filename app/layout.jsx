@@ -19,7 +19,8 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import AttributionCapture from '../components/AttributionCapture';
 import SiteBanner from '../components/SiteBanner';
 import SitePopup from '../components/SitePopup';
-import { BANNER, HIDDEN_PATHS } from '../data/site-banner';
+import { BANNERS, HIDDEN_PATHS, SCHEDULE } from '../data/site-banner';
+import { buildBannerScript } from '../lib/banner-script';
 import { BANNER_COOKIE } from '../lib/analytics';
 import MetaPixel from '../components/MetaPixel';
 import TikTokPixel from '../components/TikTokPixel';
@@ -80,17 +81,16 @@ export const metadata = {
 // Decides, before the page paints, whether this visitor sees the announcement
 // bar — so a dismissed banner (or a page that hides it) never flashes and
 // nothing on the page jumps. Kept tiny and dependency-free on purpose.
-const BANNER_SCRIPT = BANNER
-  ? `(function(){try{var h=document.documentElement;var p=location.pathname;
-if(p.slice(-1)!=='/')p+='/';
-var hide=${JSON.stringify(HIDDEN_PATHS)}.indexOf(p)>-1;
-if(!hide)hide=(document.cookie.split('; ').filter(function(c){return c.indexOf('${BANNER_COOKIE}=')===0;})[0]||'').split('=')[1]===encodeURIComponent('${BANNER.version}');
-if(hide)h.setAttribute('data-banner','hidden');}catch(e){}})();`
-  : null;
+const BANNER_SCRIPT = buildBannerScript({
+  schedule: SCHEDULE,
+  versions: Object.fromEntries(Object.entries(BANNERS).map(([k, b]) => [k, b.version])),
+  hiddenPaths: HIDDEN_PATHS,
+  cookie: BANNER_COOKIE,
+});
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`theme-terracotta ${inter.variable} ${lora.variable} ${sourceSerif4.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`theme-terracotta ${inter.variable} ${lora.variable} ${sourceSerif4.variable}`}>
       <body>
         {/* Must stay the first thing in <body>: the browser runs it while
             parsing, before the banner below is painted. (A <script> in the
