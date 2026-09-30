@@ -36,6 +36,11 @@ export function phaseAt(now = Date.now()) {
 // these comes first.
 export const TRIGGER = { scrollPercent: 40, afterSeconds: 15 };
 
+// Shows once per visit. A visit ends after this many minutes with no page
+// views (GA4's session rule), so a visitor who comes back later sees it again.
+// Closing it, "no thanks", or clicking the button all count as seen.
+export const VISIT_GAP_MINUTES = 30;
+
 // Pages where the popup would be pushing someone to the page they are already
 // on, or interrupting a signup they have just finished. Per phase:
 //
@@ -59,7 +64,7 @@ export const HIDDEN_PATHS = {
 
 export const POPUPS = {
   workshop: {
-    // The flag that remembers this visitor has seen it. Change it and
+    // The flag that remembers this visitor has seen it this visit. Change it and
     // everyone gets shown the popup again.
     seenKey: 'gmp_popup_workshop_seen',
     variant: 'paper',

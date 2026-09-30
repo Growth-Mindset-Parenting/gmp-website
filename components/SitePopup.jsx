@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { HIDDEN_PATHS, POPUPS, TRIGGER, phaseAt } from '../data/site-popup';
+import { HIDDEN_PATHS, POPUPS, TRIGGER, VISIT_GAP_MINUTES, phaseAt } from '../data/site-popup';
 import { trackPromotion } from '../lib/analytics';
 import PaperPlane from './PaperPlane';
 
@@ -23,18 +23,51 @@ function isHiddenPath(pathname, phase) {
   return (HIDDEN_PATHS[phase] || []).includes(p);
 }
 
-function alreadySeen(key) {
+// Once per visit, not once ever (Katie, 2026-09-30). A visit ends after
+// VISIT_GAP_MINUTES with no page views — the same way GA4 counts a session —
+// so clicking around shows it once, and coming back later shows it again.
+// Each page view stamps the time; the "seen" flag stores which visit it was
+// seen in, so a new visit makes every old flag stale by itself.
+const VISIT_ID = 'gmp_visit_id';
+const VISIT_LAST = 'gmp_visit_last';
+
+function currentVisit() {
   try {
-    return localStorage.getItem(key) === '1';
+    const now = Date.now();
+    const last = Number(localStorage.getItem(VISIT_LAST)) || 0;
+    let id = localStorage.getItem(VISIT_ID);
+    if (!id || now - last > VISIT_GAP_MINUTES * 60 * 1000) {
+      id = String(now);
+      localStorage.setItem(VISIT_ID, id);
+    }
+    localStorage.setItem(VISIT_LAST, String(now));
+    return id;
   } catch {
-    // Private mode or blocked storage: show it. Better than never showing it.
+    // Private mode or blocked storage: every page is its own visit.
+    return null;
+  }
+}
+
+function readVisit() {
+  try {
+    return localStorage.getItem(VISIT_ID);
+  } catch {
+    return null;
+  }
+}
+
+function alreadySeen(key, visit) {
+  try {
+    return visit !== null && localStorage.getItem(key) === visit;
+  } catch {
     return false;
   }
 }
 
 function markSeen(key) {
   try {
-    localStorage.setItem(key, '1');
+    const visit = localStorage.getItem(VISIT_ID);
+    if (visit) localStorage.setItem(key, visit);
   } catch {
     // never block a close or a click
   }
@@ -52,10 +85,12 @@ export default function SitePopup() {
 
   // Decide whether this page could ever show a popup, then arm the triggers.
   useEffect(() => {
+    // Every page view counts toward the visit, popup page or not.
+    const visit = currentVisit();
     const current = phaseAt();
     if (!current || isHiddenPath(pathname, current)) return undefined;
     const config = POPUPS[current];
-    if (!config || alreadySeen(config.seenKey)) return undefined;
+    if (!config || alreadySeen(config.seenKey, visit)) return undefined;
 
     setPhase(current);
 
@@ -67,6 +102,9 @@ export default function SitePopup() {
       // The clock crossed a switch time while it waited: skip it. The next
       // page view arms the new phase.
       if (phaseAt() !== current) return;
+      // Closed (or clicked) since this timer was armed — e.g. it was open
+      // when they moved to another page, then they closed it. Stay closed.
+      if (alreadySeen(config.seenKey, readVisit())) return;
       openerRef.current = document.activeElement;
       setOpen(true);
     };
@@ -94,6 +132,8 @@ export default function SitePopup() {
     (reason) => {
       setOpen(false);
       if (popup) markSeen(popup.seenKey);
+      // It can show again next visit in this same open tab; count that view.
+      tracked.current = false;
       // Put the visitor back where they were reading.
       try {
         openerRef.current?.focus?.();

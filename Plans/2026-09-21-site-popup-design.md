@@ -70,10 +70,12 @@ npx tsx scripts/popup-phase-check.mjs
 - **Appears** once the visitor has scrolled 40% of the page, or after 15
   seconds, whichever comes first. Never on arrival. The timer is what covers
   pages too short to scroll.
-- **Once per visitor per popup.** Closing it, dismissing it or clicking through
-  sets a flag in the browser (`gmp_popup_workshop_seen`,
-  `gmp_popup_sales_seen`). Seeing the workshop popup does not use up the sales
-  one — they are separate flags.
+- **Once per visit.** A visit ends after 30 minutes with no page views
+  (`VISIT_GAP_MINUTES`, GA4's session rule), so clicking around shows it once
+  and coming back later shows it again. Closing it, dismissing it or clicking
+  through marks it seen for that visit (`gmp_popup_workshop_seen`,
+  `gmp_popup_sales_seen` hold the visit id). Seeing the workshop popup does
+  not use up the sales one — they are separate flags.
 - **Closes** on the ×, the backdrop, Esc, or the dismiss link.
 - **Never shows** on `/workshop/` or the thank-you and replay pages — it would
   be pointing at the page you are already on, or interrupting a signup just
