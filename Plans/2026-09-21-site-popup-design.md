@@ -67,7 +67,7 @@ npx tsx scripts/popup-phase-check.mjs
 
 ## Behaviour
 
-- **Appears** once the visitor has scrolled 40% of the page, or after 20
+- **Appears** once the visitor has scrolled 40% of the page, or after 15
   seconds, whichever comes first. Never on arrival. The timer is what covers
   pages too short to scroll.
 - **Once per visitor per popup.** Closing it, dismissing it or clicking through

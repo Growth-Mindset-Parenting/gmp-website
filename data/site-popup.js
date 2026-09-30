@@ -34,7 +34,7 @@ export function phaseAt(now = Date.now()) {
 
 // Appears once the visitor has read a little — never on arrival. Whichever of
 // these comes first.
-export const TRIGGER = { scrollPercent: 40, afterSeconds: 20 };
+export const TRIGGER = { scrollPercent: 40, afterSeconds: 15 };
 
 // Pages where the popup would be pushing someone to the page they are already
 // on, or interrupting a signup they have just finished. Per phase:
