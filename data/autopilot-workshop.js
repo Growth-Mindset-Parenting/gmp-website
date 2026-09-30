@@ -237,7 +237,7 @@ export const WORKSHOP = {
       phonePlaceholder: '(512) 555-0123',
       button: 'Text me a reminder',
       buttonBusy: 'Saving…',
-      done: "Got it. I'll text you before we go live.",
+      done: "Got it. I'll text you a reminder. See you soon.",
       errorEmail: 'Pop in the email you signed up with.',
       errorPhone: 'That number looks short. Ten digits, please.',
       errorServer: 'Something went wrong on my end. Try that once more?',
