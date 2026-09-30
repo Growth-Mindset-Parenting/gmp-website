@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { WORKSHOP } from '../data/autopilot-workshop';
 import { whenGtag } from '../lib/analytics';
-import { getAttribution } from '../lib/attribution';
 import { REGISTERED_KEY, googleCalendarUrl, icsUrl, outlookCalendarUrl } from '../lib/workshop-calendar';
 
 // Instagram, Facebook and TikTok's in-app browsers usually ignore .ics downloads.
@@ -63,7 +62,9 @@ function TextReminder() {
       const res = await fetch('/api/workshop-register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: emailValue, phone: phoneValue, utms: getAttribution(), company }),
+        // No utms: this page's own URL is tagged "kit", and sending that
+        // would overwrite where they first came from in Kit.
+        body: JSON.stringify({ email: emailValue, phone: phoneValue, company }),
         signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
       });
       if (!res.ok) throw new Error(`status ${res.status}`);
@@ -97,6 +98,7 @@ function TextReminder() {
               value={email}
               onChange={(e) => onField(setEmail, e.target.value)}
               aria-invalid={error === t.errorEmail ? 'true' : undefined}
+              aria-describedby={error ? 'apty-sms-error' : undefined}
             />
             <label htmlFor="apty-sms-phone" className="apty-sms-label">{t.phoneLabel}</label>
             <input
@@ -110,7 +112,7 @@ function TextReminder() {
               value={phone}
               onChange={(e) => onField(setPhone, e.target.value)}
               aria-invalid={error === t.errorPhone ? 'true' : undefined}
-              aria-describedby="apty-sms-print"
+              aria-describedby={error ? 'apty-sms-error apty-sms-print' : 'apty-sms-print'}
             />
             {/* Bot trap, same as the signup form's. */}
             <input type="text" name="hp_gmp_check" tabIndex={-1} autoComplete="off" aria-hidden="true" className="apty-trap" />
@@ -118,7 +120,7 @@ function TextReminder() {
               {busy ? t.buttonBusy : t.button}
             </button>
           </form>
-          {error && <p role="alert" className="apty-sms-error">{error}</p>}
+          {error && <p id="apty-sms-error" role="alert" className="apty-sms-error">{error}</p>}
           <p id="apty-sms-print" className="apty-sms-print">
             {m.smsPrint}{' '}
             {m.smsLinks.map((l, i) => (
