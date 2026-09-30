@@ -204,7 +204,7 @@ export const SALES = {
     body: "The first cohort pays $100 less than everyone after it. You're helping shape the playbooks, and the price reflects that. It goes to $397 for the next cohort.",
     checklist: [
       'Five live lessons with Sean, ninety minutes each',
-      'Six Plug + Play playbooks, the case studies, every worksheet',
+      'The case studies and every worksheet',
       'Lifetime access to every replay, plus three bonuses',
     ],
   },
@@ -317,7 +317,7 @@ export const SALES = {
       {
         num: '03',
         value: '$147 value',
-        title: 'Plug and Play Exercises for common scenarios',
+        title: 'Six Plug + Play playbooks for common scenarios',
         body: '6 common daily struggles in our households broken down to build up the skills your kid needs, and the intervention to sit down with tonight.',
       },
     ],
@@ -335,10 +335,9 @@ export const SALES = {
       'Five live lessons with Sean, foundation through mastery, showing you the method step by step',
       'Lifetime access to every replay, worksheet and template',
       'Narrative case studies, to feel this in real life',
-      'Six Plug + Play playbooks: morning, afternoon, homework, chores, bedtime, Sunday planning',
       'Bonus 1 — four weekly office hours with Sean during the cohort ($197 value)',
       'Bonus 2 — multiple podcast episodes with real examples of the method applied ($97 value)',
-      'Bonus 3 — Plug and Play Exercises for common scenarios ($147 value)',
+      'Bonus 3 — six Plug + Play playbooks: morning, afternoon, homework, chores, bedtime, Sunday planning ($147 value)',
     ],
   },
 
