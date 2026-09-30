@@ -225,6 +225,23 @@ export const WORKSHOP = {
     apple: 'Apple',
     outlook: 'Outlook',
     inAppNote: 'Opened this inside Instagram or TikTok? Open it in Safari or Chrome to add it to Apple Calendar.',
+    // Text-reminder box. Shown only to people who registered by clicking the
+    // invite email's button (they never saw the form's phone field). Posts to
+    // /api/workshop-register/, same as the form; the fine print is the form's
+    // smsPrint, word for word.
+    sms: {
+      headline: 'Want a text before we go live?',
+      intro: "Add your number and I'll text you a reminder.",
+      emailLabel: 'Email',
+      phoneLabel: 'Mobile',
+      phonePlaceholder: '(512) 555-0123',
+      button: 'Text me a reminder',
+      buttonBusy: 'Saving…',
+      done: "Got it. I'll text you before we go live.",
+      errorEmail: 'Pop in the email you signed up with.',
+      errorPhone: 'That number looks short. Ten digits, please.',
+      errorServer: 'Something went wrong on my end. Try that once more?',
+    },
     signoff: '— Sean',
     copyright: '© 2026 Growth Mindset Parenting',
     siteLabel: 'growthmindsetparenting.com',
