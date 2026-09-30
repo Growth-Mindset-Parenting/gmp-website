@@ -3,14 +3,14 @@ import { REPLAY } from '../../../data/autopilot-replay';
 // Autopilot workshop replay page. Standalone: no site Nav/Footer. One video,
 // one button to the sales page. Copy and links live in data/autopilot-replay.js.
 export const metadata = {
-  title: { absolute: 'Workshop replay: Stop being your kid’s prefrontal cortex · Growth Mindset Parenting' },
+  title: { absolute: 'Workshop replay: From Reminders to Responsibility · Growth Mindset Parenting' },
   description:
-    'Watch the replay of Sean Kane’s free 60-minute workshop for parents of middle schoolers: the classroom method for handing mornings, homework and chores back to your kid.',
+    'Watch the replay of Sean Kane’s free one-hour workshop for parents of middle schoolers: how a house gets from reminders to responsibility.',
   alternates: { canonical: '/workshop/replay/' },
   // Sent by email only: no nav link, not in sitemap, not indexable.
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   openGraph: {
-    title: 'Stop being your kid’s prefrontal cortex. | Workshop replay',
+    title: 'From Reminders to Responsibility | Workshop replay',
     description: 'Watch the replay of Sean Kane’s free workshop for parents of middle schoolers.',
     url: '/workshop/replay/',
     images: [{ url: '/images/autopilot/workshop-hero.jpg', width: 1200, height: 1800, alt: 'Sean Kane' }],

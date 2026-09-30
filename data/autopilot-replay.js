@@ -16,11 +16,11 @@ export const REPLAY = {
   salesUrl: '/autopilot/',
 
   eyebrow: 'Limited time replay · available until Wednesday, October 7',
-  headline: "Stop being your kid's",
-  headlineAccent: 'prefrontal cortex.',
+  headline: 'From Reminders to',
+  headlineAccent: 'Responsibility',
   subhead:
-    "Mornings, homework, chores, the dishwasher — you remember it, you remind about it, you check again. In this 60-minute workshop I show you the classroom method for handing that load back to your kid, one system at a time.",
-  videoTitle: "Workshop replay: Stop being your kid's prefrontal cortex",
+    "Mornings, homework, chores, the dishwasher — you remember, you remind, they flip. In this workshop, I share how everyday demand turns into rupture and how we can look to education to build capacity and reduce strain.",
+  videoTitle: 'Workshop replay: From Reminders to Responsibility',
   videoPlaceholder: 'The replay will be posted here soon.',
   cta: 'Enroll in Autopilot',
   ctaNote: 'Cart closes Monday, October 12 at 10pm CT',
