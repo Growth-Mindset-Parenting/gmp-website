@@ -205,7 +205,7 @@ export const SIX_MIDDLE_SKILLS_ESSAY = {
     headingItalic: 'Autopilot',
     headingTail: 'moves the management of your kid’s life from you to them.',
     blocks: [
-      { type: 'p', text: 'A five-week live course for parents of middle schoolers. One process at a time, without lowering the standard and without walking away. Launches live in October, with weekly office hours for the pushback and fallout.' },
+      { type: 'p', text: 'A five-week live course for parents of middle schoolers. One process at a time, without lowering the standard and without walking away. Launches live in October, with live office hours for the pushback and fallout. Doors are open October 3–12.' },
     ],
     ctaLead: 'The waitlist hears first and gets access to the free workshop.',
     ctaLabel: 'Join the Autopilot waitlist',

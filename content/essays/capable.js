@@ -161,7 +161,7 @@ export const CAPABLE_ESSAY = {
       { type: 'p', text: 'Autopilot is where we design it. Five weeks, one process at a time, moving the management of your kid’s life from you to them without lowering the standard and without walking away. ==A teacher’s answer to the stress of being a parent.==' },
       { type: 'p', text: 'The goal isn’t a perfect kid or house. It’s a kid who can increasingly run their own life, and a parent who knows how to help them do it.' },
       { type: 'p', text: 'Because we don’t actually want to spend these years having a better argument about the dishwasher. We just need them to help load it without the argument.' },
-      { type: 'p', text: 'The course launches live in October. I won’t just teach, I’ll also run office hours every week where we handle all our kids’ pushback and fallout because we know knowing is different than doing.' },
+      { type: 'p', text: 'The course launches live in October. I won’t just teach, I’ll also run live office hours where we handle all our kids’ pushback and fallout because we know knowing is different than doing. Doors are open October 3–12.' },
     ],
     ctaLead: 'The waitlist hears first, gets access to the free workshop.',
     ctaLabel: 'Join the Autopilot waitlist',
