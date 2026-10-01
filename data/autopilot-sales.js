@@ -305,8 +305,8 @@ export const SALES = {
       {
         num: '01',
         value: '$197 value',
-        title: 'Four office hours with Sean',
-        body: 'Bring the system that broke this week. We look at it together and fix the draft before the next lesson. Four live group sessions during the cohort, recorded if you miss one.',
+        title: 'Three office hours with Sean',
+        body: 'Bring the system that broke this week. We look at it together and fix the draft before the next lesson. Three live group sessions during the cohort, recorded if you miss one.',
       },
       {
         num: '02',
@@ -335,7 +335,7 @@ export const SALES = {
       'Five live lessons with Sean, foundation through mastery, showing you the method step by step',
       'Lifetime access to every replay, worksheet and template',
       'Narrative case studies, to feel this in real life',
-      'Bonus 1 — four weekly office hours with Sean during the cohort ($197 value)',
+      'Bonus 1 — three office hours with Sean during the cohort ($197 value)',
       'Bonus 2 — multiple podcast episodes with real examples of the method applied ($97 value)',
       'Bonus 3 — six Plug + Play playbooks: morning, afternoon, homework, chores, bedtime, Sunday planning ($147 value)',
     ],
