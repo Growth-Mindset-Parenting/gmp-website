@@ -39,7 +39,7 @@ function LetterRow({ letter }) {
   );
 }
 
-export default function LettersFeed({ letters, totalPages }) {
+export default function LettersFeed({ letters }) {
   const [activeTopic, setActiveTopic] = useState(null);
 
   const displayed = activeTopic ? letters.filter((l) => l.topic === activeTopic) : letters;
@@ -54,17 +54,6 @@ export default function LettersFeed({ letters, totalPages }) {
           <LetterRow key={letter.slug} letter={letter} />
         ))}
 
-        {!activeTopic && totalPages > 1 && (
-          <nav className="v6-letters-pager" aria-label="Pagination">
-            <span className="v6-letters-pager-btn is-disabled">&larr; Newer</span>
-            <span className="v6-letters-pager-btn is-current">1</span>
-            {Array.from({ length: Math.min(totalPages - 1, 4) }, (_, i) => i + 2).map((p) => (
-              <Link key={p} href={`/writing/page/${p}/`} className="v6-letters-pager-btn">{p}</Link>
-            ))}
-            {totalPages > 5 && <span className="v6-letters-pager-meta">of {totalPages}</span>}
-            <Link href="/writing/page/2/" className="v6-letters-pager-btn">Older &rarr;</Link>
-          </nav>
-        )}
       </section>
 
       <aside className="v6-letters-side" aria-label="Sidebar">

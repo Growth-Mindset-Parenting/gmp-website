@@ -28,7 +28,6 @@ const BLOG_SCHEMA = {
 
 export default function WritingPage() {
   const letters = getAllLetters();
-  const totalPages = Math.ceil(letters.length / 20);
 
   return (
     <article className="v6-page theme-terracotta">
@@ -51,7 +50,7 @@ export default function WritingPage() {
       </header>
 
       <span id="subscribe" style={{ display: 'block' }} />
-      <LettersFeed letters={letters} totalPages={totalPages} />
+      <LettersFeed letters={letters} />
 
       <Footer />
     </article>
