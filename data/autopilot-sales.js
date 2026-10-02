@@ -197,6 +197,31 @@ export const SALES = {
     source: 'From the community that shaped this course',
   },
 
+  // Copy is final from Plans/2026-10-02-who-you-are-design-handoff/, verbatim.
+  // Item 14's bodyAccent is set in Lora italic after the body.
+  whoYouAre: {
+    eyebrow: 'Who you are',
+    headline: "You're already the kind of parent",
+    headlineAccent: 'who…',
+    items: [
+      { num: '01', title: 'You have high expectations for your kid because you believe in them.', body: 'You don’t think support and standards are opposites.' },
+      { num: '02', title: 'You want to raise a kid who can increasingly run their own life.', body: 'Not just a kid who does what they’re told.' },
+      { num: '03', title: 'You care about your relationship with your kid, but connection isn’t your only goal.', body: 'You also want them to become capable, responsible and independent.' },
+      { num: '04', title: 'You want your kid to contribute.', body: 'Not because you need perfect chores, but because being needed and useful is part of belonging to a family.' },
+      { num: '05', title: 'You’re willing to look at what you’re doing, too.', body: 'When something isn’t working, your first instinct isn’t simply to blame.' },
+      { num: '06', title: 'You don’t need your kid to be perfect.', body: 'You’re interested in growth, participation and increasing ownership.' },
+      { num: '07', title: 'You believe kids learn responsibility by practicing it.', body: 'You want to create more opportunities for your kid to actually carry things themselves.' },
+      { num: '08', title: 'You’re trying to prepare your kid for a life bigger than your house.', body: 'The backpack and dishwasher matter, but mostly because they’re places to practice.' },
+      { num: '09', title: 'You want to be supportive without becoming responsible for everything.', body: 'You believe your needs count in the family, too.' },
+      { num: '10', title: 'You’re curious about your kid.', body: 'When something repeatedly doesn’t work, you want to understand why before deciding what it means about them.' },
+      { num: '11', title: 'You believe independence is something we teach toward.', body: 'You don’t expect kids to magically know how to manage increasingly complicated lives.' },
+      { num: '12', title: 'You can tolerate a little imperfection in the service of growth.', body: 'Sometimes letting your kid carry something means letting them carry it differently than you would.' },
+      { num: '13', title: 'You want to trust your kid with more.', body: 'And you want to help them develop the skills that make that trust possible.' },
+      { num: '14', title: 'You want your kid to experience themselves as capable.', body: 'Not because you keep telling them they are, but because they have accumulating evidence: ', bodyAccent: 'I handled that. I figured that out. People can rely on me.' },
+      { num: '15', title: 'You’re playing a long game.', body: 'You’re not only trying to get through Tuesday morning. You’re thinking about the 18-, 22-, and 30-year-old you’re helping your kid become.' },
+    ],
+  },
+
   pricing1: {
     eyebrow: 'Enrollment is open',
     headline: 'Autopilot is officially open, at the',
@@ -329,7 +354,7 @@ export const SALES = {
     headlineAccent: 'Autopilot',
     headlineAfter: ' today.',
     valueBefore: 'Over ',
-    valueStrong: '$930 worth',
+    valueStrong: '$700 worth',
     valueAfter: ' of classroom-tested help for the ages 9 to 15 — all yours for $297.',
     checklist: [
       'Five live lessons with Sean, foundation through mastery, showing you the method step by step',
@@ -379,17 +404,6 @@ export const SALES = {
     headline: 'Ready to stop being the',
     headlineAccent: "family's reminder system?",
     body: 'The backpack by the door at 7:10. The missing skill named instead of the guilty party. A quiet drive to school.',
-  },
-
-  undecided: {
-    eyebrow: "If you're still on the fence",
-    headline: "You've been doing the hard version",
-    headlineAccent: 'for years.',
-    paragraphs: [
-      "Nobody carries a whole household in their head because they're lazy. You've been doing it because you love your kid and nobody handed you a better way. That's work ethic. That's the exact thing this course asks for.",
-      "The parents who get the most out of Autopilot aren't the most organized ones. They're the ones willing to look at their own worst hour with curiosity instead of shame, sit down with a kid who'd rather be anywhere else, and try a first draft that might fail. If you've read this far, that's you.",
-    ],
-    closing: 'Five weeks. You already spend more than that re-explaining the morning.',
   },
 
   why: {

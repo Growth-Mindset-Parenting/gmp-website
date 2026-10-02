@@ -285,6 +285,28 @@ export default function AutopilotSales() {
         {/* 09 Testimonial */}
         <CenterQuote label="09 Testimonial" quote={s.testimonial2.quote} source={s.testimonial2.source} />
 
+        {/* 09b Who you are */}
+        <section data-screen-label="09b Who you are" className="aps-wrap aps-section">
+          <div className="aps-who">
+            <div className="aps-who-head">
+              <p className="aps-eyebrow aps-mb-18">{s.whoYouAre.eyebrow}</p>
+              <Heading text={s.whoYouAre.headline} accent={s.whoYouAre.headlineAccent} className="aps-h2 aps-who-h2" />
+            </div>
+            <ol className="aps-who-grid">
+              {s.whoYouAre.items.map((it) => (
+                <li key={it.num} className="aps-who-item">
+                  <span className="aps-who-num" aria-hidden="true">{it.num}</span>
+                  <p className="aps-who-title">{it.title}</p>
+                  <p className="aps-who-body">
+                    {it.body}
+                    {it.bodyAccent && <em>{it.bodyAccent}</em>}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
         {/* 10 Pricing */}
         <section id="enroll" data-screen-label="10 Pricing" className="aps-wrap aps-section">
           <div className="aps-split aps-split--center aps-split-mb-price">
@@ -434,20 +456,6 @@ export default function AutopilotSales() {
             <Heading text={s.pricing2.headline} accent={s.pricing2.headlineAccent} className="aps-h2 aps-center-h2" />
             <p className="aps-center-lede">{s.pricing2.body}</p>
             <PriceCards location="pricing-2" />
-          </div>
-        </section>
-
-        {/* 19 Undecided */}
-        <section data-screen-label="19 Undecided" className="aps-wrap aps-section">
-          <div className="aps-split">
-            <div>
-              <p className="aps-eyebrow aps-mb-18">{s.undecided.eyebrow}</p>
-              <Heading text={s.undecided.headline} accent={s.undecided.headlineAccent} />
-            </div>
-            <div className="aps-copy">
-              {s.undecided.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
-              <p className="aps-serif-close">{s.undecided.closing}</p>
-            </div>
           </div>
         </section>
 

@@ -1,0 +1,14 @@
+/* ==========================================================================
+   Growth Mindset Parenting — design system entry point
+   --------------------------------------------------------------------------
+   This is the single stylesheet consuming projects should link. It pulls in
+   the foundational colors & type tokens (which in turn load the webfonts).
+
+     <link rel="stylesheet" href="styles.css">
+     <body class="theme-terracotta">   ← canonical theme
+
+   The files under reference/ are read-only copies of the source codebase for
+   documentation only — do NOT link them in production. ui_kits/website/kit.css
+   belongs to the UI-kit recreation, not the foundation.
+   ========================================================================== */
+@import url("colors_and_type.css");
