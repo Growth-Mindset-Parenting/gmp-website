@@ -164,6 +164,8 @@ export const FIVE_MINUTE_MEETING_ESSAY = {
     ctaLead: 'The waitlist hears first and gets access to the free workshop.',
     ctaLabel: 'Join the Autopilot waitlist',
     ctaHref: WAITLIST_HREF,
+    // From doors open (Oct 3): the Enroll in Autopilot button, tracked as a sales click.
+    salesCtaHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-sales&utm_content=five-minute-meeting-essay',
     signoffByline: 'Growth Mindset Parenting · Austin, TX',
     colophon: 'From Growth Mindset Parenting — the same practices Sean used in room 201, now at the kitchen table. Built on educational research, fourteen years in middle school classrooms, and three boys at home.',
   },

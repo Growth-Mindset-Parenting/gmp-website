@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { essayBannerAt } from '../../../../content/essays/autopilot-banner';
+import { essayBannerAt, essayCtaAt } from '../../../../content/essays/autopilot-banner';
 import { CAPABLE_ESSAY } from '../../../../content/essays/capable';
 import { COLLAPSING_CRUELTY_ESSAY } from '../../../../content/essays/collapsing-cruelty';
 import { FIVE_MINUTE_MEETING_ESSAY } from '../../../../content/essays/five-minute-meeting';
@@ -20,7 +20,8 @@ const ESSAYS = {
 export const dynamicParams = false;
 
 // The banner under the byline switches from waitlist to Enroll now by itself
-// at doors open and turns off at cart close. The page is regenerated on the server at most every 60
+// at doors open and turns off at cart close; the bottom button switches to
+// Enroll in Autopilot at doors open. The page is regenerated on the server at most every 60
 // seconds, so it flips without a deploy (same as /autopilot/).
 export const revalidate = 60;
 
@@ -182,6 +183,7 @@ export default function EssayPage({ params }) {
   if (!e) notFound();
   const n = e.next;
   const banner = essayBannerAt(e);
+  const cta = essayCtaAt(n);
 
   return (
     <main className="essay">
@@ -229,9 +231,9 @@ export default function EssayPage({ params }) {
             </p>
             <Heading s={n} />
             {n.blocks.map((b, i) => <Block key={i} b={b} />)}
-            <p className="es-cta-lead">{n.ctaLead}</p>
-            <a href={n.ctaHref} className="gmp-btn gmp-btn-primary es-cta">
-              {n.ctaLabel} <span aria-hidden="true">→</span>
+            <p className="es-cta-lead">{cta.lead}</p>
+            <a href={cta.href} className="gmp-btn gmp-btn-primary es-cta">
+              {cta.label} <span aria-hidden="true">→</span>
             </a>
             <hr className="es-rule" />
             <Author byline={n.signoffByline} />

@@ -28,3 +28,17 @@ export function essayBannerAt(essay, now = Date.now()) {
   }
   return { href: essay.bannerHref, image: AUTOPILOT_BANNER };
 }
+
+// The button at the bottom of each essay. Waitlist until doors open, then
+// Enroll in Autopilot (same clock as the banner above). `next` is the essay's
+// closing section, which holds both links.
+export function essayCtaAt(next, now = Date.now()) {
+  if (autopilotPageAt(now) === 'sales') {
+    return {
+      lead: 'Enrollment is open through Monday, October 12 at 10pm Central.',
+      label: 'Enroll in Autopilot',
+      href: next.salesCtaHref,
+    };
+  }
+  return { lead: next.ctaLead, label: next.ctaLabel, href: next.ctaHref };
+}
