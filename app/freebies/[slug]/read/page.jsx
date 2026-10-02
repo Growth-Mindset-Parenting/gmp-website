@@ -20,7 +20,7 @@ const ESSAYS = {
 export const dynamicParams = false;
 
 // The banner under the byline switches from waitlist to Enroll now by itself
-// at doors open. The page is regenerated on the server at most every 60
+// at doors open and turns off at cart close. The page is regenerated on the server at most every 60
 // seconds, so it flips without a deploy (same as /autopilot/).
 export const revalidate = 60;
 
@@ -207,7 +207,7 @@ export default function EssayPage({ params }) {
             </ul>
           )}
           <Author byline={e.byline} />
-          {banner.href && (
+          {banner?.href && (
             <a href={banner.href} className="es-top-banner">
               <picture>
                 <source media="(max-width: 640px)" srcSet={banner.image.mobileSrc} width="750" height="640" />
