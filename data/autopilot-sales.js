@@ -407,7 +407,7 @@ export const SALES = {
   },
 
   why: {
-    photoAlt: 'Sean Kane teaching',
+    photoAlt: 'Sean Kane speaking on stage',
     eyebrow: 'Why I built this',
     headline: 'I watched, for fourteen years, what happens when an adult',
     headlineAccent: 'creates capacity in a kid.',

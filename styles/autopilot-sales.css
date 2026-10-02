@@ -801,7 +801,7 @@
 
 /* ── 21 Why I built this ─────────────────────────────────── */
 
-.aps-why-photo { height: clamp(320px, 36vw, 480px); }
+.aps-why-photo { height: clamp(320px, 36vw, 480px); object-position: 50% 18%; }
 .aps-why-copy p {
   font-size: 16.5px;
   line-height: 1.6;

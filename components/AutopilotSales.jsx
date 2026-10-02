@@ -464,8 +464,8 @@ export default function AutopilotSales() {
           <img
             src="/images/autopilot/sean-teaching.jpg"
             alt={s.why.photoAlt}
-            width="800"
-            height="1000"
+            width="1200"
+            height="1500"
             loading="lazy"
             className="aps-photo aps-why-photo"
           />
