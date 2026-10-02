@@ -38,6 +38,8 @@ export const SIX_MIDDLE_SKILLS_ESSAY = {
   titleItalic: 'middle skills.',
   dek: 'The strategies that worked when your kid was eight stop working around eleven or twelve. Here are the six skills middle schoolers are actually building — what each looks like before it’s online, as it develops, and where it leads.',
   bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=six-middle-skills-essay-banner',
+  // From doors open (Oct 3): the Enroll now banner, tracked as a sales click.
+  salesBannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-sales&utm_content=six-middle-skills-essay-banner',
   byline: 'Growth Mindset Parenting · Fourteen years in middle school classrooms · Three boys at home',
   metaTitle: 'The Six Middle Skills: A Field Guide for Parents of Middle Schoolers',
   metaDescription: 'A field guide by Sean Kane: the six skills your middle schooler is still building, what each looks like before it’s online and as it develops, and where it leads.',

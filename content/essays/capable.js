@@ -18,6 +18,8 @@ export const CAPABLE_ESSAY = {
   titleItalic: 'doing everything?',
   dek: 'Our kids are smart, funny, and increasingly independent. And yet they are driving us to burnout. Here’s the problem hiding inside this phase, and one thing to look at differently this week.',
   bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=capable-essay-banner',
+  // From doors open (Oct 3): the Enroll now banner, tracked as a sales click.
+  salesBannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-sales&utm_content=capable-essay-banner',
   byline: 'Growth Mindset Parenting · Fourteen years in middle school classrooms · Three boys at home',
   metaTitle: 'My Kid Is Capable, So Why Am I Still Doing Everything?',
   metaDescription: 'An essay by Sean Kane for parents of middle schoolers: why capable kids still depend on you for everything, and one thing to look at differently this week.',

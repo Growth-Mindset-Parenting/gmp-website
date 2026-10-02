@@ -17,6 +17,8 @@ export const FIVE_MINUTE_MEETING_ESSAY = {
   titleItalic: 'meeting',
   dek: 'A simple, repeatable conversation that helps your kid build executive function, without taking over their afternoon.',
   bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=five-minute-meeting-essay-banner',
+  // From doors open (Oct 3): the Enroll now banner, tracked as a sales click.
+  salesBannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-sales&utm_content=five-minute-meeting-essay-banner',
   inside: [
     'Why struggle is how executive function gets built',
     'The three questions, in order',

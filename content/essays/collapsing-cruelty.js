@@ -16,6 +16,8 @@ export const COLLAPSING_CRUELTY_ESSAY = {
   titleItalic: 'cruelty',
   dek: 'How parents can disrupt the function inside sibling cruelty and conflict.',
   bannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=collapsing-cruelty-essay-banner',
+  // From doors open (Oct 3): the Enroll now banner, tracked as a sales click.
+  salesBannerHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-sales&utm_content=collapsing-cruelty-essay-banner',
   inside: [
     'Why cruelty is rewarding, and why that reward can be collapsed',
     'How to interrupt, separate and follow through without escalating',

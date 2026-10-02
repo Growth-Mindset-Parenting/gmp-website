@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { AUTOPILOT_BANNER } from '../../../../content/essays/autopilot-banner';
+import { essayBannerAt } from '../../../../content/essays/autopilot-banner';
 import { CAPABLE_ESSAY } from '../../../../content/essays/capable';
 import { COLLAPSING_CRUELTY_ESSAY } from '../../../../content/essays/collapsing-cruelty';
 import { FIVE_MINUTE_MEETING_ESSAY } from '../../../../content/essays/five-minute-meeting';
@@ -18,6 +18,11 @@ const ESSAYS = {
 
 // Only the slugs above get a /read/ page; anything else 404s.
 export const dynamicParams = false;
+
+// The banner under the byline switches from waitlist to Enroll now by itself
+// at doors open. The page is regenerated on the server at most every 60
+// seconds, so it flips without a deploy (same as /autopilot/).
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return Object.keys(ESSAYS).map((slug) => ({ slug }));
@@ -176,6 +181,7 @@ export default function EssayPage({ params }) {
   const e = ESSAYS[params.slug];
   if (!e) notFound();
   const n = e.next;
+  const banner = essayBannerAt(e);
 
   return (
     <main className="essay">
@@ -201,11 +207,11 @@ export default function EssayPage({ params }) {
             </ul>
           )}
           <Author byline={e.byline} />
-          {e.bannerHref && (
-            <a href={e.bannerHref} className="es-top-banner">
+          {banner.href && (
+            <a href={banner.href} className="es-top-banner">
               <picture>
-                <source media="(max-width: 640px)" srcSet={AUTOPILOT_BANNER.mobileSrc} width="750" height="640" />
-                <img src={AUTOPILOT_BANNER.src} alt={AUTOPILOT_BANNER.alt} width="1200" height="280" />
+                <source media="(max-width: 640px)" srcSet={banner.image.mobileSrc} width="750" height="640" />
+                <img src={banner.image.src} alt={banner.image.alt} width="1200" height="280" />
               </picture>
             </a>
           )}
