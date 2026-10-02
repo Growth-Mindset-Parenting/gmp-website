@@ -52,8 +52,9 @@ for (const p of ['/workshop/', '/workshop/thank-you/', '/workshop/replay/', '/au
 
 const BANNER_CASES = [
   ['2026-09-30T15:00:00Z', 'waitlist', 'today'],
-  ['2026-10-03T15:00:00Z', 'waitlist', 'doors open (Sat Oct 3)'],
-  ['2026-10-05T17:59:00Z', 'waitlist', 'one minute before Monday workshop ends'],
+  ['2026-10-03T04:59:59Z', 'waitlist', 'one second before doors open'],
+  ['2026-10-03T05:00:00Z', 'sales', 'doors open (Sat Oct 3, 00:00 CT)'],
+  ['2026-10-05T17:59:00Z', 'sales', 'one minute before Monday workshop ends'],
   ['2026-10-05T18:01:00Z', 'sales', 'one minute after Monday workshop ends'],
   ['2026-10-13T02:59:00Z', 'sales', 'one minute before the cart closes'],
   ['2026-10-13T03:01:00Z', null, 'one minute after the cart closes'],

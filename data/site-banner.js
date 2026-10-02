@@ -10,20 +10,22 @@
 // The bar switches BY ITSELF, off the launch clock in data/launch-schedule.js
 // (Katie, 2026-09-30):
 //
-//   now → Mon Oct 5, 1pm CT      waitlist  ("Join the waitlist")
-//   Oct 5, 1pm → Oct 12, 10pm CT sales     ("Enroll now")
+//   now → Sat Oct 3, 00:00 CT    waitlist  ("Enrollment opens tomorrow")
+//   Oct 3, 00:00 → Oct 12, 10pm  sales     ("Enroll now")
 //   after the cart closes        off
 //
-// Oct 5 1pm is the end of the last live workshop — the same moment the popup
-// switches to sales. There is no workshop phase on the banner; the popup does
-// that job. The site is static HTML, so every scheduled banner is in the page
+// The banner flips to sales at doors open, the same moment /autopilot/
+// becomes the sales page (Katie, 2026-10-02), so its button never promises a
+// waitlist and lands on a sales page. The popup still switches at Oct 5 1pm,
+// the end of the last live workshop. There is no workshop phase on the
+// banner; the popup does that job. The site is static HTML, so every scheduled banner is in the page
 // and a tiny script picks the right one before paint (lib/banner-script.js).
 //
 // Every banner link carries utm_source=website (see lib/attribution.js).
 // Our own buttons never replace an outside source, so a visitor who arrived
 // from Instagram still counts as Instagram in Kit — the banner tags only
 // fill in for visitors whose source we don't already know.
-import { CART_CLOSES, SALES_STARTS, phaseFrom } from './launch-schedule';
+import { CART_CLOSES, DOORS_OPEN, phaseFrom } from './launch-schedule';
 
 // Force a phase instead of following the clock: 'waitlist', 'workshop',
 // 'sales' or 'off'. For previewing a banner before its date, or if the launch
@@ -32,7 +34,7 @@ export const OVERRIDE = null;
 
 const DATED_SCHEDULE = [
   [0, 'waitlist'],
-  [SALES_STARTS, 'sales'],
+  [DOORS_OPEN, 'sales'],
   [CART_CLOSES, null],
 ];
 
@@ -68,12 +70,9 @@ export const BANNERS = {
   waitlist: {
     // Bump this when the copy changes — a visitor who dismissed the old
     // banner sees the new one.
-    version: 'waitlist-3',
-    text: "Autopilot: a 5-week course, built to help parents stop over-functioning and develop their kid's executive function.",
-    // No phone variant on purpose. Any short line that still named Autopilot
-    // and said what it is came out the same height as the full sentence
-    // anyway (measured at 360/390/430px), and the ones that fit were too
-    // vague to tell a phone reader what the waitlist is for.
+    version: 'waitlist-4',
+    text: "Enrollment for Autopilot opens tomorrow, Saturday, Oct 3: a 5-week course to help parents stop over-functioning and develop their kid's executive function.",
+    textShort: 'Autopilot enrollment opens tomorrow, Sat Oct 3.',
     cta: 'Join the waitlist',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-waitlist',
   },
@@ -89,8 +88,8 @@ export const BANNERS = {
     href: '/workshop/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-workshop',
   },
 
-  // Mon Oct 5, 1pm CT (last workshop ends) until the cart closes Mon Oct 12
-  // at 10pm CT. Links to /autopilot/, the sales page from Sat Oct 3.
+  // Sat Oct 3, 00:00 CT (doors open) until the cart closes Mon Oct 12 at
+  // 10pm CT. Links to /autopilot/, the sales page from the same moment.
   sales: {
     version: 'sales-2',
     text: 'Autopilot is open — a 5-week live course. Doors close Monday, October 12 at 10pm CT.',
