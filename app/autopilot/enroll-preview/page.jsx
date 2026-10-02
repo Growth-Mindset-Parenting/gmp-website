@@ -1,31 +1,19 @@
 import AutopilotSales from '../../../components/AutopilotSales';
+import { SALES_METADATA } from '../../../lib/autopilot-metadata';
 
-// HIDDEN PREVIEW of the Autopilot sales page, for review before doors open.
-// Not linked anywhere, not in the sitemap or llms.txt, noindex/nofollow, and
-// the site banner + popup are switched off here (HIDDEN_PATHS in
-// data/site-banner.js and data/site-popup.js).
+// HIDDEN PREVIEW of the Autopilot sales page. Not linked anywhere, not in the
+// sitemap or llms.txt, noindex/nofollow, and the site banner + popup are
+// switched off here (HIDDEN_PATHS in data/site-banner.js and data/site-popup.js).
 //
-// This moves to /autopilot/ when doors open Sat Oct 3 2026. The swap:
-//   1. move this page to app/autopilot/page.jsx (and move the waitlist page
-//      that lives there now somewhere else, or retire it),
-//   2. drop the robots noindex below and set canonical/url to /autopilot/,
-//   3. update the /autopilot/ lastModified in app/sitemap.js (it is already listed),
-//   4. remove /autopilot/enroll-preview/ from HIDDEN_PATHS in data/site-banner.js
-//      and from WORKSHOP_HIDDEN in data/site-popup.js.
+// The real sales page goes live at /autopilot/ by itself when doors open
+// (Sat Oct 3 2026, 00:00 CT) — see app/autopilot/page.jsx. This preview keeps
+// working for the launch dashboard and test links.
 // Copy lives in data/autopilot-sales.js.
 export const metadata = {
-  title: { absolute: 'Autopilot — A live course for parents of kids 9 to 15 · Growth Mindset Parenting' },
-  description:
-    'Autopilot is a live five-week course with Sean Kane for parents of kids 9 to 15. Teach the skills that turn everyday responsibility into real independence. First cohort starts October 13, 2026.',
+  ...SALES_METADATA,
   alternates: { canonical: '/autopilot/enroll-preview/' },
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
-  openGraph: {
-    title: 'Autopilot | Growth Mindset Parenting',
-    description:
-      'Your kid is capable. Let them experience it. A live five-week course with Sean Kane for parents of kids 9 to 15.',
-    url: '/autopilot/enroll-preview/',
-    images: [{ url: '/images/autopilot/sean-studio.jpg', width: 1000, height: 1500, alt: 'Sean Kane' }],
-  },
+  openGraph: { ...SALES_METADATA.openGraph, url: '/autopilot/enroll-preview/' },
 };
 
 export default function AutopilotEnrollPreviewPage() {

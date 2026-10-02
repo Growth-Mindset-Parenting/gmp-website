@@ -97,6 +97,22 @@ check(runScript('2026-09-30T15:00:00Z', '/about/', wlCookie)['data-banner'] === 
 const s1 = runScript('2026-10-06T15:00:00Z', '/about/', wlCookie);
 check(s1['data-banner'] !== 'hidden' && s1['data-banner-phase'] === 'sales', 'dismissed waitlist still sees the sales banner', JSON.stringify(s1));
 
+// /autopilot/ itself: waitlist page until doors open, sales page from then.
+console.log('\n— /autopilot/ page —');
+const { autopilotPageAt, DOORS_OPEN } = await import('../data/launch-schedule.js');
+check(DOORS_OPEN === Date.parse('2026-10-03T05:00:00Z'), 'doors open = Sat Oct 3, 00:00 CT', new Date(DOORS_OPEN).toISOString());
+for (const [iso, expected, label] of [
+  ['2026-10-02T20:00:00Z', 'waitlist', 'Friday afternoon'],
+  ['2026-10-03T04:59:59Z', 'waitlist', 'one second before midnight CT'],
+  ['2026-10-03T05:00:00Z', 'sales', 'midnight CT exactly'],
+  ['2026-10-03T05:00:01Z', 'sales', 'one second after midnight CT'],
+  ['2026-10-13T03:01:00Z', 'sales', 'after the cart closes (stays the sales page)'],
+]) {
+  const actual = autopilotPageAt(Date.parse(iso));
+  check(actual === expected, label, `expected=${expected} actual=${actual}`);
+}
+check(runScript('2026-10-03T06:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner still hidden on /autopilot/ after doors open', '');
+
 if (failed) {
   console.error(`\n${failed} check(s) wrong.`);
   process.exit(1);

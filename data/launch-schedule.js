@@ -8,6 +8,16 @@ import { WORKSHOP } from './autopilot-workshop';
 // The workshop popup starts: Wed Sep 30 2026, 00:00 CT.
 export const POPUP_OPENS = Date.parse('2026-09-30T05:00:00Z');
 
+// Doors open: Sat Oct 3 2026, 00:00 CT. /autopilot/ stops being the waitlist
+// page and becomes the sales page. app/autopilot/page.jsx is re-rendered on
+// the server about every 60 seconds, so it flips without a deploy.
+export const DOORS_OPEN = Date.parse('2026-10-03T05:00:00Z');
+
+// Which page /autopilot/ shows at a given moment: 'waitlist' or 'sales'.
+export function autopilotPageAt(now = Date.now()) {
+  return now >= DOORS_OPEN ? 'sales' : 'waitlist';
+}
+
 // The last live workshop session ends (Mon Oct 5, 1pm CT): the popup and the
 // banner both switch to selling the course. Reuses the session's endUtc — the
 // same instant the calendar invites are built from.
