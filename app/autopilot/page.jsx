@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import AutopilotWaitlist from '../../components/AutopilotWaitlist';
 import AutopilotSales from '../../components/AutopilotSales';
 import { autopilotPageAt } from '../../data/launch-schedule';
@@ -15,10 +16,13 @@ import { SALES_METADATA, WAITLIST_METADATA } from '../../lib/autopilot-metadata'
 // keeps rendering the sales page (noindex) for test links.
 export const revalidate = 60;
 
+// Read the clock once per render, so the title and the page always agree.
+const currentPage = cache(() => autopilotPageAt());
+
 export function generateMetadata() {
-  return autopilotPageAt() === 'sales' ? SALES_METADATA : WAITLIST_METADATA;
+  return currentPage() === 'sales' ? SALES_METADATA : WAITLIST_METADATA;
 }
 
 export default function AutopilotPage() {
-  return autopilotPageAt() === 'sales' ? <AutopilotSales /> : <AutopilotWaitlist />;
+  return currentPage() === 'sales' ? <AutopilotSales /> : <AutopilotWaitlist />;
 }
