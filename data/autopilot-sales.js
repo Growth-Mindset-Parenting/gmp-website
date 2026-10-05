@@ -58,12 +58,14 @@ export const SALES = {
   cards: CARDS,
 
   hero: {
-    eyebrow: 'A live course for parents of kids 9 to 15',
+    eyebrow: 'A live course for parents of kids 9 to 15 · recorded so you can watch anytime',
     headline: 'Your kid is capable.',
     headlineAccent: 'Let them experience it.',
     subtitle:
       'Teach the skills that turn everyday responsibility into real independence—without lowering the standard or doing it for them.',
     support: 'Because independence builds confidence, capability, and connection.',
+    recordedNote: 'Can’t make Tuesdays? Every lesson is recorded. Watch whenever it works for you.',
+    lessonsCta: 'See the 5 lessons',
     quote: '"Tools I never had that you\'re giving me." — a parent in Sean\'s community',
     photoAlt: 'Sean Kane',
     photoCaption: 'Sean Kane · Austin, TX',
@@ -94,7 +96,7 @@ export const SALES = {
       strong: 'with',
       after: ' your kid, and step back on evidence instead of hope.',
     },
-    note: 'First cohort starts October 13, 2026 · 14-day guarantee',
+    note: 'First cohort starts October 13, 2026 · Every lesson recorded · 14-day guarantee',
   },
 
   testimonial1: {
@@ -228,7 +230,7 @@ export const SALES = {
     headlineAccent: 'founding price.',
     body: "The first cohort pays $100 less than everyone after it. You're helping shape the playbooks, and the price reflects that. It goes to $397 for the next cohort.",
     checklist: [
-      'Five live lessons with Sean, ninety minutes each',
+      'Five live lessons with Sean, 60 minutes each, recorded for your schedule',
       'The case studies and every worksheet',
       'Lifetime access to every replay, plus three bonuses',
     ],
@@ -244,7 +246,7 @@ export const SALES = {
     eyebrow: "What's inside",
     headline: 'Five weeks. Five questions.',
     headlineAccent: 'A new way to see any problem at home.',
-    intro: 'Five live lessons with Sean, ninety minutes each, one essential question per week. Replays, worksheets and playbooks waiting afterward, for life.',
+    intro: 'Five live lessons with Sean, 60 minutes each, one essential question per week. Can’t make it live? Every lesson is recorded. Replays, worksheets and playbooks waiting afterward, for life.',
     outcomesLabel: "You'll walk out with",
     parts: [
       {
@@ -285,7 +287,7 @@ export const SALES = {
             question: 'How do we create the conditions for success?',
             outcomes: [
               'Hold the standard, collaborate on the path',
-              'Systems that carry executive skills at once.',
+              'Systems that carry several executive skills at once',
               'The four-move follow-up: boundary, beat, question, invitation',
             ],
           },
@@ -370,7 +372,7 @@ export const SALES = {
     days: '14',
     label: 'Day risk-free guarantee',
     heading: "Plus, you'll be backed by a 14-day guarantee.",
-    body: "Here's the deal. Attend the first two lessons and run one Plug + Play playbook with your kid. Within fourteen days of the cohort start, you should have fewer reminders in your day, a kid carrying more of their own life, and a method you can run on the next problem.",
+    body: "Here's the deal. Attend or watch the first two lessons and run one Plug + Play playbook with your kid. Within fourteen days of the cohort start, you should have fewer reminders in your day, a kid carrying more of their own life, and a method you can run on the next problem.",
     refundBefore: "If that isn't true, email ",
     email: 'hello@growthmindsetparenting.com',
     refundAfter: ' with your completed playbook worksheet before day fourteen, and the full refund goes back to your card within five business days. ',
@@ -387,8 +389,8 @@ export const SALES = {
     askAfter: ' — I read every one.',
     // The first item starts open, as in the design.
     items: [
-      { q: 'When are the live lessons?', a: 'Five Tuesdays, starting October 13: October 13, 20 and 27, then November 3 and 10.' },
       { q: "What if I can't attend live?", a: 'Every lesson is recorded and posted within a day, and the replays, worksheets and playbooks are yours for life. Plenty of parents will do this course entirely on replay.' },
+      { q: 'When are the live lessons?', a: 'Five Tuesdays, starting October 13: October 13, 20 and 27, then November 3 and 10.' },
       { q: 'My kid has ADHD. Does this still apply?', a: "The method is built around uneven and developing executive capacities, so it applies. What I won't do is promise identical outcomes or imply a diagnosis. Autopilot is parent education, and it sits alongside whatever clinical support your family has." },
       { q: 'What if my kid refuses?', a: "Expected. Resistance is part of the design, not a sign the method failed. Participation — not enthusiasm — is the baseline boundary, and your kid's objections usually contain useful information about where the plan is wrong." },
       { q: "My kid knows what to do and just doesn't. How does this help?", a: 'Knowing the outcome is different from reliably initiating, sequencing, monitoring and completing the process. That gap is exactly what we teach into. "They know" is where most parents stop investigating; it\'s where Autopilot starts.' },
@@ -396,7 +398,7 @@ export const SALES = {
       { q: 'Do I have to lower my standards?', a: "You don't have to. The standard is firm; the strategy is a first draft. Collaboration means your kid helps design the path, not whether the standard exists." },
       { q: "Won't this mean more nagging?", a: "The whole point is to reduce parent-held cueing. Information and process move out of your head and into structures your kid can increasingly carry. The system carries information so the relationship doesn't have to." },
       { q: "What if I can't manage my own life, let alone theirs?", a: 'Your executive function is finite too. External systems carry information for the whole family, including you. This is not a perfection program for parents; several of the structures are built to take load off you first.' },
-      { q: 'How much time does this take?', a: 'Ninety minutes a week for five weeks, plus a few minutes of observation and a short redesign at home. Not every logistical failure requires therapeutic excavation. Autopilot is tactical.' },
+      { q: 'How much time does this take?', a: 'Sixty minutes a week for five weeks, live or on replay whenever it suits you, plus a few minutes of observation and a short redesign at home. Not every logistical failure requires therapeutic excavation. Autopilot is tactical.' },
     ],
   },
 

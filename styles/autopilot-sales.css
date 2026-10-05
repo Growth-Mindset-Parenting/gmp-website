@@ -253,6 +253,18 @@
   max-width: 30em;
   color: var(--ink-soft);
 }
+.aps-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.aps-hero-recorded {
+  margin-top: 14px !important;
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 30em;
+  color: var(--ink-soft);
+}
 .aps-hero-proof {
   display: flex;
   flex-wrap: wrap;

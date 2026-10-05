@@ -144,7 +144,11 @@ export default function AutopilotSales() {
             </h1>
             <p className="aps-hero-sub">{s.hero.subtitle}</p>
             <p className="aps-hero-support">{s.hero.support}</p>
-            <Enroll location="hero" />
+            <div className="aps-hero-ctas">
+              <Enroll location="hero" />
+              <a href="#curriculum" className="aps-btn aps-btn-ghost">{s.hero.lessonsCta}</a>
+            </div>
+            <p className="aps-hero-recorded">{s.hero.recordedNote}</p>
             <div className="aps-hero-proof">
               <Stars />
               <span>{s.hero.quote}</span>
