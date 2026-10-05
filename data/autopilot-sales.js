@@ -101,7 +101,7 @@ export const SALES = {
 
   testimonial1: {
     quote: '"You are gonna almost single-handedly help heal my home. Tools I never had that you\'re giving me."',
-    source: 'From the community that shaped this course · Instagram',
+    source: 'From the community that shaped this course',
   },
 
   what: {
