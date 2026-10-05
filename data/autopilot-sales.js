@@ -66,7 +66,7 @@ export const SALES = {
     support: 'Because independence builds confidence, capability, and connection.',
     recordedNote: 'Can’t make Tuesdays? Every lesson is recorded. Watch whenever it works for you.',
     lessonsCta: 'See the 5 lessons',
-    quote: '"Tools I never had that you\'re giving me." — a parent in Sean\'s community',
+    quote: '"First damn parenting voice that\'s just made sense to me… And I say that as a licensed clinical therapist, with three kids of my own." — licensed clinical therapist',
     photoAlt: 'Sean Kane',
     photoCaption: 'Sean Kane · Austin, TX',
   },
