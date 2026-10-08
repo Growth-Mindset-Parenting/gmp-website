@@ -1,6 +1,6 @@
 import { buildIcs, sessionByKey } from '../../../lib/workshop-calendar';
 
-// .ics for one workshop session: /api/workshop-ics/?s=sun or ?s=mon.
+// .ics for one workshop session: /api/workshop-ics/?s=oct12.
 // The join links are the same for everyone, so every visitor gets the same
 // file for a given session.
 export function GET(request) {

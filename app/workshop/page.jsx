@@ -7,14 +7,14 @@ import AutopilotWorkshop from '../../components/AutopilotWorkshop';
 export const metadata = {
   title: { absolute: 'Free live workshop: From Reminders to Responsibility · Growth Mindset Parenting' },
   description:
-    'A free, live 60-minute workshop with Sean Kane for parents of middle schoolers: the classroom method for handing mornings, homework and chores back to your kid. Sunday, October 4 · 6:00 pm CT · 60 minutes OR Monday, October 5 12PM CT',
+    'A free, live 60-minute workshop with Sean Kane for parents of middle schoolers: the classroom method for handing mornings, homework and chores back to your kid. Monday, October 12 · 12:00 pm CT · 60 minutes',
   alternates: { canonical: '/workshop/' },
   // Unlisted until Sean signs off: no nav link, not in sitemap, not indexable.
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
   openGraph: {
     title: 'From Reminders to Responsibility | Free live workshop',
     description:
-      'A free, live workshop with Sean Kane for parents of middle schoolers. Sunday, October 4 at 6pm CT or Monday, October 5 at 12pm CT.',
+      'A free, live workshop with Sean Kane for parents of middle schoolers. Monday, October 12 at 12pm CT.',
     url: '/workshop/',
     images: [{ url: '/images/autopilot/workshop-hero.jpg', width: 1200, height: 1800, alt: 'Sean Kane' }],
   },
