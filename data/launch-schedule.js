@@ -3,7 +3,6 @@
 // times on the site to keep right.
 //
 // All times are UTC. October is CDT (UTC-5).
-import { WORKSHOP } from './autopilot-workshop';
 
 // The workshop popup starts: Wed Sep 30 2026, 00:00 CT.
 export const POPUP_OPENS = Date.parse('2026-09-30T05:00:00Z');
@@ -18,10 +17,11 @@ export function autopilotPageAt(now = Date.now()) {
   return now >= DOORS_OPEN ? 'sales' : 'waitlist';
 }
 
-// The last live workshop session ends (Mon Oct 5, 1pm CT): the popup and the
-// banner both switch to selling the course. Reuses the session's endUtc — the
-// same instant the calendar invites are built from.
-export const SALES_STARTS = Date.parse(WORKSHOP.sessions.at(-1).endUtc);
+// The workshop popup hands over to the sales popup: Mon Oct 5 2026, 1pm CT
+// (the end of the second workshop). Pinned on 2026-10-08 — it used to follow
+// the last session's endUtc, but the extra Oct 12 session would have pulled
+// the workshop popup back for all of cart week.
+export const SALES_STARTS = Date.parse('2026-10-05T18:00:00Z');
 
 // Cart closes Mon Oct 12 2026, 10pm CT. The popup and banner both turn off.
 export const CART_CLOSES = Date.parse('2026-10-13T03:00:00Z');

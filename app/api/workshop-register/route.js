@@ -2,17 +2,18 @@ import { NextResponse } from 'next/server';
 
 // Signup for the free Autopilot workshop (/workshop/).
 //
-// Kit adds them to form 9921406 "Autopilot Workshop Registrants" with the
-// `Registered: Autopilot Workshop` tag and their utm_* attribution. The two
-// Zoom sessions are open links (the same for everyone, in
-// data/autopilot-workshop.js), so there is no Zoom step: the thank-you page
-// and Sean's Kit emails carry both links. Until 2026-09-29 this route also
-// registered each person with Zoom for a personal link.
+// Since 2026-10-08 (the Oct 12 session) Kit tags them
+// `Registered: Autopilot Workshop Oct 12` with their utm_* attribution, and
+// that tag sends the Oct 12 confirmation email. It deliberately does NOT go
+// through form 9921406 or the old `Registered: Autopilot Workshop` tag: a
+// Kit automation sends the Oct 4/5 confirmation (old dates, old Zoom links)
+// to anyone who joins that form or gets that tag. The Zoom session is an
+// open link (the same for everyone, in data/autopilot-workshop.js), so there
+// is no Zoom step.
 
 const KIT_API_SECRET = process.env.KIT_API_SECRET;
 
-const KIT_FORM_ID = '9921406';
-const REGISTERED_TAG_ID = 23446662;
+const REGISTERED_TAG_ID = 24406882;
 
 // Kit tag "Possible spam: website form" — added when the hidden bot-trap
 // field comes in filled. Review and delete these subscribers in Kit.
@@ -47,7 +48,7 @@ async function subscribeInKit({ email, firstName, fields, tags }) {
   if (Object.keys(fields).length) body.fields = fields;
 
   const send = () =>
-    fetch(`https://api.convertkit.com/v3/forms/${KIT_FORM_ID}/subscribe`, {
+    fetch(`https://api.convertkit.com/v3/tags/${REGISTERED_TAG_ID}/subscribe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

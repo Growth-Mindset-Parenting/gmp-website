@@ -3,8 +3,9 @@
 // "Autopilot Webinar" (2026-09-15); testimonials are verbatim, typos
 // included, emoji removed — do not correct.
 //
-// The workshop runs twice (same content), on open Zoom links — no Zoom
-// registration; everyone who signs up gets both links. `sessions` holds the
+// The workshop ran twice (Oct 4 + Oct 5); since 2026-10-08 the page sells
+// one last session, Mon Oct 12 at noon CT, on an open Zoom link — no Zoom
+// registration. `sessions` holds the
 // times and links and feeds the thank-you page, the calendar invites and the
 // popup hand-over. `eventDate` (nav pill, hero, closing note), the FAQ
 // answer and the modal intro spell the times out in words — change all of
@@ -12,7 +13,7 @@
 // never promise one.
 
 export const WORKSHOP = {
-  eventDate: 'Sun Oct 4, 6pm CT · Mon Oct 5, 12pm CT',
+  eventDate: 'Mon Oct 12, 12pm CT',
   copyright: '© 2026 Growth Mindset Parenting · growthmindsetparenting.com',
   legalLinks: [
     { label: 'Privacy policy', href: '/privacy/' },
@@ -27,7 +28,7 @@ export const WORKSHOP = {
     headlineAccent: 'Responsibility',
     dek: "Mornings, homework, chores, the dishwasher — you remember, you remind, they flip. In this workshop, I'll share how everyday demand turns into rupture and how we can look to education to build capacity and reduce strain.",
     cta: 'Save my seat',
-    metaLine: 'Live Sun, Oct 4 at 6pm or Mon, Oct 5 at noon CT',
+    metaLine: 'Live Mon, Oct 12 at noon CT',
     photoCaption: 'Sean Kane · 14 years in the classroom',
   },
 
@@ -92,11 +93,11 @@ export const WORKSHOP = {
     headlineAccent: "I've got answers.",
     cta: "Let's do this",
     items: [
-      { q: 'Is this actually live, or is it a recording?', a: "It's live. Twice. Once Sunday, October 4 at 6pm Central. And again on Monday, October 5 at 12PM Central. I know things for parents are chaotic. Just pick the time that works best for you. Come to either one." },
+      { q: 'Is this actually live, or is it a recording?', a: "It's live. Monday, October 12 at 12PM Central. I know things for parents are chaotic, so come for whatever part of the hour you can." },
       { q: "I'm not sure this is really for me. Who is the workshop for?", a: "It's for parents of a kid who is in the middle- capable and kind, but can't manage the daily systems. Parents who are tired of being the system. You don't need a diagnosis, a partner who's on board, or a kid who's excited about any of this. You just need to be a little curious whether there's a better way than reminding louder. There is, and that's what we'll dig into." },
       { q: 'My kid has ADHD. Or I do. Is this still for us?', a: "Yes. Some of the most-liked questions on my videos aren't about kids at all. They're parents asking how to stick to routines when they have ADHD too. Every kid's planning brain is under construction until about 25, and kids with ADHD are further behind on the build. That means more scaffolding, not a lower bar. And for you, it means building a structure that doesn't depend on you remembering everything." },
       { q: "I've already read the parenting books. Will I actually learn anything new?", a: "Probably. Most parenting advice comes from psychologists and therapists, and a lot of it is great. I read it too. But I spent 14 years teaching kids 10 to 15, and educators know something that isn't being said in the research or on parent blogs. We know how to get a kid to finish the essay they just threw in the trash. Not with a better talk. With structure. And you'll get real examples of what that sounds like on a school morning, not just what it's called." },
-      { q: "What if I can't make it live?", a: "Sign up anyway. You'll get the links for both times, and if neither one works, I'll send you the replay." },
+      { q: "What if I can't make it live?", a: "Sign up anyway. You'll get the link, and if the time doesn't work, I'll send you the replay." },
       { q: 'Wait, is this really free?', a: "Really free. At the end, I'll tell you about Autopilot, my five-week course, for anyone who wants to go further. If that's not for you, no hard feelings. You'll still leave with things you can try in your house this week." },
     ],
   },
@@ -115,15 +116,15 @@ export const WORKSHOP = {
     ],
     emphasis: 'environment, development and collaboration',
     cta: 'Save my seat',
-    metaLine: 'Live Sun, Oct 4 at 6pm or Mon, Oct 5 at noon CT',
+    metaLine: 'Live Mon, Oct 12 at noon CT',
   },
 
   modal: {
-    eyebrow: 'Free live workshop · Two live sessions',
+    eyebrow: 'Free live workshop · One last live session',
     headline: "Your kid doesn't know it yet, but you just did",
     headlineAccent: 'something big',
     headlineAfter: 'for them.',
-    intro: "That's what great teachers do: they plan ahead. Pop in your email, and I'll send you links for both sessions, so you can come to whichever fits. I'll remind you before we go live, too. You've got enough to remember.",
+    intro: "That's what great teachers do: they plan ahead. Pop in your email, and I'll send you the Zoom link. I'll remind you before we go live, too. You've got enough to remember.",
     smsPrint: 'By adding your number you agree to receive text reminders about this workshop from Growth Mindset Parenting. Msg & data rates may apply. Reply HELP for help, STOP to cancel.',
     smsLinks: [
       { label: 'Privacy Policy', href: '/privacy/' },
@@ -150,53 +151,37 @@ export const WORKSHOP = {
     errorServer: 'Something went wrong on my end. Try that once more?',
   },
 
-  // The two live sessions. Times are UTC (October is CDT, UTC-5); each runs
-  // 60 minutes. The join links are the same for everyone (registration is
-  // off in Zoom), so they are safe to show on the page and put in calendar
-  // invites. The last session's end is when the site popup hands over to the
-  // sales popup. Meeting IDs, passcodes and one-tap numbers were read from
-  // Zoom on 2026-09-29; re-copy them if a meeting is ever recreated.
+  // The live session. Times are UTC (October is CDT, UTC-5); it runs 60
+  // minutes. The join link is the same for everyone (registration is off in
+  // Zoom), so it is safe to show on the page and put in calendar invites.
+  // Meeting ID, passcode and one-tap numbers were read from Zoom on
+  // 2026-10-08; re-copy them if the meeting is ever recreated. The Oct 4 and
+  // Oct 5 sessions are over and were removed. (The sales popup's switch time
+  // no longer follows this list — see SALES_STARTS in launch-schedule.js.)
   sessions: [
     {
-      key: 'sun',
-      dateLine: 'Sunday, October 4',
-      // The two-up card in the signup pop-up.
-      shortDate: 'Sunday, Oct 4',
-      shortTime: '6pm Central · 7pm Eastern',
-      timeLine: '6:00 pm Central · 7:00 pm Eastern',
-      startUtc: '2026-10-04T23:00:00Z',
-      endUtc: '2026-10-05T00:00:00Z',
-      joinUrl: 'https://us06web.zoom.us/j/89340579247?pwd=SfEsMXPb1WsSWZhC1PLlrsTbeB0k41.1',
-      meetingId: '893 4057 9247',
-      passcode: '685774',
-      oneTapMobile: [
-        '+16469313860,,89340579247#,,,,*685774#',
-        '+13017158592,,89340579247#,,,,*685774#',
-      ],
-    },
-    {
-      key: 'mon',
-      dateLine: 'Monday, October 5',
-      shortDate: 'Monday, Oct 5',
+      key: 'oct12',
+      dateLine: 'Monday, October 12',
+      shortDate: 'Monday, Oct 12',
       shortTime: 'Noon Central · 1pm Eastern',
       timeLine: '12:00 pm Central · 1:00 pm Eastern',
-      startUtc: '2026-10-05T17:00:00Z',
-      endUtc: '2026-10-05T18:00:00Z',
-      joinUrl: 'https://us06web.zoom.us/j/86840949467?pwd=T9HLK2flEMZHYujQYROLefWQde9Cs2.1',
-      meetingId: '868 4094 9467',
-      passcode: '050190',
+      startUtc: '2026-10-12T17:00:00Z',
+      endUtc: '2026-10-12T18:00:00Z',
+      joinUrl: 'https://us06web.zoom.us/j/84709713010?pwd=yNhV4keiaKA5drsTupVHavaV0thya9.1',
+      meetingId: '847 0971 3010',
+      passcode: '534217',
       oneTapMobile: [
-        '+16469313860,,86840949467#,,,,*050190#',
-        '+13017158592,,86840949467#,,,,*050190#',
+        '+16469313860,,84709713010#,,,,*534217#',
+        '+13017158592,,84709713010#,,,,*534217#',
       ],
     },
   ],
 
-  // Shared by both calendar invites.
+  // Shared by every calendar invite.
   calendar: {
     // Same as the Zoom meeting title.
     title: 'From Reminders to Responsibility: Free Live Workshop with Sean Kane',
-    description: 'Same workshop both times. Come to whichever fits your week.',
+    description: 'Free live workshop with Sean Kane. Sixty minutes, live on Zoom.',
     // Zoom's US dial-in numbers — the same list for both meetings.
     dialInNumbers: [
       '+1 646 931 3860', '+1 301 715 8592', '+1 305 224 1968', '+1 309 205 3325',
@@ -214,8 +199,8 @@ export const WORKSHOP = {
     eyebrow: "You're in",
     headline: "Here's to the kid who",
     headlineAccent: 'remembers on their own.',
-    dek: "Your Zoom links are on their way to your inbox. Not there in ten minutes? Check promotions — that's where I usually end up.",
-    sessionsIntro: 'Same workshop both times. Come to whichever fits your week.',
+    dek: "Your Zoom link is on its way to your inbox. Not there in ten minutes? Check promotions — that's where I usually end up.",
+    sessionsIntro: 'Sixty minutes, live. Come for whatever part of the hour you can.',
     join: 'Zoom link',
     calendarIntro: 'Add it to your calendar:',
     google: 'Google',
