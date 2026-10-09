@@ -95,6 +95,10 @@ export const BANNERS = {
     text: 'Autopilot is open — a 5-week live course. Doors close Monday, October 12 at 10pm CT.',
     textShort: 'Autopilot is open. Doors close Mon, Oct 12.',
     cta: 'Enroll now',
+    // Live countdown to CART_CLOSES, shown before the button (Katie,
+    // 2026-10-09). The banner turns off at the same moment it hits zero.
+    countdownTo: CART_CLOSES,
+    countdownSuffix: 'left',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-sales',
   },
 };

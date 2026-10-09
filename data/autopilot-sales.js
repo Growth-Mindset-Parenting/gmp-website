@@ -69,6 +69,16 @@ export const SALES = {
     quote: '"First damn parenting voice that\'s just made sense to me… And I say that as a licensed clinical therapist, with three kids of my own." — licensed clinical therapist',
     photoAlt: 'Sean Kane',
     photoCaption: 'Sean Kane · Austin, TX',
+    // Countdown above Sean's photo. Counts to CART_CLOSES in
+    // data/launch-schedule.js; keep `date` in step with it.
+    countdown: {
+      title: 'Enrollment closes in',
+      date: 'Mon, Oct 12 · 10pm CT',
+      days: 'Days',
+      hours: 'Hours',
+      minutes: 'Min',
+      seconds: 'Sec',
+    },
   },
 
   pain: {

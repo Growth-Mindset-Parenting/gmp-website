@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BANNERS, DISMISS_DAYS, HIDDEN_PATHS, SCHEDULED_PHASES, phaseAt } from '../data/site-banner';
 import { BANNER_COOKIE, trackPromotion } from '../lib/analytics';
+import { pad2, timeLeft } from '../lib/countdown';
 
 // Site-wide announcement bar. Copy, links and switch dates: data/site-banner.js
 //
@@ -38,6 +39,25 @@ function cookieSaysDismissed(version) {
     // a blocked cookie just means the banner shows again
     return false;
   }
+}
+
+// Live "2d 14h 05m 33s left" for a banner with `countdownTo`. The site is
+// static HTML built days earlier, so it draws nothing until the browser has
+// its own clock — no stale numbers flash on first paint.
+function BannerCountdown({ to, suffix }) {
+  const [left, setLeft] = useState(null);
+  useEffect(() => {
+    const tick = () => setLeft(timeLeft(to));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [to]);
+  if (!left) return null;
+  return (
+    <span className="gmp-banner-countdown">
+      {left.d}d {pad2(left.h)}h {pad2(left.m)}m {pad2(left.s)}s {suffix}
+    </span>
+  );
 }
 
 export default function SiteBanner() {
@@ -99,6 +119,9 @@ export default function SiteBanner() {
           <span className="gmp-banner-text">{banner.text}</span>
           {banner.textShort && (
             <span className="gmp-banner-text-short">{banner.textShort}</span>
+          )}
+          {banner.countdownTo && (
+            <BannerCountdown to={banner.countdownTo} suffix={banner.countdownSuffix} />
           )}
           <span className="gmp-banner-cta">
             {banner.cta} <span aria-hidden="true">&rarr;</span>

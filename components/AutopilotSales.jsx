@@ -6,6 +6,7 @@ import {
   STICKY_ENROLL_BAR,
 } from '../data/autopilot-sales';
 import CheckoutLink from './AutopilotCheckoutLink';
+import AutopilotCountdown from './AutopilotCountdown';
 
 // Autopilot course sales page. Standalone: no site Nav/Footer. Every enroll
 // button goes to Kajabi checkout. Copy lives in data/autopilot-sales.js;
@@ -154,6 +155,8 @@ export default function AutopilotSales() {
               <span>{s.hero.quote}</span>
             </div>
           </div>
+          <div>
+          <AutopilotCountdown />
           <div className="aps-hero-photo-wrap">
             <img
               src="/images/autopilot/sean-studio.jpg"
@@ -164,6 +167,7 @@ export default function AutopilotSales() {
               fetchPriority="high"
             />
             <span className="aps-photo-chip">{s.hero.photoCaption}</span>
+          </div>
           </div>
         </section>
 

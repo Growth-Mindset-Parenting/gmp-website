@@ -54,6 +54,17 @@ html[data-banner-phase='sales']:not([data-banner='hidden']) .gmp-banner[data-pha
   display: none;
 }
 
+/* Live countdown (sales phase): a pill so the ticking numbers read apart
+   from the sentence. Fixed-width digits stop it jittering every second. */
+.gmp-banner-countdown {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
 .gmp-banner-cta {
   font-weight: 700;
   text-decoration: underline;

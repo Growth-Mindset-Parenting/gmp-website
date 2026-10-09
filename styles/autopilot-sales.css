@@ -277,6 +277,69 @@
 .aps-stars { color: var(--accent); letter-spacing: 0.12em; font-size: 13px; }
 .aps-stars--lg { display: block; letter-spacing: 0.14em; font-size: 15px; margin-bottom: 18px; }
 .aps-hero-photo-wrap { position: relative; }
+
+/* Enrollment countdown above the hero photo (components/AutopilotCountdown.jsx) */
+.aps-timer {
+  margin-bottom: 16px;
+  background: var(--card-blush);
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.aps-timer-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+.aps-timer-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.aps-timer-date { font-size: 13px; color: var(--ink-soft); }
+.aps-timer-boxes { display: flex; align-items: center; gap: 6px; }
+.aps-timer-box-group { display: contents; }
+.aps-timer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 14px 4px 12px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+}
+.aps-timer-num {
+  font-size: clamp(38px, 4.4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--accent);
+}
+.aps-timer-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.aps-timer-sep {
+  flex: none;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  padding-bottom: 18px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
 .aps-hero-photo { height: clamp(340px, 44vw, 540px); }
 .aps-photo-chip {
   position: absolute;
