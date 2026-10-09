@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { HIDDEN_PATHS, POPUPS, TRIGGER, VISIT_GAP_MINUTES, phaseAt } from '../data/site-popup';
 import { trackPromotion } from '../lib/analytics';
 import PaperPlane from './PaperPlane';
+import { pad2, timeLeft } from '../lib/countdown';
 
 // Site-wide promotional popup. Copy, links and dates: data/site-popup.js
 //
@@ -71,6 +72,33 @@ function markSeen(key) {
   } catch {
     // never block a close or a click
   }
+}
+
+// Days / hours / min / sec boxes for a popup with `countdownTo`. The popup
+// only ever renders in the browser, so it can read the clock straight away.
+function PopupCountdown({ to }) {
+  const [left, setLeft] = useState(() => timeLeft(to));
+  useEffect(() => {
+    const id = setInterval(() => setLeft(timeLeft(to)), 1000);
+    return () => clearInterval(id);
+  }, [to]);
+  if (!left) return null;
+  const boxes = [
+    [left.d, 'Days'],
+    [pad2(left.h), 'Hours'],
+    [pad2(left.m), 'Min'],
+    [pad2(left.s), 'Sec'],
+  ];
+  return (
+    <div className="gmp-popup-timer" role="timer">
+      {boxes.map(([value, label]) => (
+        <div key={label} className="gmp-popup-timer-box">
+          <span className="gmp-popup-timer-num">{value}</span>
+          <span className="gmp-popup-timer-label">{label}</span>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function SitePopup() {
@@ -248,6 +276,8 @@ export default function SitePopup() {
               </>
             )}
           </p>
+
+          {popup.countdownTo && <PopupCountdown to={popup.countdownTo} />}
 
           <div className="gmp-popup-cta-block">
             <a

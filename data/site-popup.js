@@ -92,6 +92,9 @@ export const POPUPS = {
       after: " and develop their kids' executive function.",
     },
     cta: 'Enroll now',
+    // Live days/hours/min/sec countdown between the body and the button
+    // (Katie, 2026-10-09). The popup itself turns off at the same moment.
+    countdownTo: CART_CLOSES,
     href: '/autopilot/?utm_source=website&utm_medium=popup&utm_campaign=autopilot-sales',
     dismiss: 'No thanks, the chore chart is working great',
   },

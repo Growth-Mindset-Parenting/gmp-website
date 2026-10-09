@@ -179,6 +179,42 @@
 /* The accent is lifted on the dark card so it stays readable. */
 .gmp-popup-ink .gmp-popup-body em { color: oklch(0.78 0.13 45); }
 
+/* --- countdown (sales popup) -------------------------------------------- */
+
+.gmp-popup-timer {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.gmp-popup-timer-box {
+  width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px 9px;
+  border: 1.5px solid var(--paper);
+  border-radius: 12px;
+  color: var(--paper);
+}
+.gmp-popup-paper .gmp-popup-timer-box {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.gmp-popup-timer-num {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.gmp-popup-timer-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 /* --- buttons ------------------------------------------------------------ */
 
 .gmp-popup-cta-block {
@@ -275,6 +311,11 @@
   width: 661px;
   height: 272px;
 }
+/* The countdown pushes the button down; drop the aeroplane with it so its
+   trail runs beside the button instead of through the "Sec" box. */
+.gmp-popup-ink:has(.gmp-popup-timer) .gmp-popup-plane-wide {
+  top: 182px;
+}
 
 /* --- mobile: bottom sheet ----------------------------------------------- */
 
@@ -315,6 +356,9 @@
   .gmp-popup-ink .gmp-popup-body {
     font-size: 17px;
   }
+
+  .gmp-popup-timer-box { flex: 1 1 0; width: auto; min-width: 0; }
+  .gmp-popup-timer-num { font-size: 30px; }
 
   .gmp-popup-cta-block { align-items: stretch; }
 
