@@ -12,8 +12,16 @@ import { pad2, timeLeft } from '../lib/countdown';
 // numbers in the HTML can be a minute old. The browser takes over on its
 // first tick; suppressHydrationWarning stops React complaining about that
 // difference.
+//
+// The card is ALWAYS in the server HTML and in the browser's first render,
+// even right at the deadline: whether it shows can't depend on whose clock
+// is read, or React's hydration fails and the whole page re-renders. Only
+// after mounting does the browser remove it if the cart has closed.
+const ZERO = { d: 0, h: 0, m: 0, s: 0 };
+
 export default function AutopilotCountdown() {
-  const [left, setLeft] = useState(() => timeLeft(CART_CLOSES));
+  const [mounted, setMounted] = useState(false);
+  const [left, setLeft] = useState(() => timeLeft(CART_CLOSES) || ZERO);
 
   useEffect(() => {
     const tick = () => {
@@ -23,10 +31,11 @@ export default function AutopilotCountdown() {
     };
     const id = setInterval(tick, 1000);
     tick();
+    setMounted(true);
     return () => clearInterval(id);
   }, []);
 
-  if (!left) return null;
+  if (mounted && !left) return null;
 
   const t = SALES.hero.countdown;
   const boxes = [
