@@ -17,6 +17,13 @@ const banner = await import('../data/site-banner.js');
 const { buildBannerScript } = await import('../lib/banner-script.js');
 const { BANNER_COOKIE } = await import('../lib/analytics.js');
 
+const { PROMOS_OFF, CART_CLOSES } = await import('../data/launch-schedule.js');
+const { essayBannerAt } = await import('../content/essays/autopilot-banner.js');
+
+// The banner and popup stay on past cart close while PROMOS_OFF is null
+// (Katie, 2026-10-12). Once it is set, they must be off after it.
+const AFTER_CLOSE = PROMOS_OFF && PROMOS_OFF <= CART_CLOSES ? null : 'sales';
+
 // Central time in October is UTC-5. Each case is the exact UTC instant.
 const CASES = [
   ['2026-09-29T12:00:00Z', null, 'the day before it opens'],
@@ -28,7 +35,8 @@ const CASES = [
   ['2026-10-05T18:01:00Z', 'sales', 'one minute after Monday ends'],
   ['2026-10-09T15:00:00Z', 'sales', 'the middle of cart week'],
   ['2026-10-13T02:59:00Z', 'sales', 'one minute before the cart closes'],
-  ['2026-10-13T03:01:00Z', null, 'one minute after the cart closes'],
+  ['2026-10-13T03:01:00Z', AFTER_CLOSE, 'one minute after the cart closes'],
+  ['2026-10-14T03:01:00Z', AFTER_CLOSE, 'a day after the cart closes'],
 ];
 
 let failed = 0;
@@ -57,7 +65,8 @@ const BANNER_CASES = [
   ['2026-10-05T17:59:00Z', 'sales', 'one minute before Monday workshop ends'],
   ['2026-10-05T18:01:00Z', 'sales', 'one minute after Monday workshop ends'],
   ['2026-10-13T02:59:00Z', 'sales', 'one minute before the cart closes'],
-  ['2026-10-13T03:01:00Z', null, 'one minute after the cart closes'],
+  ['2026-10-13T03:01:00Z', AFTER_CLOSE, 'one minute after the cart closes'],
+  ['2026-10-14T03:01:00Z', AFTER_CLOSE, 'a day after the cart closes'],
 ];
 
 // Runs the real before-paint script against a fake page, so the text that
@@ -113,6 +122,15 @@ for (const [iso, expected, label] of [
   check(actual === expected, label, `expected=${expected} actual=${actual}`);
 }
 check(runScript('2026-10-03T06:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner still hidden on /autopilot/ after doors open', '');
+
+console.log('\n— freebie essay banner —');
+const essay = { bannerHref: '/wl', salesBannerHref: '/sales' };
+check(essayBannerAt(essay, Date.parse('2026-10-13T02:59:00Z'))?.href === '/sales', 'essay banner on one minute before the cart closes', '');
+for (const iso of ['2026-10-13T03:01:00Z', '2026-10-14T03:01:00Z']) {
+  const shown = essayBannerAt(essay, Date.parse(iso))?.href ?? null;
+  const expected = AFTER_CLOSE ? '/sales' : null;
+  check(shown === expected, `essay banner at ${iso}`, `expected=${expected} actual=${shown}`);
+}
 
 if (failed) {
   console.error(`\n${failed} check(s) wrong.`);

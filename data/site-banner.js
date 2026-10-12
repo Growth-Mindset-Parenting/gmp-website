@@ -11,8 +11,8 @@
 // (Katie, 2026-09-30):
 //
 //   now → Sat Oct 3, 00:00 CT    waitlist  ("Enrollment opens tomorrow")
-//   Oct 3, 00:00 → Oct 12, 10pm  sales     ("Enroll now")
-//   after the cart closes        off
+//   Oct 3, 00:00 → PROMOS_OFF    sales     ("Enroll now")
+//   after PROMOS_OFF             off (null = stays on until Katie says)
 //
 // The banner flips to sales at doors open, the same moment /autopilot/
 // becomes the sales page (Katie, 2026-10-02), so its button never promises a
@@ -25,7 +25,7 @@
 // Our own buttons never replace an outside source, so a visitor who arrived
 // from Instagram still counts as Instagram in Kit — the banner tags only
 // fill in for visitors whose source we don't already know.
-import { CART_CLOSES, DOORS_OPEN, phaseFrom } from './launch-schedule';
+import { CART_CLOSES, DOORS_OPEN, PROMOS_OFF, phaseFrom } from './launch-schedule';
 
 // Force a phase instead of following the clock: 'waitlist', 'workshop',
 // 'sales' or 'off'. For previewing a banner before its date, or if the launch
@@ -35,7 +35,7 @@ export const OVERRIDE = null;
 const DATED_SCHEDULE = [
   [0, 'waitlist'],
   [DOORS_OPEN, 'sales'],
-  [CART_CLOSES, null],
+  ...(PROMOS_OFF ? [[PROMOS_OFF, null]] : []),
 ];
 
 // What the page actually follows: the dates, or the override.
@@ -96,7 +96,8 @@ export const BANNERS = {
     textShort: 'Autopilot is open. Doors close Mon, Oct 12.',
     cta: 'Enroll now',
     // Live countdown to CART_CLOSES, shown before the button (Katie,
-    // 2026-10-09). The banner turns off at the same moment it hits zero.
+    // 2026-10-09). The timer vanishes at zero; the banner stays until
+    // PROMOS_OFF.
     countdownTo: CART_CLOSES,
     countdownSuffix: 'left',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-sales',

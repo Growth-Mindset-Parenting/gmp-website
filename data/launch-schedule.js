@@ -23,8 +23,15 @@ export function autopilotPageAt(now = Date.now()) {
 // the workshop popup back for all of cart week.
 export const SALES_STARTS = Date.parse('2026-10-05T18:00:00Z');
 
-// Cart closes Mon Oct 12 2026, 10pm CT. The popup and banner both turn off.
+// Cart closes Mon Oct 12 2026, 10pm CT. The countdown timers count to this
+// and vanish when it passes.
 export const CART_CLOSES = Date.parse('2026-10-13T03:00:00Z');
+
+// When the pencil banner, the popup and the freebie essay banner turn off.
+// null = they stay on. Katie (2026-10-12): keep them on past cart close; she
+// will say when to turn them off. To turn all three off, set this to a moment
+// that has passed, e.g. Date.parse('2026-10-13T03:00:00Z'), and deploy.
+export const PROMOS_OFF = null;
 
 // A schedule is a list of [startMs, phase] in time order; `null` means
 // nothing shows. Before the first start, nothing shows either. Kept as plain

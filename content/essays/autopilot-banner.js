@@ -1,4 +1,4 @@
-import { CART_CLOSES, autopilotPageAt } from '../../data/launch-schedule';
+import { PROMOS_OFF, autopilotPageAt } from '../../data/launch-schedule';
 
 // The Autopilot banner shown under the byline on every freebie essay.
 // Phones get the tall version; wider screens get the wide one.
@@ -19,10 +19,11 @@ export const AUTOPILOT_SALES_BANNER = {
 
 // Which banner an essay shows right now. Switches by itself at doors open
 // (DOORS_OPEN in data/launch-schedule.js), the same moment /autopilot/
-// becomes the sales page, and turns off at cart close (CART_CLOSES), the same
-// moment as the pencil banner and popup. `null` means no banner.
+// becomes the sales page, and turns off at PROMOS_OFF, the same moment as the
+// pencil banner and popup (never, while PROMOS_OFF is null). `null` means no
+// banner.
 export function essayBannerAt(essay, now = Date.now()) {
-  if (now >= CART_CLOSES) return null;
+  if (PROMOS_OFF && now >= PROMOS_OFF) return null;
   if (autopilotPageAt(now) === 'sales') {
     return { href: essay.salesBannerHref, image: AUTOPILOT_SALES_BANNER };
   }

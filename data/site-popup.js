@@ -8,13 +8,13 @@
 //   before Sep 30        nothing
 //   Sep 30 → workshop    the workshop popup
 //   workshop ends →      the sales popup
-//   cart closes →        nothing
+//   PROMOS_OFF →         nothing (null = stays on until Katie says)
 //
 // It switches itself because the handover lands at 1pm CT on Monday Oct 5,
 // right after Sean finishes the second live session. Nobody should need to
 // run a deploy in that hour. The switch times live in data/launch-schedule.js,
 // shared with the site banner, so the two always change at the same moment.
-import { CART_CLOSES, POPUP_OPENS, SALES_STARTS, phaseFrom } from './launch-schedule';
+import { CART_CLOSES, POPUP_OPENS, PROMOS_OFF, SALES_STARTS, phaseFrom } from './launch-schedule';
 
 // Force a phase instead of working it out from the clock: 'workshop',
 // 'sales', or 'off'. For checking the popups look right before their date,
@@ -24,7 +24,7 @@ export const OVERRIDE = null;
 const SCHEDULE = [
   [POPUP_OPENS, 'workshop'],
   [SALES_STARTS, 'sales'],
-  [CART_CLOSES, null],
+  ...(PROMOS_OFF ? [[PROMOS_OFF, null]] : []),
 ];
 
 export function phaseAt(now = Date.now()) {
@@ -93,7 +93,8 @@ export const POPUPS = {
     },
     cta: 'Enroll now',
     // Live days/hours/min/sec countdown between the body and the button
-    // (Katie, 2026-10-09). The popup itself turns off at the same moment.
+    // (Katie, 2026-10-09). The timer vanishes at zero; the popup stays until
+    // PROMOS_OFF.
     countdownTo: CART_CLOSES,
     href: '/autopilot/?utm_source=website&utm_medium=popup&utm_campaign=autopilot-sales',
     dismiss: 'No thanks, the chore chart is working great',
