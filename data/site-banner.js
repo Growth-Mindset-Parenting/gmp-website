@@ -91,9 +91,9 @@ export const BANNERS = {
   // Sat Oct 3, 00:00 CT (doors open) until the cart closes Mon Oct 12 at
   // 10pm CT. Links to /autopilot/, the sales page from the same moment.
   sales: {
-    version: 'sales-2',
-    text: 'Autopilot is open — a 5-week live course. Doors close Monday, October 12 at 10pm CT.',
-    textShort: 'Autopilot is open. Doors close Mon, Oct 12.',
+    version: 'sales-3',
+    text: 'Autopilot is open — a 5-week live course. Class starts Tuesday, October 13 at 6pm CT.',
+    textShort: 'Autopilot is open. Class starts Tue, Oct 13.',
     cta: 'Enroll now',
     // Live countdown to CART_CLOSES, shown before the button (Katie,
     // 2026-10-09). The timer vanishes at zero; the banner stays until
