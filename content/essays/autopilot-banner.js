@@ -6,9 +6,9 @@ import { PROMOS_OFF, autopilotPageAt } from '../../data/launch-schedule';
 // (Enroll now) so banner clicks are tracked apart from the essay's bottom
 // button (see the GMP Link Tracker sheet, UTM tab).
 export const AUTOPILOT_BANNER = {
-  src: '/images/autopilot-banner-2x.png',
-  mobileSrc: '/images/autopilot-banner-mobile-3x.png',
-  alt: 'Autopilot: a 5 week course built to help parents stop overfunctioning and develop their kids\' executive functioning. Join the waitlist.',
+  src: '/images/autopilot-banner-course-2x.png',
+  mobileSrc: '/images/autopilot-banner-course-mobile-3x.png',
+  alt: 'Autopilot: a course built to help parents stop overfunctioning and develop their kids\' executive functioning. Join the waitlist.',
 };
 
 export const AUTOPILOT_SALES_BANNER = {

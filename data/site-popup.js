@@ -18,9 +18,9 @@ import { CART_CLOSES, POPUP_OPENS, PROMOS_OFF, SALES_STARTS, phaseFrom } from '.
 
 // Force a phase instead of working it out from the clock: 'workshop',
 // 'sales', 'waitlist' or 'off'. null = follow the dates.
-// Round 1 sales are over (Katie, 2026-10-14): the undated round 2 waitlist
-// popup shows until this changes.
-export const OVERRIDE = 'waitlist';
+// Off since 2026-10-14 (Katie). The undated 'waitlist' version is ready if
+// it comes back: set this to 'waitlist' and deploy.
+export const OVERRIDE = 'off';
 
 const SCHEDULE = [
   [POPUP_OPENS, 'workshop'],

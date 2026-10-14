@@ -30,9 +30,9 @@ import { CART_CLOSES, DOORS_OPEN, PROMOS_OFF, phaseFrom } from './launch-schedul
 // Force a phase instead of following the clock: 'waitlist', 'workshop',
 // 'sales' or 'off'. For previewing a banner before its date, or if the launch
 // moves. null = follow the dates. Needs a deploy to take effect.
-// Round 1 sales are over (Katie, 2026-10-14): the undated round 2 waitlist
-// banner shows until this changes.
-export const OVERRIDE = 'waitlist';
+// Off since 2026-10-14 (Katie). The undated 'waitlist' version is ready if
+// it comes back: set this to 'waitlist' and deploy.
+export const OVERRIDE = 'off';
 
 const DATED_SCHEDULE = [
   [0, 'waitlist'],

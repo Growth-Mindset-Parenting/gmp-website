@@ -106,6 +106,9 @@ for (const [iso, dated, label] of BANNER_CASES) {
 check(banner.BANNERS.sales.cta === 'Enroll now', 'sales banner button says Enroll now', banner.BANNERS.sales.cta);
 
 console.log('\n— banner pages + dismiss —');
+const BANNER_ON = banner.SCHEDULED_PHASES.length > 0;
+if (!BANNER_ON) check(banner.phaseAt() === null, 'banner is off (no banner HTML rendered)', '');
+if (BANNER_ON) {
 check(runScript('2026-09-30T15:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner hidden on /autopilot/', '');
 check(runScript('2026-09-30T15:00:00Z', '/about')['data-banner'] !== 'hidden', 'path without trailing slash still shows', '');
 const wlCookie = `${BANNER_COOKIE}=${versions.waitlist}`;
@@ -113,6 +116,7 @@ check(runScript('2026-09-30T15:00:00Z', '/about/', wlCookie)['data-banner'] === 
 if (!banner.OVERRIDE) {
   const s1 = runScript('2026-10-06T15:00:00Z', '/about/', wlCookie);
   check(s1['data-banner'] !== 'hidden' && s1['data-banner-phase'] === 'sales', 'dismissed waitlist still sees the sales banner', JSON.stringify(s1));
+}
 }
 check(!/Oct|tomorrow|live/i.test(banner.BANNERS.waitlist.text + banner.BANNERS.waitlist.textShort), 'waitlist banner has no dates or "live"', banner.BANNERS.waitlist.textShort);
 check(POPUP_HIDDEN.waitlist?.includes('/autopilot/') && POPUP_HIDDEN.waitlist?.includes('/autopilot/thank-you/'), 'waitlist popup hidden on /autopilot/ and its thank-you', '');
@@ -125,7 +129,7 @@ for (const iso of ['2026-10-14T20:00:00Z', '2026-12-01T00:00:00Z', '2027-06-01T0
   const actual = autopilotPageAt(Date.parse(iso));
   check(actual === 'waitlist', `waitlist page at ${iso}`, `actual=${actual}`);
 }
-check(runScript('2026-10-03T06:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner still hidden on /autopilot/ after doors open', '');
+if (BANNER_ON) check(runScript('2026-10-03T06:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner still hidden on /autopilot/ after doors open', '');
 
 console.log('\n— freebie essay banner —');
 const essay = { bannerHref: '/wl', salesBannerHref: '/sales' };
