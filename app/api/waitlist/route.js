@@ -5,13 +5,15 @@ const KIT_API_SECRET = process.env.KIT_API_SECRET;
 
 // Waitlists this route can subscribe to. Each list = one Kit form (the form's
 // incentive/automation sends the confirmation email) + one tag.
-//   autopilot: "Autopilot Interest List" form (has Sean's confirmation email)
-//   + `waitlist: autopilot` tag.
+//   autopilot: "Autopilot Waitlist List" form (has Sean's confirmation email)
+//   + `waitlist: autopilot round 2` tag (24619612). Round 1's waitlist used
+//   `waitlist: autopilot` (22826067) until 2026-10-14; round 2 signups get
+//   only the new tag so the two lists stay apart.
 //   autopilot-workshop: "Autopilot Workshop Registrants" form + `Registered:
 //   Autopilot Workshop` tag. No longer used by /workshop/, which posts to
 //   /api/workshop-register/ instead (Zoom + Kit) since 2026-09-19.
 const WAITLISTS = {
-  autopilot: { formId: '9852683', tagId: 22826067 },
+  autopilot: { formId: '9852683', tagId: 24619612 },
   'autopilot-workshop': { formId: '9921406', tagId: 23446662 },
 };
 

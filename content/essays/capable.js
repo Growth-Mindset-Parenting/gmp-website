@@ -160,12 +160,12 @@ export const CAPABLE_ESSAY = {
     blocks: [
       { type: 'p', text: 'If you did the exercise above, you’re now holding a list of everything you do to make one task happen. The reminding, the checking, the clock-watching, the noticing.' },
       { type: 'p', text: 'That list is the gap. Not a character flaw in your kid, not a failure in you. It’s a handoff of skills nobody ever designed.' },
-      { type: 'p', text: 'Autopilot is where we design it. Five weeks, one process at a time, moving the management of your kid’s life from you to them without lowering the standard and without walking away. ==A teacher’s answer to the stress of being a parent.==' },
+      { type: 'p', text: 'Autopilot is where we design it. Five classes, one process at a time, moving the management of your kid’s life from you to them without lowering the standard and without walking away. ==A teacher’s answer to the stress of being a parent.==' },
       { type: 'p', text: 'The goal isn’t a perfect kid or house. It’s a kid who can increasingly run their own life, and a parent who knows how to help them do it.' },
       { type: 'p', text: 'Because we don’t actually want to spend these years having a better argument about the dishwasher. We just need them to help load it without the argument.' },
-      { type: 'p', text: 'The course launches live in October. I won’t just teach, I’ll also run live office hours where we handle all our kids’ pushback and fallout because we know knowing is different than doing. Doors are open October 3–12.' },
+      { type: 'p', text: 'It’s five 75-minute classes. Join the waitlist to be the first to know when it opens again.' },
     ],
-    ctaLead: 'The waitlist hears first, gets access to the free workshop.',
+    ctaLead: 'The waitlist hears first when Autopilot opens again.',
     ctaLabel: 'Join the Autopilot waitlist',
     // Tagged so waitlist joins from this page show up in the "GMP Link Tracker" sheet (UTM tab).
     ctaHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=capable-essay',

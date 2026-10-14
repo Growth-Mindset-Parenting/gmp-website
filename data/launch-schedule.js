@@ -12,8 +12,15 @@ export const POPUP_OPENS = Date.parse('2026-09-30T05:00:00Z');
 // the server about every 60 seconds, so it flips without a deploy.
 export const DOORS_OPEN = Date.parse('2026-10-03T05:00:00Z');
 
+// Round 1 sales are over (Katie, 2026-10-14): /autopilot/ is the round 2
+// waitlist page until this changes. Set to 'sales' to put the sales page back,
+// or null to follow DOORS_OPEN again. The freebie essays' banner and bottom
+// button follow this too (content/essays/autopilot-banner.js).
+export const AUTOPILOT_PAGE = 'waitlist';
+
 // Which page /autopilot/ shows at a given moment: 'waitlist' or 'sales'.
 export function autopilotPageAt(now = Date.now()) {
+  if (AUTOPILOT_PAGE) return AUTOPILOT_PAGE;
   return now >= DOORS_OPEN ? 'sales' : 'waitlist';
 }
 

@@ -14,11 +14,11 @@ export const WAITLIST = {
   copyright: '© 2026 Growth Mindset Parenting · Sean Kane',
 
   hero: {
-    eyebrow: 'A 5-week live course · Starts October',
+    eyebrow: 'A course in five 75-minute classes',
     headline: 'Less reminding. Less managing.',
     headlineAccent: 'More capable kids.',
     subtitle:
-      'Autopilot is a 5-week live course for parents of kids roughly 9–14, taught by Sean Kane. It teaches responsibility as a set of skills — at your kitchen table, with your kid.',
+      'Autopilot is a course for parents of kids roughly 9–14, taught by Sean Kane. In five 75-minute classes, it teaches responsibility as a set of skills — at your kitchen table, with your kid.',
     photoCaption: 'Sean Kane · Austin, TX',
   },
 
@@ -69,10 +69,10 @@ export const WAITLIST = {
   },
 
   closing: {
-    eyebrow: 'Autopilot · Starts October',
+    eyebrow: 'Autopilot · Five 75-minute classes',
     headline: 'Stop being the only brain',
     headlineAccent: 'in the house.',
-    note: 'Join the waitlist for first invite to the free live workshop and early access before doors open.',
+    note: 'Join the waitlist and you’ll be the first to know when Autopilot opens again.',
   },
 
   form: {
@@ -95,8 +95,8 @@ export const WAITLIST = {
     // email instead of typing an address, so there is no address to show back.
     bodyNoEmail: "A note from Sean is on its way. Check promotions if you don't see it.",
     steps: [
-      "You'll get the first invite to the free live workshop.",
-      'Early access to Autopilot before doors open in October.',
+      "You'll be the first to know when Autopilot opens again.",
+      'Hit reply to Sean’s note and tell him where your house falls apart most.',
     ],
     instagramStep: 'Until then, Sean posts most days.',
     instagramLink: 'Follow along on Instagram →',

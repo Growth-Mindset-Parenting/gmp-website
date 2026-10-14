@@ -30,7 +30,9 @@ import { CART_CLOSES, DOORS_OPEN, PROMOS_OFF, phaseFrom } from './launch-schedul
 // Force a phase instead of following the clock: 'waitlist', 'workshop',
 // 'sales' or 'off'. For previewing a banner before its date, or if the launch
 // moves. null = follow the dates. Needs a deploy to take effect.
-export const OVERRIDE = null;
+// Round 1 sales are over (Katie, 2026-10-14): the undated round 2 waitlist
+// banner shows until this changes.
+export const OVERRIDE = 'waitlist';
 
 const DATED_SCHEDULE = [
   [0, 'waitlist'],
@@ -70,9 +72,9 @@ export const BANNERS = {
   waitlist: {
     // Bump this when the copy changes — a visitor who dismissed the old
     // banner sees the new one.
-    version: 'waitlist-4',
-    text: "Enrollment for Autopilot opens tomorrow, Saturday, Oct 3: a 5-week course to help parents stop over-functioning and develop their kid's executive function.",
-    textShort: 'Autopilot enrollment opens tomorrow, Sat Oct 3.',
+    version: 'waitlist-5',
+    text: "Autopilot: five 75-minute classes to help parents stop over-functioning and develop their kid's executive function.",
+    textShort: 'Autopilot: five 75-minute classes.',
     cta: 'Join the waitlist',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-waitlist',
   },

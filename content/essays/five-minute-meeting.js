@@ -159,9 +159,9 @@ export const FIVE_MINUTE_MEETING_ESSAY = {
     headingItalic: 'Autopilot',
     headingTail: 'moves the management of your kid’s life from you to them.',
     blocks: [
-      { type: 'p', text: 'A five-week live course for parents of middle schoolers. One process at a time, without lowering the standard and without walking away. Launches live in October, with live office hours for the pushback and fallout. Doors are open October 3–12.' },
+      { type: 'p', text: 'A course in five 75-minute classes for parents of middle schoolers. One process at a time, without lowering the standard and without walking away. Join the waitlist to be the first to know when it opens again.' },
     ],
-    ctaLead: 'The waitlist hears first and gets access to the free workshop.',
+    ctaLead: 'The waitlist hears first when Autopilot opens again.',
     ctaLabel: 'Join the Autopilot waitlist',
     ctaHref: WAITLIST_HREF,
     // From doors open (Oct 3): the Enroll in Autopilot button, tracked as a sales click.

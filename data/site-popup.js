@@ -17,9 +17,10 @@
 import { CART_CLOSES, POPUP_OPENS, PROMOS_OFF, SALES_STARTS, phaseFrom } from './launch-schedule';
 
 // Force a phase instead of working it out from the clock: 'workshop',
-// 'sales', or 'off'. For checking the popups look right before their date,
-// and as the handle to grab if the workshop moves. null = follow the dates.
-export const OVERRIDE = null;
+// 'sales', 'waitlist' or 'off'. null = follow the dates.
+// Round 1 sales are over (Katie, 2026-10-14): the undated round 2 waitlist
+// popup shows until this changes.
+export const OVERRIDE = 'waitlist';
 
 const SCHEDULE = [
   [POPUP_OPENS, 'workshop'],
@@ -60,6 +61,7 @@ const WORKSHOP_HIDDEN = [
 export const HIDDEN_PATHS = {
   workshop: WORKSHOP_HIDDEN,
   sales: [...WORKSHOP_HIDDEN, '/autopilot/'],
+  waitlist: [...WORKSHOP_HIDDEN, '/autopilot/'],
 };
 
 export const POPUPS = {
@@ -78,6 +80,24 @@ export const POPUPS = {
     cta: 'Save my seat',
     href: '/workshop/?utm_source=website&utm_medium=popup&utm_campaign=autopilot-workshop',
     dismiss: "No thanks, I'll keep reminding them myself",
+  },
+
+  // Round 2 waitlist (2026-10-14). No dates and no "live" — the next round's
+  // timing is unknown and the course sells as recorded classes too.
+  waitlist: {
+    seenKey: 'gmp_popup_waitlist_seen',
+    variant: 'ink',
+    eyebrow: 'Five 75-minute classes',
+    headline: 'Autopilot',
+    headlineAccent: null,
+    body: {
+      before: 'A course built to help parents ',
+      accent: 'stop over-functioning',
+      after: " and develop their kids' executive function.",
+    },
+    cta: 'Join the waitlist',
+    href: '/autopilot/?utm_source=website&utm_medium=popup&utm_campaign=autopilot-waitlist',
+    dismiss: 'No thanks, the chore chart is working great',
   },
 
   sales: {

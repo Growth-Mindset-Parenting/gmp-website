@@ -12,7 +12,7 @@
 // A dynamic import, not a static one: this project's package.json has no
 // "type": "module", so a static named import of a .js file is read as CommonJS
 // and the named export is not found.
-const { phaseAt, HIDDEN_PATHS: POPUP_HIDDEN } = await import('../data/site-popup.js');
+const { phaseAt, HIDDEN_PATHS: POPUP_HIDDEN, OVERRIDE: POPUP_PIN } = await import('../data/site-popup.js');
 const banner = await import('../data/site-banner.js');
 const { buildBannerScript } = await import('../lib/banner-script.js');
 const { BANNER_COOKIE } = await import('../lib/analytics.js');
@@ -39,6 +39,10 @@ const CASES = [
   ['2026-10-14T03:01:00Z', AFTER_CLOSE, 'a day after the cart closes'],
 ];
 
+// When a phase is pinned with OVERRIDE (round 2 waitlist since 2026-10-14),
+// every moment must show the pinned phase instead of the dated one.
+const pinned = (pin, expected) => (pin ? (pin === 'off' ? null : pin) : expected);
+
 let failed = 0;
 const check = (ok, label, detail) => {
   if (!ok) failed += 1;
@@ -46,7 +50,8 @@ const check = (ok, label, detail) => {
 };
 
 console.log('— popup —');
-for (const [iso, expected, label] of CASES) {
+for (const [iso, dated, label] of CASES) {
+  const expected = pinned(POPUP_PIN, dated);
   const actual = phaseAt(Date.parse(iso));
   check(actual === expected, label, `expected=${expected} actual=${actual}`);
 }
@@ -90,7 +95,8 @@ function runScript(iso, path, cookie = '') {
 }
 
 console.log('\n— banner —');
-for (const [iso, expected, label] of BANNER_CASES) {
+for (const [iso, dated, label] of BANNER_CASES) {
+  const expected = pinned(banner.OVERRIDE, dated);
   const actual = banner.phaseAt(Date.parse(iso));
   check(actual === expected, label, `expected=${expected} actual=${actual}`);
   const a = runScript(iso, '/letters/');
@@ -104,32 +110,29 @@ check(runScript('2026-09-30T15:00:00Z', '/autopilot/')['data-banner'] === 'hidde
 check(runScript('2026-09-30T15:00:00Z', '/about')['data-banner'] !== 'hidden', 'path without trailing slash still shows', '');
 const wlCookie = `${BANNER_COOKIE}=${versions.waitlist}`;
 check(runScript('2026-09-30T15:00:00Z', '/about/', wlCookie)['data-banner'] === 'hidden', 'dismissed waitlist stays hidden', '');
-const s1 = runScript('2026-10-06T15:00:00Z', '/about/', wlCookie);
-check(s1['data-banner'] !== 'hidden' && s1['data-banner-phase'] === 'sales', 'dismissed waitlist still sees the sales banner', JSON.stringify(s1));
+if (!banner.OVERRIDE) {
+  const s1 = runScript('2026-10-06T15:00:00Z', '/about/', wlCookie);
+  check(s1['data-banner'] !== 'hidden' && s1['data-banner-phase'] === 'sales', 'dismissed waitlist still sees the sales banner', JSON.stringify(s1));
+}
+check(!/Oct|tomorrow|live/i.test(banner.BANNERS.waitlist.text + banner.BANNERS.waitlist.textShort), 'waitlist banner has no dates or "live"', banner.BANNERS.waitlist.textShort);
+check(POPUP_HIDDEN.waitlist?.includes('/autopilot/') && POPUP_HIDDEN.waitlist?.includes('/autopilot/thank-you/'), 'waitlist popup hidden on /autopilot/ and its thank-you', '');
 
-// /autopilot/ itself: waitlist page until doors open, sales page from then.
+// /autopilot/ itself: round 2 waitlist page, pinned by AUTOPILOT_PAGE (2026-10-14).
 console.log('\n— /autopilot/ page —');
-const { autopilotPageAt, DOORS_OPEN } = await import('../data/launch-schedule.js');
-check(DOORS_OPEN === Date.parse('2026-10-03T05:00:00Z'), 'doors open = Sat Oct 3, 00:00 CT', new Date(DOORS_OPEN).toISOString());
-for (const [iso, expected, label] of [
-  ['2026-10-02T20:00:00Z', 'waitlist', 'Friday afternoon'],
-  ['2026-10-03T04:59:59Z', 'waitlist', 'one second before midnight CT'],
-  ['2026-10-03T05:00:00Z', 'sales', 'midnight CT exactly'],
-  ['2026-10-03T05:00:01Z', 'sales', 'one second after midnight CT'],
-  ['2026-10-13T03:01:00Z', 'sales', 'after the cart closes (stays the sales page)'],
-]) {
+const { autopilotPageAt, AUTOPILOT_PAGE } = await import('../data/launch-schedule.js');
+check(AUTOPILOT_PAGE === 'waitlist', 'AUTOPILOT_PAGE pinned to waitlist', String(AUTOPILOT_PAGE));
+for (const iso of ['2026-10-14T20:00:00Z', '2026-12-01T00:00:00Z', '2027-06-01T00:00:00Z']) {
   const actual = autopilotPageAt(Date.parse(iso));
-  check(actual === expected, label, `expected=${expected} actual=${actual}`);
+  check(actual === 'waitlist', `waitlist page at ${iso}`, `actual=${actual}`);
 }
 check(runScript('2026-10-03T06:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner still hidden on /autopilot/ after doors open', '');
 
 console.log('\n— freebie essay banner —');
 const essay = { bannerHref: '/wl', salesBannerHref: '/sales' };
-check(essayBannerAt(essay, Date.parse('2026-10-13T02:59:00Z'))?.href === '/sales', 'essay banner on one minute before the cart closes', '');
-for (const iso of ['2026-10-13T03:01:00Z', '2026-10-14T03:01:00Z']) {
+for (const iso of ['2026-10-14T20:00:00Z', '2027-01-01T00:00:00Z']) {
   const shown = essayBannerAt(essay, Date.parse(iso))?.href ?? null;
-  const expected = AFTER_CLOSE ? '/sales' : null;
-  check(shown === expected, `essay banner at ${iso}`, `expected=${expected} actual=${shown}`);
+  const expected = AFTER_CLOSE ? '/wl' : null;
+  check(shown === expected, `essay banner is the waitlist one at ${iso}`, `expected=${expected} actual=${shown}`);
 }
 
 if (failed) {

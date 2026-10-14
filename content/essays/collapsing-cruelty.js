@@ -169,9 +169,9 @@ export const COLLAPSING_CRUELTY_ESSAY = {
     headingItalic: 'Autopilot',
     headingTail: 'moves the management of your kid’s life from you to them.',
     blocks: [
-      { type: 'p', text: 'A five-week live course for parents of middle schoolers. One process at a time, without lowering the standard and without walking away. Launches live in October, with live office hours for the pushback and fallout. Doors are open October 3–12.' },
+      { type: 'p', text: 'A course in five 75-minute classes for parents of middle schoolers. One process at a time, without lowering the standard and without walking away. Join the waitlist to be the first to know when it opens again.' },
     ],
-    ctaLead: 'The waitlist hears first and gets access to the free workshop.',
+    ctaLead: 'The waitlist hears first when Autopilot opens again.',
     ctaLabel: 'Join the Autopilot waitlist',
     // Tagged so waitlist joins from this page show up in the "GMP Link Tracker" sheet (UTM tab).
     ctaHref: '/autopilot/?utm_source=website&utm_medium=essay&utm_campaign=autopilot-waitlist&utm_content=collapsing-cruelty-essay',
