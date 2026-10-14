@@ -31,6 +31,19 @@ const nextConfig = {
         destination: '/autopilot/',
         permanent: false,
       },
+      // Autopilot workshop pages retired 2026-10-14 (round 1 over, almost
+      // no traffic). Old email and bio links land on the round 2 waitlist.
+      // Temporary so /workshop/ can be reused for a future workshop.
+      {
+        source: '/workshop/',
+        destination: '/autopilot/',
+        permanent: false,
+      },
+      {
+        source: '/workshop/:path*/',
+        destination: '/autopilot/',
+        permanent: false,
+      },
       {
         source: '/contact/',
         destination: '/work-with-me/',
