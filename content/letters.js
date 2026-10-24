@@ -4,6 +4,25 @@
 
 export const LETTERS = [
   {
+    slug: 'subject-lines-curiosity-what-my-son-saw-in-the-world-series',
+    title: "Subject lines Curiosity: What my son saw in the World Series Tension: Your kid is going to throw wild pitches Promise: Your one job in the middle school years My pick: Tension.",
+    date: '2026-10-16',
+    type: 'essay',
+    topic: 'reflection',
+    tag: 'Newsletter · 3 min read',
+    readTime: '3 min read',
+    excerpt: "I’m not a huge baseball guy. But the World Series starts today, and we’ve been watching the playoffs. The other night my son, the one who actually plays, stared",
+    dek: "I’m not a huge baseball guy. But the World Series starts today, and we’ve been watching the playoffs. The other night my son, the one who actually plays, stared",
+    img: null,
+    featured: false,
+    related: [],
+    body: [
+    "Subject lines Curiosity: What my son saw in the World Series Tension: Your kid is going to throw wild pitches Promise: Your one job in the middle school years My pick: Tension. It reframes the thing parents dread, the misses, as a given rather than a failure, and the baseball image does the rest. Openers Curiosity: We are not baseball people, which might be why it took my son to point out the most terrifying job in sports. Tension: Right now your kid is standing on a mound, convinced the whole stadium is watching, and most of us respond by yelling from the stands. Promise: If you've ever wondered what your actual job is with a middle schooler, I think I finally found the clearest picture of it, and it came from the World Series.",
+    "I’m not a huge baseball guy. But the World Series starts today, and we’ve been watching the playoffs. The other night my son, the one who actually plays, stared at a replay and said, \"Can you even imagine standing in the box against that? He's throwing 97. What are you even supposed to do?\" “Yeah. No,” I stared dumbfounded as the pitcher reset for pitch number 91, deep in the 7th inning, on the road in a pressure cooked Game 5 of the ALCS. I couldn't imagine it. The biggest moment of his life, with fifty thousand people watching every twitch. The longer I watched, the more I thought that's what being an adolescent feels like. Our kids are out there on the mound, trying to gain control over a life that keeps intensifying. They're trying to manage their feelings, their friendships, their grades, and the tone of their own voice. They feel enormous pressure to perform, to be perfect, to do it all themselves. And like everyone is watching. David Elkind called it the imaginary audience. Our kids get the sense that everyone is paying attention and judging what you do. The truth is everybody is too busy worrying about themselves. But for a twelve-year-old the feeling is as real for them as it is for that pitcher. Some days, they feel completely alone out there. Of course, they aren’t alone. We’re behind the plate as catcher. Behind them is a whole defense of teachers, coaches, grandparents, siblings, friends, and mentors who have their back. But if we care to understand the irrational, wild emotional swings our kids experience, we have to hold the reality of that feeling of isolation in focus. They seem selfish, obsessive and egomaniacal at times, but it’s appropriate because the kid is, for the first time in life, trying to see how they fit into the game of life. There’s two stable ways that this becomes less acute. One is through connection. The pitcher who trusts his team feels way less afraid. Strong social relationships assure human safety. The time they spend with supportive friends and family might be the best thing for them. Two is through ability. The pitcher who can control the ball has control of the game. Our kids are the same. Their capacity to successfully navigate school, feelings, and relationships matters. Help them practice it, a lot. But like anything worth doing, these take practice, and failure. Our job is to keep giving them the ball. Here's the move for this week. The next time your kid throws a wild one, catch it before you correct it. Skip the coaching and skip the replay of everything that went wrong. Just toss it back. “Try that again.” There’s a good chance they will slow down and do a better job the second time around.",
+    "Editor's notes Citation fix (important): The term you were reaching for isn't \"the looking glass effect.\" It's the imaginary audience, from developmental psychologist David Elkind (1967). The \"looking-glass self\" is a different idea, Charles Cooley's sociology concept about building self-image from how we think others see us. It's close, but it's the wrong one. The \"spotlight effect\" is also nearby, but that research covers adults generally. Elkind is the adolescent-specific term and the right fit here.",
+    ],
+  },
+  {
     slug: 'my-favorite-parents',
     title: "My favorite Parents",
     date: '2026-10-08',
