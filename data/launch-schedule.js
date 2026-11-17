@@ -51,3 +51,26 @@ export function phaseFrom(schedule, now = Date.now()) {
   }
   return phase;
 }
+
+// ── The Screen Reset (self-paced course, launched Nov 2026) ─────────────────
+//
+// All times are UTC. Late November is Central STANDARD time (CST = UTC-6),
+// NOT the UTC-5 used for the October dates above. Midnight in Texas is
+// 06:00 UTC.
+
+// The $67 launch price starts: Sat Nov 21 2026, 00:00 Central. The site
+// banner and popup for The Screen Reset turn on at this moment.
+export const SCREEN_RESET_SALE_STARTS = Date.parse('2026-11-21T06:00:00Z');
+
+// The $67 launch price ends: Mon Nov 30 2026, end of day Central (the first
+// moment of Tue Dec 1). From here the price is $99 with no end date, the
+// countdown timers vanish, the popup turns off, and the banner switches to
+// its plain "See the course" version.
+export const SCREEN_RESET_SALE_ENDS = Date.parse('2026-12-01T06:00:00Z');
+
+// Which price /screen-reset/ shows at a given moment: 'sale' ($67) or
+// 'full' ($99). Before the sale starts it is also 'sale', on purpose, so a
+// preview of the page before launch day shows the launch-day version.
+export function screenResetPriceAt(now = Date.now()) {
+  return now >= SCREEN_RESET_SALE_ENDS ? 'full' : 'sale';
+}

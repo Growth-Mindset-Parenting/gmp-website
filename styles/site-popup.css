@@ -317,6 +317,14 @@
   top: 182px;
 }
 
+/* The Screen Reset popup: its title is three words on two lines ("The
+   Screen" / "Reset."), not the single word "Autopilot", so it is set a size
+   down and the aeroplane drops by the extra line. */
+.gmp-popup[data-phase='screenResetSale'] .gmp-popup-title { font-size: 74px; }
+.gmp-popup-ink[data-phase='screenResetSale']:has(.gmp-popup-timer) .gmp-popup-plane-wide {
+  top: 232px;
+}
+
 /* --- mobile: bottom sheet ----------------------------------------------- */
 
 @media (max-width: 480px) {
@@ -390,4 +398,7 @@
     width: 522px;
     height: 78px;
   }
+
+  .gmp-popup[data-phase='screenResetSale'] .gmp-popup-title { font-size: 56px; }
+  .gmp-popup-ink[data-phase='screenResetSale'] .gmp-popup-plane-narrow { top: 348px; }
 }

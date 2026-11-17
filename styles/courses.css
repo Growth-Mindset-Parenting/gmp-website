@@ -1,0 +1,52 @@
+/* The Courses hub (/courses/). Sits inside the shared .v6-page frame, so it
+   uses the site's palette, type, nav and footer. Copy: data/courses.js. */
+
+.crs-head { margin-bottom: 48px; }
+
+.crs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 24px;
+  margin-bottom: 96px;
+}
+
+.crs-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(28px, 3.5vw, 44px);
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  background: var(--card-cream);
+}
+.crs-card--sage { background: var(--card-sage); }
+.crs-card--cream { background: var(--card-cream); }
+
+.crs-card-title {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(32px, 3.6vw, 46px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+
+.crs-card-text {
+  font-family: var(--serif-text);
+  font-size: clamp(18px, 1.5vw, 20px);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0 0 32px;
+  max-width: 30em;
+  text-wrap: pretty;
+}
+
+/* Pushes the button to the bottom so the two cards line up. */
+.crs-card-cta { margin-top: auto; }
+
+@media (max-width: 720px) {
+  .crs-head { margin-bottom: 32px; }
+  .crs-cards { margin-bottom: 56px; }
+}

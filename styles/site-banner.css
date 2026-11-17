@@ -11,7 +11,9 @@
 
 html[data-banner-phase='waitlist']:not([data-banner='hidden']) .gmp-banner[data-phase='waitlist'],
 html[data-banner-phase='workshop']:not([data-banner='hidden']) .gmp-banner[data-phase='workshop'],
-html[data-banner-phase='sales']:not([data-banner='hidden']) .gmp-banner[data-phase='sales'] {
+html[data-banner-phase='sales']:not([data-banner='hidden']) .gmp-banner[data-phase='sales'],
+html[data-banner-phase='screenResetSale']:not([data-banner='hidden']) .gmp-banner[data-phase='screenResetSale'],
+html[data-banner-phase='screenReset']:not([data-banner='hidden']) .gmp-banner[data-phase='screenReset'] {
   display: flex;
 }
 

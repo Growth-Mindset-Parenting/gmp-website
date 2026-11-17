@@ -232,6 +232,8 @@ export default function SitePopup() {
     >
       <div
         className={`gmp-popup gmp-popup-${popup.variant}`}
+        // Lets styles/site-popup.css adjust one popup (e.g. a longer title).
+        data-phase={phase}
         role="dialog"
         aria-modal="true"
         aria-labelledby={headingId}

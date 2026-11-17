@@ -6,6 +6,8 @@ const STATIC_PAGES = [
   { url: `${SITE.url}/`,              lastModified: '2026-05-28' },
   { url: `${SITE.url}/writing/`,      lastModified: '2026-05-28' },
   { url: `${SITE.url}/autopilot/`,    lastModified: '2026-10-03' }, // becomes the sales page at doors open
+  { url: `${SITE.url}/courses/`,      lastModified: '2026-11-20' },
+  { url: `${SITE.url}/screen-reset/`, lastModified: '2026-11-20' }, // The Screen Reset sales page
   { url: `${SITE.url}/about/`,        lastModified: '2026-05-28' },
   { url: `${SITE.url}/work-with-me/`, lastModified: '2026-06-03' },
 ];

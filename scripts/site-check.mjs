@@ -24,7 +24,7 @@ const args = Object.fromEntries(
 const BASE = (args.base || 'http://localhost:3456').replace(/\/$/, '');
 const MOBILE = { width: 375, height: 812 };
 
-const PAGES = ['/', '/writing/', '/course/', '/about/', '/work-with-me/', '/privacy/', '/terms/'];
+const PAGES = ['/', '/writing/', '/course/', '/courses/', '/screen-reset/', '/screen-reset/thank-you/', '/about/', '/work-with-me/', '/privacy/', '/terms/'];
 const FREEBIE_PATHS = Object.keys(FREEBIES).map((s) => `/freebies/${s}/`);
 const ASSETS = ['/sitemap.xml', '/robots.txt', '/feed.xml'];
 const VARIANTS = ['worksheet', 'kitchen-table'];

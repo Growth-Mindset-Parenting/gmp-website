@@ -25,25 +25,61 @@
 // Our own buttons never replace an outside source, so a visitor who arrived
 // from Instagram still counts as Instagram in Kit — the banner tags only
 // fill in for visitors whose source we don't already know.
-import { CART_CLOSES, DOORS_OPEN, PROMOS_OFF, phaseFrom } from './launch-schedule';
+import {
+  CART_CLOSES,
+  DOORS_OPEN,
+  PROMOS_OFF,
+  SCREEN_RESET_SALE_ENDS,
+  SCREEN_RESET_SALE_STARTS,
+  phaseFrom,
+} from './launch-schedule';
 
-// Force a phase instead of following the clock: 'waitlist', 'workshop',
-// 'sales' or 'off'. For previewing a banner before its date, or if the launch
-// moves. null = follow the dates. Needs a deploy to take effect.
+// The Screen Reset (added 2026-11-17) owns the bar from its sale start, off
+// its own two dates in data/launch-schedule.js:
+//
+//   before Sat Nov 21, 00:00 Central   whatever Autopilot says (currently off)
+//   Nov 21 → end of Mon Nov 30         screenResetSale  ($67 + countdown)
+//   Tue Dec 1, 00:00 Central onward    screenReset      (no price, stays on)
+//
+// There are two switches. Both need a deploy to take effect.
+
+// 1) Force ONE banner on the whole site, whatever the date: any phase name
+// from BANNERS below ('screenResetSale', 'screenReset', 'waitlist',
+// 'workshop', 'sales'), or 'off' for no banner at all. null = follow the
+// dates. For previewing a banner before its date, or if a launch moves.
+export const OVERRIDE = null;
+
+// 2) The Autopilot banners only: 'waitlist', 'workshop', 'sales' or 'off'.
+// null = follow the Autopilot dates. This does not touch The Screen Reset.
 // Off since 2026-10-14 (Katie). The undated 'waitlist' version is ready if
-// it comes back: set this to 'waitlist' and deploy.
-export const OVERRIDE = 'off';
+// it comes back: set this to 'waitlist' and deploy. (From Nov 21 the Screen
+// Reset banner takes the bar; to show an Autopilot banner after that, use
+// OVERRIDE above.)
+export const AUTOPILOT_OVERRIDE = 'off';
 
-const DATED_SCHEDULE = [
+const AUTOPILOT_DATED_SCHEDULE = [
   [0, 'waitlist'],
   [DOORS_OPEN, 'sales'],
   ...(PROMOS_OFF ? [[PROMOS_OFF, null]] : []),
 ];
 
-// What the page actually follows: the dates, or the override.
+const AUTOPILOT_SCHEDULE = AUTOPILOT_OVERRIDE
+  ? [[0, AUTOPILOT_OVERRIDE === 'off' ? null : AUTOPILOT_OVERRIDE]]
+  : AUTOPILOT_DATED_SCHEDULE;
+
+const SCREEN_RESET_SCHEDULE = [
+  [SCREEN_RESET_SALE_STARTS, 'screenResetSale'],
+  [SCREEN_RESET_SALE_ENDS, 'screenReset'],
+];
+
+// What the page actually follows: the dates, or the override. Autopilot's
+// part of the calendar stops where The Screen Reset's starts.
 export const SCHEDULE = OVERRIDE
   ? [[0, OVERRIDE === 'off' ? null : OVERRIDE]]
-  : DATED_SCHEDULE;
+  : [
+      ...AUTOPILOT_SCHEDULE.filter(([start]) => start < SCREEN_RESET_SALE_STARTS),
+      ...SCREEN_RESET_SCHEDULE,
+    ];
 
 // Every banner that can show at some point — all of them go into the HTML.
 export const SCHEDULED_PHASES = [...new Set(SCHEDULE.map(([, p]) => p).filter(Boolean))];
@@ -66,6 +102,8 @@ export const HIDDEN_PATHS = [
   '/workshop/',
   '/workshop/thank-you/',
   '/workshop/replay/',
+  '/screen-reset/', // the page the Screen Reset banners point to
+  '/screen-reset/thank-you/',
 ];
 
 export const BANNERS = {
@@ -103,5 +141,30 @@ export const BANNERS = {
     countdownTo: CART_CLOSES,
     countdownSuffix: 'left',
     href: '/autopilot/?utm_source=website&utm_medium=banner&utm_campaign=autopilot-sales',
+  },
+
+  // The Screen Reset, launch price: Sat Nov 21 00:00 Central until the end
+  // of Mon Nov 30 (SCREEN_RESET_SALE_ENDS). The countdown pill counts to
+  // that same moment, which is also when this banner hands over to the one
+  // below.
+  screenResetSale: {
+    version: 'screen-reset-sale-1',
+    text: 'The Screen Reset: a weekend course to help parents stop fighting over screens and teach their kid to put them down. $67 through Nov 30.',
+    textShort: 'The Screen Reset: $67 through Nov 30.',
+    cta: 'Get it now',
+    countdownTo: SCREEN_RESET_SALE_ENDS,
+    countdownSuffix: 'left',
+    href: '/screen-reset/?utm_source=website&utm_medium=banner&utm_campaign=screen-reset-launch',
+  },
+
+  // The Screen Reset, after the launch price: from Tue Dec 1 00:00 Central,
+  // with no end date. No price and no dates in the copy, so it never goes
+  // stale.
+  screenReset: {
+    version: 'screen-reset-1',
+    text: 'The Screen Reset: a weekend course to help parents stop fighting over screens and teach their kid to put them down.',
+    textShort: 'The Screen Reset: a weekend course on screens.',
+    cta: 'See the course',
+    href: '/screen-reset/?utm_source=website&utm_medium=banner&utm_campaign=screen-reset',
   },
 };

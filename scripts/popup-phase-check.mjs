@@ -12,8 +12,15 @@
 // A dynamic import, not a static one: this project's package.json has no
 // "type": "module", so a static named import of a .js file is read as CommonJS
 // and the named export is not found.
-const { phaseAt, HIDDEN_PATHS: POPUP_HIDDEN, OVERRIDE: POPUP_PIN } = await import('../data/site-popup.js');
+const popup = await import('../data/site-popup.js');
+const { phaseAt, HIDDEN_PATHS: POPUP_HIDDEN } = popup;
 const banner = await import('../data/site-banner.js');
+// What pins the Autopilot phases: the site-wide OVERRIDE if it is set,
+// otherwise AUTOPILOT_OVERRIDE. Every date below is before The Screen Reset's
+// sale starts (Nov 21 2026), so its phases never come into these checks;
+// scripts/screen-reset-phase-check.mjs covers those.
+const POPUP_PIN = popup.OVERRIDE || popup.AUTOPILOT_OVERRIDE;
+const BANNER_PIN = banner.OVERRIDE || banner.AUTOPILOT_OVERRIDE;
 const { buildBannerScript } = await import('../lib/banner-script.js');
 const { BANNER_COOKIE } = await import('../lib/analytics.js');
 
@@ -39,7 +46,7 @@ const CASES = [
   ['2026-10-14T03:01:00Z', AFTER_CLOSE, 'a day after the cart closes'],
 ];
 
-// When a phase is pinned with OVERRIDE (round 2 waitlist since 2026-10-14),
+// When a phase is pinned with an override (off since 2026-10-14),
 // every moment must show the pinned phase instead of the dated one.
 const pinned = (pin, expected) => (pin ? (pin === 'off' ? null : pin) : expected);
 
@@ -96,7 +103,7 @@ function runScript(iso, path, cookie = '') {
 
 console.log('\n— banner —');
 for (const [iso, dated, label] of BANNER_CASES) {
-  const expected = pinned(banner.OVERRIDE, dated);
+  const expected = pinned(BANNER_PIN, dated);
   const actual = banner.phaseAt(Date.parse(iso));
   check(actual === expected, label, `expected=${expected} actual=${actual}`);
   const a = runScript(iso, '/letters/');
@@ -106,14 +113,27 @@ for (const [iso, dated, label] of BANNER_CASES) {
 check(banner.BANNERS.sales.cta === 'Enroll now', 'sales banner button says Enroll now', banner.BANNERS.sales.cta);
 
 console.log('\n— banner pages + dismiss —');
-const BANNER_ON = banner.SCHEDULED_PHASES.length > 0;
-if (!BANNER_ON) check(banner.phaseAt() === null, 'banner is off (no banner HTML rendered)', '');
+// "On" here means an Autopilot banner is on the schedule. The Screen Reset
+// banners being scheduled does not count.
+const BANNER_ON = banner.SCHEDULED_PHASES.some((p) => ['waitlist', 'workshop', 'sales'].includes(p));
+if (!BANNER_ON) {
+  for (const iso of ['2026-10-20T15:00:00Z', '2026-11-17T18:00:00Z', '2026-11-21T05:59:59Z']) {
+    const actual = banner.phaseAt(Date.parse(iso));
+    check(actual === null, `Autopilot banner is off at ${iso}`, `actual=${actual}`);
+  }
+  for (const iso of ['2026-11-25T18:00:00Z', '2026-12-15T18:00:00Z', '2027-03-01T18:00:00Z']) {
+    const b = banner.phaseAt(Date.parse(iso));
+    const p = phaseAt(Date.parse(iso));
+    const autopilot = ['waitlist', 'workshop', 'sales'];
+    check(!autopilot.includes(b) && !autopilot.includes(p), `no Autopilot banner or popup at ${iso}`, `banner=${b} popup=${p}`);
+  }
+}
 if (BANNER_ON) {
 check(runScript('2026-09-30T15:00:00Z', '/autopilot/')['data-banner'] === 'hidden', 'banner hidden on /autopilot/', '');
 check(runScript('2026-09-30T15:00:00Z', '/about')['data-banner'] !== 'hidden', 'path without trailing slash still shows', '');
 const wlCookie = `${BANNER_COOKIE}=${versions.waitlist}`;
 check(runScript('2026-09-30T15:00:00Z', '/about/', wlCookie)['data-banner'] === 'hidden', 'dismissed waitlist stays hidden', '');
-if (!banner.OVERRIDE) {
+if (!BANNER_PIN) {
   const s1 = runScript('2026-10-06T15:00:00Z', '/about/', wlCookie);
   check(s1['data-banner'] !== 'hidden' && s1['data-banner-phase'] === 'sales', 'dismissed waitlist still sees the sales banner', JSON.stringify(s1));
 }
