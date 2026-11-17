@@ -7,6 +7,7 @@ import {
 } from '../data/autopilot-sales';
 import CheckoutLink from './AutopilotCheckoutLink';
 import AutopilotCountdown from './AutopilotCountdown';
+import { Arrow, Check, Heading, NumberedRows } from './SalesPageParts';
 
 // Autopilot course sales page. Standalone: no site Nav/Footer. Every enroll
 // button goes to Kajabi checkout. Copy lives in data/autopilot-sales.js;
@@ -15,30 +16,11 @@ import AutopilotCountdown from './AutopilotCountdown';
 // Sections carry the design's data-screen-label so they can be compared
 // one-to-one against the design file.
 
-const Arrow = () => <span aria-hidden="true">→</span>;
-
 function Enroll({ location, className = 'aps-btn aps-btn-primary', children }) {
   return (
     <CheckoutLink href={CHECKOUT_ONCE_URL} plan="once" value={PRICES.onceValue} location={location} className={className}>
       {children || SALES.enrollCta} <Arrow />
     </CheckoutLink>
-  );
-}
-
-function Heading({ as: Tag = 'h2', text, accent, after, className = 'aps-h2' }) {
-  return (
-    <Tag className={className}>
-      {text} <em>{accent}</em>{after}
-    </Tag>
-  );
-}
-
-function Check({ children }) {
-  return (
-    <li className="aps-check">
-      <span className="aps-check-mark" aria-hidden="true">✓</span>
-      <span>{children}</span>
-    </li>
   );
 }
 
@@ -92,22 +74,6 @@ function Stars({ className = 'aps-stars' }) {
     <span className={className} role="img" aria-label="5 out of 5 stars">
       ★★★★★
     </span>
-  );
-}
-
-function NumberedRows({ rows, titleClass }) {
-  return (
-    <div className="aps-rows">
-      {rows.map((r, i) => (
-        <div key={i} className="aps-row">
-          <span className="aps-numeral aps-row-num">{String(i + 1).padStart(2, '0')}</span>
-          <div className="aps-row-body">
-            <h3 className={titleClass}>{r.title}</h3>
-            <p className="aps-row-text">{r.body}</p>
-          </div>
-        </div>
-      ))}
-    </div>
   );
 }
 
