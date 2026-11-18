@@ -1,52 +1,327 @@
-/* The Courses hub (/courses/). Sits inside the shared .v6-page frame, so it
-   uses the site's palette, type, nav and footer. Copy: data/courses.js. */
+/* The Courses page (/courses/). Copy: data/courses.js. Layout:
+   components/CoursesContent.jsx.
 
-.crs-head { margin-bottom: 48px; }
+   The nav and footer sit in the site's usual .v6-page frame. Everything
+   between them is built from the sales pages' pieces (styles/
+   autopilot-sales.css, aps-): type, buttons, bands, check lists and the
+   question accordion. Only this page's own layout lives here, prefixed crs-. */
 
-.crs-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-  gap: 24px;
-  margin-bottom: 96px;
+.crs { background: var(--paper); }
+
+/* The frame around the nav has no bottom gap of its own; the nav brings it. */
+.crs .crs-frame .v6-nav { margin-bottom: 0; }
+
+/* Lines the sections up with the nav and footer: the same width and side
+   padding as .v6-page (styles/v6-pages.css and v6-mobile.css). */
+.crs-wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: 56px;
+  padding-right: 56px;
+}
+@media (max-width: 1023px) {
+  .crs-wrap { padding-left: 32px; padding-right: 32px; }
+}
+@media (max-width: 767px) {
+  .crs-wrap { padding-left: 20px; padding-right: 20px; }
 }
 
-.crs-card {
+/* ── Top of page ─────────────────────────────────────────── */
+
+.crs-hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: clamp(24px, 4vw, 72px);
+  align-items: end;
+  padding-top: clamp(40px, 6vw, 88px);
+  padding-bottom: clamp(48px, 7vw, 96px);
+}
+.crs .crs-h1 {
+  font-size: clamp(42px, 6.4vw, 88px);
+  margin-bottom: 0;
+}
+.crs-hero-copy p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 34em;
+  text-wrap: pretty;
+}
+.crs-hero-copy p + p { margin-top: 16px; }
+/* The first line introduces Sean: set larger, in the reading serif. */
+.crs-hero-copy p:first-child {
+  font-family: var(--serif-text);
+  font-size: clamp(20px, 2vw, 25px);
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* ── The two courses ─────────────────────────────────────── */
+
+.crs .crs-list-h2 { margin-bottom: clamp(32px, 4vw, 48px) !important; }
+.crs-courses {
+  display: grid;
+  gap: clamp(20px, 2.5vw, 32px);
+}
+.crs-course {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+  padding: clamp(24px, 4vw, 56px);
+  border: 1.5px solid var(--ink);
+  border-radius: 24px;
+  /* Stops a link to #screen-reset or #autopilot landing under the banner. */
+  scroll-margin-top: 80px;
+}
+.crs-course--sage { background: var(--card-sage); }
+/* The cream card sits on a cream band, so it is set on the lighter paper. */
+.crs-course--cream { background: var(--paper); }
+
+.crs-course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-bottom: 22px !important;
+}
+.crs-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.crs-pill-dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.crs-format {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.crs-course-title {
+  font-size: clamp(40px, 5.6vw, 76px);
+  line-height: 0.95 !important;
+  letter-spacing: -0.04em !important;
+  margin-bottom: 16px !important;
+  text-wrap: balance;
+}
+.crs-course-tagline {
+  font-family: var(--serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.25;
+  color: var(--accent);
+  margin-bottom: 22px !important;
+  max-width: 20em;
+  text-wrap: balance;
+}
+.crs-course .aps-copy p { max-width: 36em; }
+
+.crs-course-side {
+  display: grid;
+  gap: clamp(24px, 3vw, 36px);
+}
+.crs-list-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px !important;
+}
+
+/* Price, button and small print: one row across the foot of the card. */
+.crs-course-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px clamp(28px, 4vw, 56px);
+  padding-top: clamp(24px, 3vw, 32px);
+  border-top: 1.5px solid var(--ink);
+}
+.crs-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.crs-price-was {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.crs-price-now {
+  font-size: clamp(52px, 5.4vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.crs-price-note {
+  margin-top: 8px !important;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 24em;
+}
+.crs-course-action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  flex: 1 1 320px;
+}
+.crs-course-fine {
+  flex: 1 1 220px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 32em;
+}
+
+/* ── Which one first? ────────────────────────────────────── */
+
+.crs .crs-section-h2 { margin-bottom: clamp(28px, 4vw, 44px) !important; }
+.crs-choose {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+}
+.crs-choose-row {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: clamp(28px, 3.5vw, 44px);
+  padding: clamp(24px, 2.6vw, 32px);
   border: 1.5px solid var(--ink);
-  border-radius: 20px;
+  border-radius: 16px;
   background: var(--card-cream);
 }
-.crs-card--sage { background: var(--card-sage); }
-.crs-card--cream { background: var(--card-cream); }
-
-.crs-card-title {
-  font-family: var(--sans);
-  font-weight: 800;
-  font-size: clamp(32px, 3.6vw, 46px);
-  line-height: 1;
-  letter-spacing: -0.035em;
-  color: var(--ink);
-  margin: 0 0 16px;
+.crs-choose-row:nth-child(2) { background: var(--card-blush); }
+.crs-choose-row:nth-child(3) { background: var(--card-sage); }
+.crs-choose-num { font-size: 36px; margin-bottom: 14px; }
+.crs-choose-title {
+  font-size: 24px;
+  line-height: 1.1 !important;
+  margin-bottom: 10px !important;
   text-wrap: balance;
 }
-
-.crs-card-text {
-  font-family: var(--serif-text);
-  font-size: clamp(18px, 1.5vw, 20px);
-  line-height: 1.5;
+.crs-choose-text {
+  font-size: 16px;
+  line-height: 1.55;
   color: var(--ink-soft);
-  margin: 0 0 32px;
-  max-width: 30em;
+  margin-bottom: 20px !important;
+}
+
+/* A link that reads as a link: bold, underlined, with the arrow. */
+.crs .crs-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 6px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: gap 0.18s, color 0.15s;
+}
+.crs .crs-text-link:hover { gap: 12px; color: var(--accent); }
+.crs .crs-text-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ── How I teach (ink band) ──────────────────────────────── */
+
+.crs-approach-head {
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 60px);
+}
+.crs-approach-intro {
+  font-family: var(--serif-text);
+  font-size: clamp(19px, 1.9vw, 23px);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 28em;
+  text-wrap: pretty;
+}
+.crs-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: clamp(28px, 3.5vw, 48px) clamp(28px, 4vw, 72px);
+}
+.crs-point {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 20px;
+}
+.crs-point-num {
+  display: block;
+  font-size: 32px;
+  color: var(--accent-soft);
+  margin-bottom: 12px;
+}
+.crs-point-title {
+  font-size: clamp(22px, 2.2vw, 26px);
+  line-height: 1.15 !important;
+  color: var(--paper);
+  margin-bottom: 10px !important;
+  text-wrap: balance;
+}
+.crs-point-text {
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 38em;
   text-wrap: pretty;
 }
 
-/* Pushes the button to the bottom so the two cards line up. */
-.crs-card-cta { margin-top: auto; }
+/* ── About Sean ──────────────────────────────────────────── */
 
-@media (max-width: 720px) {
-  .crs-head { margin-bottom: 32px; }
-  .crs-cards { margin-bottom: 56px; }
+.crs .crs-about-link { margin-top: 22px; }
+
+/* ── Questions ───────────────────────────────────────────── */
+
+.crs .crs-faq { margin-bottom: 0; }
+.crs-faq-split { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
+
+/* ── Bottom of page ──────────────────────────────────────── */
+
+.crs .crs-final-lede { margin-bottom: 28px !important; }
+/* The footer brings its own top rule; give it room after the dark band. */
+.crs .crs-final + .crs-frame,
+.crs-main + .crs-frame { padding-top: 0; }
+
+/* ── Narrower screens ────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .crs-course { grid-template-columns: minmax(0, 1fr); }
+  /* Stacked, the list above already ends in a rule: no second one. */
+  .crs-course-foot { border-top: 0; padding-top: 0; }
+  .crs-faq-split { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .crs-course { border-radius: 18px; }
+  .crs-course-action .aps-btn { width: 100%; justify-content: center; }
+  /* Long button labels may wrap on a phone rather than push the page wide. */
+  .crs .aps-btn { white-space: normal; text-align: left; }
 }

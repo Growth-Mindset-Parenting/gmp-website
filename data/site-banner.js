@@ -33,6 +33,7 @@ import {
   SCREEN_RESET_SALE_STARTS,
   phaseFrom,
 } from './launch-schedule';
+import { PRICES } from './screen-reset-sales';
 
 // The Screen Reset (added 2026-11-17) owns the bar from its sale start, off
 // its own two dates in data/launch-schedule.js:
@@ -147,10 +148,18 @@ export const BANNERS = {
   // of Mon Nov 30 (SCREEN_RESET_SALE_ENDS). The countdown pill counts to
   // that same moment, which is also when this banner hands over to the one
   // below.
+  //
+  // A banner with `price` shows, after its text: `priceAnchor` crossed out,
+  // then `price`, then `priceSuffix`. So this one reads "… stop fighting over
+  // screens. $99 (crossed out) $67 through Nov 30." The two prices come from
+  // PRICES in data/screen-reset-sales.js, never typed here.
   screenResetSale: {
-    version: 'screen-reset-sale-1',
-    text: 'The Screen Reset: a weekend course to help parents stop fighting over screens and teach their kid to put them down. $67 through Nov 30.',
-    textShort: 'The Screen Reset: $67 through Nov 30.',
+    version: 'screen-reset-sale-2',
+    text: 'Black Friday: The Screen Reset, a weekend course to help parents stop fighting over screens.',
+    textShort: 'Black Friday: The Screen Reset,',
+    priceAnchor: PRICES.full,
+    price: PRICES.sale,
+    priceSuffix: 'through Nov 30.',
     cta: 'Get it now',
     countdownTo: SCREEN_RESET_SALE_ENDS,
     countdownSuffix: 'left',

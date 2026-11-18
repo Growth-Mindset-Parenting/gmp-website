@@ -50,7 +50,20 @@ export default function ScreenResetSales({ phase = 'sale' }) {
   );
 
   const faqItems = s.faq.items.filter((f) => onSale || !f.saleOnly);
+  const price = t(s.pricing.price);
+  // The regular price, crossed out next to the sale price. null at full price.
   const anchor = t(s.pricing.anchor);
+  // "$99 (crossed out) $67" for the sale-state lines in the hero and at the
+  // bottom of the page. Nothing at full price.
+  const SalePrice = ({ className }) =>
+    anchor ? (
+      <span className={className}>
+        <s className="aps-num srs-was">
+          <span className="aps-sr-only">Regular price </span>{anchor}
+        </s>{' '}
+        <strong className="aps-num srs-now">{price}</strong>
+      </span>
+    ) : null;
 
   return (
     <div className="aps srs">
@@ -68,7 +81,10 @@ export default function ScreenResetSales({ phase = 'sale' }) {
             <Heading as="h1" text={s.hero.headline} accent={s.hero.headlineAccent} className="aps-h1" />
             <p className="aps-hero-sub">{s.hero.subtitle}</p>
             <p className="aps-hero-support srs-hero-support">{s.hero.support}</p>
-            <p className="srs-price-line">{t(s.hero.priceLine)}</p>
+            <p className={`srs-price-line${anchor ? ' srs-price-line--sale' : ''}`}>
+              <SalePrice className="srs-price-pair" />
+              <span>{t(s.hero.priceLine)}</span>
+            </p>
             <div className="aps-hero-ctas">
               <Buy location="hero" />
             </div>
@@ -255,7 +271,7 @@ export default function ScreenResetSales({ phase = 'sale' }) {
           <div className="aps-prices srs-prices">
             <div className="aps-price-card aps-price-card--ink">
               <div className="aps-price-row">
-                <span className="aps-num aps-price">{t(s.pricing.price)}</span>
+                <span className="aps-num aps-price">{price}</span>
                 {anchor && (
                   <s className="aps-num aps-price-anchor">
                     <span className="aps-sr-only">Regular price </span>{anchor}
@@ -297,7 +313,11 @@ export default function ScreenResetSales({ phase = 'sale' }) {
             <Heading text={s.final.headline} accent={s.final.headlineAccent} className="aps-h2 aps-h2--on-ink aps-center-h2" />
             <p className="aps-center-lede aps-center-lede--on-ink srs-final-lede">{s.final.body}</p>
             <Buy location="final" className="aps-btn aps-btn-accent aps-btn-17" />
-            <p className="aps-price-fine aps-price-fine--on-ink">{t(s.final.fine)}</p>
+            <p className={`aps-price-fine aps-price-fine--on-ink${anchor ? ' srs-final-fine' : ''}`}>
+              <SalePrice className="srs-price-pair srs-price-pair--fine" />
+              {anchor && ' · '}
+              {t(s.final.fine)}
+            </p>
           </div>
         </section>
       </main>

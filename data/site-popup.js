@@ -23,6 +23,7 @@ import {
   SCREEN_RESET_SALE_STARTS,
   phaseFrom,
 } from './launch-schedule';
+import { PRICES } from './screen-reset-sales';
 
 // The Screen Reset (added 2026-11-17) has one popup, for its launch price
 // only, off its own two dates in data/launch-schedule.js:
@@ -167,11 +168,15 @@ export const POPUPS = {
   screenResetSale: {
     seenKey: 'gmp_popup_screen_reset_sale_seen',
     variant: 'ink',
-    eyebrow: '$67 through Monday, Nov 30',
+    eyebrow: 'Black Friday price · through Monday, Nov 30',
     headline: 'The Screen',
     headlineAccent: 'Reset.',
     body: 'A weekend course, built to help parents stop fighting over screens and teach their kid to put them down on their own.',
     cta: 'Get The Screen Reset',
+    // A popup with `price` shows `priceAnchor` crossed out next to `price`,
+    // above the button. Both come from PRICES in data/screen-reset-sales.js.
+    priceAnchor: PRICES.full,
+    price: PRICES.sale,
     // Days/hours/min/sec boxes counting to the end of the $67 price. The
     // popup turns off at that same moment.
     countdownTo: SCREEN_RESET_SALE_ENDS,

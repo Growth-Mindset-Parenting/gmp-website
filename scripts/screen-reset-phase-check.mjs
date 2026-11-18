@@ -71,6 +71,49 @@ function runScript(ms, path, cookie = '') {
 }
 const shownBy = (attrs) => (attrs['data-banner'] === 'hidden' ? null : attrs['data-banner-phase'] ?? null);
 
+// What a visitor actually reads: the real page components, drawn to HTML
+// here for a given price state. (The components are written in JSX with no
+// React import, which Next.js fills in; outside Next.js it has to be put in
+// by hand, hence globalThis.React.)
+globalThis.React = (await import('react')).default;
+const { renderToStaticMarkup } = await import('react-dom/server');
+const { default: ScreenResetSales } = await import('../components/ScreenResetSales.jsx');
+const { default: CoursesContent } = await import('../components/CoursesContent.jsx');
+const { default: SiteBanner } = await import('../components/SiteBanner.jsx');
+const { COURSES } = await import('../data/courses.js');
+const el = globalThis.React.createElement;
+const pageHtml = {
+  sales: (phase) => renderToStaticMarkup(el(ScreenResetSales, { phase })),
+  courses: (phase) => renderToStaticMarkup(el(CoursesContent, { phase })),
+};
+// Every banner on the schedule is in the page's HTML; this is one of them.
+const bannersHtml = renderToStaticMarkup(el(SiteBanner));
+const bannerHtml = (phase) => (bannersHtml.match(new RegExp(`<aside[^>]*data-phase="${phase}"[\\s\\S]*?</aside>`)) || [''])[0];
+// Tags out, so only the words a visitor sees are left. The screen-reader
+// label inside a crossed-out price goes too.
+const words = (html) => html.replace(/<span class="[^"]*sr[^"]*">[^<]*<\/span>/g, '').replace(/<[^>]+>/g, ' ').replace(/&#x27;/g, "'").replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+// A crossed-out "$99": <s …>(Regular price )$99</s>.
+const STRUCK = /<s\b[^>]*>(?:<span[^>]*>Regular price <\/span>)?\$99<\/s>/g;
+// True when every "$67" in the HTML sits right next to a crossed-out $99.
+// `allow` lists sentences where a bare $67 is fine (the FAQ answer).
+function everySalePriceIsAnchored(html, allow = []) {
+  let rest = html;
+  for (const sentence of allow) rest = rest.split(sentence).join('');
+  const struckAt = [...rest.matchAll(STRUCK)].map((m) => [m.index, m.index + m[0].length]);
+  const bare = [];
+  for (const m of rest.matchAll(/\$67/g)) {
+    // "Next to" = nothing but tags and spaces between the two prices.
+    const near = struckAt.some(([a, b]) => {
+      const between = m.index >= b ? rest.slice(b, m.index) : rest.slice(m.index + 3, a);
+      return (m.index >= b || m.index + 3 <= a) && between.replace(/<[^>]*>/g, '').trim() === '';
+    });
+    if (!near) bare.push(rest.slice(Math.max(0, m.index - 60), m.index + 20));
+  }
+  return { ok: bare.length === 0, count: [...rest.matchAll(/\$67/g)].length, bare };
+}
+const SALE_WORDS = /\$67|Black Friday|Nov(ember)? 30/;
+const firstHit = (text, re) => { const m = text.match(re); return m ? `found "${text.slice(Math.max(0, m.index - 30), m.index + 30).trim()}"` : ''; };
+
 const overridden = banner.OVERRIDE || popup.OVERRIDE;
 if (overridden) {
   console.log(`\nNOTE: OVERRIDE is set (banner=${banner.OVERRIDE} popup=${popup.OVERRIDE}), so the banner/popup date checks below will not match the dates.`);
@@ -98,6 +141,45 @@ for (const [central, price, bannerPhase, popupPhase, label] of CASES) {
 
   const p = popup.phaseAt(now);
   check(p === popupPhase, 'popup phase', `expected=${popupPhase} actual=${p}`);
+
+  // What is on the screen at this moment: sales page, courses page, banner, popup.
+  const salesHtml = pageHtml.sales(actualPrice);
+  const coursesHtml = pageHtml.courses(actualPrice);
+  const shownBanner = b ? bannerHtml(b) : '';
+  const shownPopup = p ? popup.POPUPS[p] : null;
+  if (price === 'sale') {
+    const faqLine = sales.SCREEN_RESET.faq.items.find((f) => f.saleOnly).a;
+    const sp = everySalePriceIsAnchored(salesHtml, [faqLine]);
+    check(sp.ok && sp.count >= 3, 'sales page: every $67 sits next to a crossed-out $99', `${sp.count} outside the FAQ answer${sp.bare.length ? ' | bare: ' + sp.bare[0] : ''}`);
+    check(salesHtml.includes(faqLine), 'sales page: the FAQ answer about the price is there');
+    check(/Black Friday/.test(words(salesHtml)), 'sales page: says Black Friday');
+    const cp = everySalePriceIsAnchored(coursesHtml);
+    check(cp.ok && cp.count === 1, 'courses page: $99 crossed out next to $67', `count=${cp.count}`);
+    check(words(coursesHtml).includes(COURSES.courses[0].priceNote.sale), 'courses page: Black Friday price note', COURSES.courses[0].priceNote.sale);
+    if (b) {
+      const bp = everySalePriceIsAnchored(shownBanner);
+      // Two lines in the HTML (wide screens and phones), one shown at a time.
+      check(bp.ok && bp.count === 2, 'banner: $99 crossed out next to $67, on both lines', `count=${bp.count}`);
+      check(/^ ?Black Friday: The Screen Reset, a weekend course to help parents stop fighting over screens\. \$99 \$67 through Nov 30\. Black Friday: The Screen Reset, \$99 \$67 through Nov 30\./.test(words(shownBanner)), 'banner: reads as approved', words(shownBanner).trim().slice(0, 60));
+    } else {
+      check(shownBanner === '', 'no banner yet');
+    }
+    if (shownPopup) {
+      check(/^Black Friday price · through Monday, Nov 30$/.test(shownPopup.eyebrow), 'popup: Black Friday line', shownPopup.eyebrow);
+      check(shownPopup.priceAnchor === '$99' && shownPopup.price === '$67', 'popup: $99 crossed out next to $67', `crossed-out=${shownPopup.priceAnchor} price=${shownPopup.price}`);
+    } else {
+      check(shownPopup === null, 'no popup yet');
+    }
+  } else {
+    for (const [name, html] of [['sales page', salesHtml], ['courses page', coursesHtml], ['banner', shownBanner]]) {
+      const text = words(html);
+      check(html.length > 0 && !/<s\b/.test(html), `${name}: nothing crossed out`);
+      check(!SALE_WORDS.test(text), `${name}: no $67, no Black Friday, no Nov 30`, firstHit(text, SALE_WORDS));
+    }
+    check(/\$99/.test(words(salesHtml)) && /\$99/.test(words(coursesHtml)), 'sales page and courses page show $99');
+    check(words(coursesHtml).includes(`$99 ${COURSES.courses[0].priceNote.full}`), 'courses page: $99 with the full-price note', COURSES.courses[0].priceNote.full);
+    check(shownPopup === null, 'popup: none');
+  }
 }
 
 console.log('\n— exact switch moments (one second either side) —');

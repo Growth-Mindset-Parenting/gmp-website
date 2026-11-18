@@ -215,6 +215,41 @@
   text-transform: uppercase;
 }
 
+/* --- sale price (a popup with `price` in data/site-popup.js) ------------ */
+
+.gmp-popup-price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 4px;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.gmp-popup-price-was {
+  font-size: 24px;
+  font-weight: 600;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  opacity: 0.6;
+}
+.gmp-popup-price-now {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+/* Read out by screen readers, not shown: says what the crossed-out number is. */
+.gmp-popup-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* --- buttons ------------------------------------------------------------ */
 
 .gmp-popup-cta-block {
@@ -400,5 +435,13 @@
   }
 
   .gmp-popup[data-phase='screenResetSale'] .gmp-popup-title { font-size: 56px; }
-  .gmp-popup-ink[data-phase='screenResetSale'] .gmp-popup-plane-narrow { top: 348px; }
+  /* Its top line is long enough to wrap: keep it clear of the close button. */
+  .gmp-popup[data-phase='screenResetSale'] .gmp-popup-eyebrow { padding-right: 44px; }
+  /* The aeroplane flies beside the price. Measured up from the bottom of
+     the sheet, so it stays there however many lines the text above takes. */
+  .gmp-popup-ink[data-phase='screenResetSale'] .gmp-popup-plane-narrow {
+    top: auto;
+    bottom: 164px;
+    left: -58px;
+  }
 }

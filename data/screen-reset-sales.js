@@ -77,7 +77,8 @@ export const SCREEN_RESET = {
       'Stop negotiating and fighting over devices. In one weekend, sit down with your kid and build a screen agreement they helped write and can actually keep.',
     support: 'Because the goal is a kid who can put it down on their own, even when you’re not in the room.',
     priceLine: {
-      sale: '$67 through Monday, November 30. $99 after that.',
+      // Sale state: the page shows $99 crossed out, then $67, then this line.
+      sale: 'Black Friday price. Ends Monday, November 30.',
       // Not in the doc (the doc only has the sale line): the price, plus
       // "One payment." from the doc's price note.
       full: '$99. One payment.',
@@ -87,7 +88,7 @@ export const SCREEN_RESET = {
     // Sale state only. Counts to SCREEN_RESET_SALE_ENDS in
     // data/launch-schedule.js and vanishes when it passes.
     countdown: {
-      title: 'The $67 price ends in',
+      title: 'The Black Friday price ends in',
       days: 'Days',
       hours: 'Hours',
       minutes: 'Min',
@@ -282,7 +283,7 @@ export const SCREEN_RESET = {
     // Crossed out next to the price. Sale state only.
     anchor: { sale: PRICES.full, full: null },
     note: {
-      sale: '$67 through Monday, November 30. $99 after that. One payment.',
+      sale: 'Black Friday price through Monday, November 30. $99 after that. One payment.',
       full: 'One payment.',
     },
     checklist: [
@@ -334,7 +335,7 @@ export const SCREEN_RESET = {
       },
       {
         q: 'What happens to the price?',
-        a: 'It’s $67 through Monday, November 30. After that it’s $99.',
+        a: 'It’s $67 for Black Friday, through Monday, November 30. After that it goes back to $99.',
         saleOnly: true,
       },
       {
@@ -354,7 +355,8 @@ export const SCREEN_RESET = {
     headlineAccent: 'A reset that lasts.',
     body: 'We have to help our kids learn to make screens part of their life, not all of their life. Start this weekend.',
     fine: {
-      sale: '$67 through Monday, November 30 · 14-day guarantee',
+      // Sale state: the page shows $99 crossed out and $67 in front of this.
+      sale: 'Black Friday price through Monday, November 30 · 14-day guarantee',
       full: '14-day guarantee',
     },
   },
@@ -369,11 +371,43 @@ export const SCREEN_RESET = {
 };
 
 // /screen-reset/thank-you/ — where Kajabi sends a buyer after checkout.
+// Copy source: Google Doc "Screen Time | Email Series", tab "Thank-You Page".
+// The email subject lines below are the real Kajabi ones (site-wide
+// templates). If those change in Kajabi, change them here.
 export const THANK_YOU = {
   logoAlt: 'Growth Mindset Parenting',
   headline: 'You’re in.',
   headlineAccent: 'Good call.',
-  body: 'Check your email for your login. It comes from Growth Mindset Parenting and should arrive in the next few minutes.',
+  intro: 'Your course is ready. Here’s how to get to it.',
+  stepsTitle: 'What happens next',
+  steps: [
+    {
+      title: 'Check your email',
+      body: 'Two emails are on their way to the address you used at checkout: your receipt, and one called “Your Growth Mindset Parenting login is inside.” Give them a few minutes.',
+    },
+    {
+      title: 'Open the login email and set your password',
+      body: 'The course lives on Kajabi, the site we use to host our courses. So the login page and the emails may say “Kajabi” on them. That’s us, and it’s safe to click.',
+    },
+    {
+      title: 'Start with Part 1',
+      body: 'Watch it on your own first, on your phone, tablet or computer. Then you’ll be ready to sit down with your kid.',
+    },
+  ],
+  loginLead: 'Already set your password?',
+  login: { label: 'Log in to your course', href: 'https://courses.growthmindsetparenting.com/login' },
+  helpTitle: 'Don’t see the email?',
+  helpItems: [
+    'Check your spam and promotions folders.',
+    'Search your inbox for “Growth Mindset Parenting.”',
+    'Have more than one email address? Check the other inbox too.',
+  ],
+  // The email address in the middle is a link.
+  helpContact: {
+    before: 'Still nothing after 15 minutes? Email ',
+    email: 'hello@growthmindsetparenting.com',
+    after: ' and we’ll get you in.',
+  },
   second: 'This weekend you and your kid are going to build something together. I’m glad you’re doing it.',
   signature: 'Sean',
   copyright: '© 2026 Growth Mindset Parenting',

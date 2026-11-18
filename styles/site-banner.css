@@ -51,6 +51,30 @@ html[data-banner-phase='screenReset']:not([data-banner='hidden']) .gmp-banner[da
   font-weight: 500;
 }
 
+/* A sale banner's prices (`price` in data/site-banner.js): the regular
+   price crossed out and a little faded, the sale price bold. */
+.gmp-banner-price { white-space: nowrap; }
+.gmp-banner-was {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  opacity: 0.8;
+}
+.gmp-banner-now {
+  font-weight: 800;
+}
+/* Read out by screen readers, not shown: says what the crossed-out number is. */
+.gmp-banner-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* The short line is for phones only. */
 .gmp-banner-text-short {
   display: none;

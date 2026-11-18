@@ -29,6 +29,30 @@
   margin-bottom: 18px !important;
 }
 
+/* Sale state: "$99" crossed out, "$67" large, then the Black Friday line. */
+.srs-price-line--sale {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+.srs-price-pair { white-space: nowrap; }
+.srs-was {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+  color: var(--ink-mute);
+}
+.srs-now { font-weight: 800; }
+.srs-price-line--sale .srs-was { font-size: 22px; }
+.srs-price-line--sale .srs-now {
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  margin-left: 4px;
+}
+
 /* ── 2. If this is your house ────────────────────────────── */
 
 .srs-lead {
@@ -154,6 +178,19 @@
 /* ── 12. Bottom of page ──────────────────────────────────── */
 
 .srs .srs-final-lede { margin-bottom: 28px !important; }
+/* The line under the last button. In the sale state it starts with "$99"
+   crossed out and "$67", a size up and brighter than the small print. */
+.srs .srs-final-fine { font-size: 14px; }
+.srs-price-pair--fine .srs-was {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration-thickness: 1.5px;
+}
+.srs-price-pair--fine .srs-now {
+  font-size: 18px;
+  color: var(--paper);
+  margin-left: 2px;
+}
 
 /* ── Thank-you page (/screen-reset/thank-you/) ───────────── */
 
@@ -165,23 +202,93 @@
 .srs-thanks-body {
   flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: clamp(48px, 8vw, 96px) var(--aps-gutter);
+  padding: clamp(32px, 6vw, 72px) var(--aps-gutter) clamp(48px, 7vw, 80px);
 }
-.srs-thanks-inner { max-width: 640px; text-align: center; }
-.srs-thanks-inner .aps-h1 { margin-bottom: 26px; }
+.srs-thanks-inner {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3.5vw, 36px);
+}
+.srs-thanks-head { text-align: center; }
+.srs-thanks-head .aps-h1 { margin-bottom: 18px; }
 .srs-thanks-text {
   font-family: var(--serif-text);
   font-size: clamp(18px, 1.6vw, 21px);
   line-height: 1.55;
   color: var(--ink);
   max-width: 30em;
-  margin: 0 auto 18px !important;
+  margin: 0 auto !important;
   text-wrap: pretty;
 }
+
+/* The two boxes: "What happens next" and "Don't see the email?" */
+.srs-thanks-card,
+.srs-thanks-help {
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  padding: clamp(24px, 4vw, 40px);
+}
+.srs-thanks-card { background: var(--paper-2); }
+.srs-thanks-help { background: var(--card-sage); }
+.srs-thanks-h2 {
+  font-size: clamp(24px, 2.6vw, 30px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.srs-thanks-steps {
+  margin-top: 20px !important;
+  border-top: 1.5px solid var(--ink);
+}
+.srs-thanks-step {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.srs-thanks-num { font-size: 40px; }
+.srs-thanks-step-title {
+  font-size: 19px;
+  line-height: 1.25 !important;
+  margin-bottom: 6px !important;
+}
+.srs-thanks-step-text,
+.srs-thanks-help-list li,
+.srs-thanks-help-contact {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.srs-thanks-login {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding-top: 22px;
+}
+.srs-thanks-login-lead {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.srs-thanks-help-list {
+  margin: 14px 0 16px !important;
+  padding-left: 20px !important;
+  list-style: disc !important;
+}
+.srs-thanks-help-list li + li { margin-top: 6px; }
+.srs-thanks-help-list li::marker { color: var(--accent); }
+.srs-thanks-help-contact { overflow-wrap: anywhere; }
+
+.srs-thanks-close { text-align: center; padding-top: 8px; }
 .srs-thanks-sig {
-  margin-top: 28px !important;
+  margin-top: 18px !important;
   font-family: var(--serif-italic);
   font-style: italic;
   font-weight: 500;
@@ -193,4 +300,8 @@
   font-size: 13px;
   color: var(--ink-mute);
   padding: 0 var(--aps-gutter) 32px;
+}
+
+@media (max-width: 480px) {
+  .srs-thanks-login .aps-btn { width: 100%; justify-content: center; }
 }

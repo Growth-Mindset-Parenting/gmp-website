@@ -60,6 +60,27 @@ function BannerCountdown({ to, suffix }) {
   );
 }
 
+// For a banner with `price` (see data/site-banner.js): the regular price
+// crossed out, then the sale price and its end date. Renders nothing for
+// every other banner.
+function BannerPrice({ banner }) {
+  if (!banner.price) return null;
+  return (
+    <>
+      {' '}
+      {/* One unbreakable piece, so "$67 through Nov 30." never splits. */}
+      <span className="gmp-banner-price">
+        <s className="gmp-banner-was">
+          <span className="gmp-banner-sr">Regular price </span>
+          {banner.priceAnchor}
+        </s>{' '}
+        <strong className="gmp-banner-now">{banner.price}</strong>
+        {banner.priceSuffix ? ` ${banner.priceSuffix}` : null}
+      </span>
+    </>
+  );
+}
+
 export default function SiteBanner() {
   const pathname = usePathname();
   // The version the visitor closed this session (the cookie covers later ones).
@@ -116,9 +137,9 @@ export default function SiteBanner() {
           className="gmp-banner-link"
           onClick={() => trackPromotion('select_promotion', banner)}
         >
-          <span className="gmp-banner-text">{banner.text}</span>
+          <span className="gmp-banner-text">{banner.text}<BannerPrice banner={banner} /></span>
           {banner.textShort && (
-            <span className="gmp-banner-text-short">{banner.textShort}</span>
+            <span className="gmp-banner-text-short">{banner.textShort}<BannerPrice banner={banner} /></span>
           )}
           {banner.countdownTo && (
             <BannerCountdown to={banner.countdownTo} suffix={banner.countdownSuffix} />

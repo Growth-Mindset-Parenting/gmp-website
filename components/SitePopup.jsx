@@ -281,6 +281,18 @@ export default function SitePopup() {
 
           {popup.countdownTo && <PopupCountdown to={popup.countdownTo} />}
 
+          {/* Sale popups only (`price` in data/site-popup.js): the regular
+              price crossed out next to the sale price. */}
+          {popup.price && (
+            <p className="gmp-popup-price">
+              <s className="gmp-popup-price-was">
+                <span className="gmp-popup-sr">Regular price </span>
+                {popup.priceAnchor}
+              </s>{' '}
+              <strong className="gmp-popup-price-now">{popup.price}</strong>
+            </p>
+          )}
+
           <div className="gmp-popup-cta-block">
             <a
               className="gmp-popup-cta"
