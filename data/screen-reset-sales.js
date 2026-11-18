@@ -335,7 +335,7 @@ export const SCREEN_RESET = {
       },
       {
         q: 'What happens to the price?',
-        a: 'It’s $67 for Black Friday, through Monday, November 30. After that it goes back to $99.',
+        a: 'It’s $67 for Black Friday, through Monday, November 30. After that it’s $99.',
         saleOnly: true,
       },
       {
