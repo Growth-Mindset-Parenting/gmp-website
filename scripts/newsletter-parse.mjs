@@ -37,16 +37,21 @@ export // Sean's drafting notes sometimes sit in the tab around the letter (subj
 const plain = l => l.toLowerCase().replace(/[‘’]/g, "'").trim();
 
 // Section headings that sit above the letter.
-const NOTE_HEADINGS = new Set(['subject lines', 'subject line', 'openers', 'opening lines']);
+// Matches "Subject lines", "Openers:", "Subject line ideas", "Opening line options:"...
+const NOTE_HEADING = /^(subject lines?|openers?|opening lines?)( (options|ideas|drafts))?:?$/;
 
 // A heading that ends the letter: everything from here down is notes.
 const isEndOfLetter = l =>
   /^note \d+[:\s-–]/.test(l) || l.startsWith('notes//') || l.startsWith('thread') ||
-  /^editor'?s? notes?\b/.test(l);
+  /^editor'?s?'? notes?\b/.test(l) || /^notes?:?$/.test(l);
 
 // Safety net: if anything that looks like drafting notes survives parsing,
 // the tab is refused instead of published.
-const LOOKS_LIKE_NOTES = /^(subject lines?\b|openers?$|opening lines?\b|editor'?s? notes?\b|(curiosity|tension|promise|my pick):)/;
+const LOOKS_LIKE_NOTES = /^(subject lines?\b|openers?:?$|opening lines?\b|editor'?s?'? notes?\b|notes?:?$|(curiosity|tension|promise|my pick):)/;
+
+// A letter never opens with a label ("Options:") or a numbered list item
+// ("1. First subject line"). If the first paragraph does, it is notes.
+const OPENS_LIKE_NOTES = l => (l.length <= 60 && l.endsWith(':')) || /^\d+[.)]\s/.test(l);
 
 /**
  * Returns { letter, error }.
@@ -81,7 +86,7 @@ export function parseNewsletter(rawText, tabTitle) {
   ];
   while (i < allLines.length) {
     const l = plain(allLines[i]);
-    if (l === '' || NOTE_HEADINGS.has(l) || METADATA_PREFIXES.some(p => l.startsWith(p))) { i++; continue; }
+    if (l === '' || NOTE_HEADING.test(l) || METADATA_PREFIXES.some(p => l.startsWith(p))) { i++; continue; }
     break;
   }
 
@@ -107,7 +112,9 @@ export function parseNewsletter(rawText, tabTitle) {
 
   if (!paragraphs.length) return { letter: null, error: null };
 
-  const leaked = paragraphs.find(p => LOOKS_LIKE_NOTES.test(plain(p)));
+  const leaked = OPENS_LIKE_NOTES(plain(paragraphs[0]))
+    ? paragraphs[0]
+    : paragraphs.find(p => LOOKS_LIKE_NOTES.test(plain(p)));
   if (leaked) {
     return {
       letter: null,

@@ -50,7 +50,7 @@ test('a normal tab still parses the same way', () => {
 });
 
 test('notes in a shape the parser does not know are refused, not published', () => {
-  const tab = ['Subject line ideas', 'Curiosity: one', 'Tension: two', 'The letter starts here.', 'Second paragraph.'].join('\n');
+  const tab = ['Hooks', 'Curiosity: one', 'Tension: two', 'The letter starts here.', 'Second paragraph.'].join('\n');
   const result = parseNewsletter(tab, '11.21');
   assert.equal(result.letter, null);
   assert.match(result.error, /notes/i);
@@ -58,4 +58,23 @@ test('notes in a shape the parser does not know are refused, not published', () 
 
 test('an empty tab gives no letter and no error', () => {
   assert.deepEqual(parseNewsletter('\n\n', '11.28'), { letter: null, error: null });
+});
+
+test('other ways of writing the notes are caught too', () => {
+  const body = ['The letter starts here.', 'Second paragraph.'];
+  // Heading with a colon, labelled options: skipped cleanly.
+  let r = parseNewsletter(['Openers:', 'Curiosity: one', ...body].join('\n'), '11.21');
+  assert.deepEqual(r.letter.body, body);
+  // Editors' notes / bare Notes: heading ends the letter.
+  for (const heading of ['Editors’ notes', 'Notes:', 'Editor notes']) {
+    r = parseNewsletter([...body, heading, 'Fix the citation.'].join('\n'), '11.21');
+    assert.deepEqual(r.letter.body, body, heading);
+  }
+  // Numbered options under a heading: refused.
+  r = parseNewsletter(['Subject lines', '1. First idea', '2. Second idea', ...body].join('\n'), '11.21');
+  assert.equal(r.letter, null);
+  assert.match(r.error, /notes/i);
+  // Unknown label line on top: refused.
+  r = parseNewsletter(['Ideas for the hook:', ...body].join('\n'), '11.21');
+  assert.equal(r.letter, null);
 });
