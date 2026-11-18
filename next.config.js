@@ -44,6 +44,13 @@ const nextConfig = {
         destination: '/autopilot/',
         permanent: false,
       },
+      // Letter was first published 2026-10 with Sean's subject-line notes as
+      // its title and address. Fixed 2026-11-18; the old address is in Google.
+      {
+        source: '/writing/subject-lines-curiosity-what-my-son-saw-in-the-world-series/',
+        destination: '/writing/theyre-going-to-throw-some-wild-pitches/',
+        permanent: true,
+      },
       {
         source: '/contact/',
         destination: '/work-with-me/',

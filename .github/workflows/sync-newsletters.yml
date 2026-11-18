@@ -27,6 +27,7 @@ jobs:
         run: npm ci
 
       - name: Sync newsletters from Google Docs
+        id: sync
         env:
           GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
         run: node scripts/sync-newsletters.mjs
@@ -46,3 +47,11 @@ jobs:
           git diff --staged --quiet && echo "No changes to commit" && exit 0
           git commit -m "Add newsletter(s) from $(date +'%B %d, %Y')"
           git push
+
+      # Runs last so good letters still publish. A red run is the signal that
+      # a tab was held back because drafting notes were mixed into the letter.
+      - name: Fail if a tab was refused
+        if: steps.sync.outputs.refused != ''
+        run: |
+          echo "::error::Newsletter tab(s) not published: ${{ steps.sync.outputs.refused }}. Remove the drafting notes from the tab and re-run."
+          exit 1
