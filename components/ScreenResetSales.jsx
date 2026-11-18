@@ -94,10 +94,10 @@ export default function ScreenResetSales({ phase = 'sale' }) {
             {onSale && <SalesCountdown deadline={SCREEN_RESET_SALE_ENDS} labels={s.hero.countdown} />}
             <div className="aps-hero-photo-wrap">
               <img
-                src="/images/autopilot/sean-studio.jpg"
+                src="/images/screen-reset/sean-studio.webp"
                 alt={s.hero.photoAlt}
-                width="1000"
-                height="1500"
+                width="800"
+                height="1200"
                 className="aps-photo aps-hero-photo"
                 fetchPriority="high"
               />
@@ -153,7 +153,10 @@ export default function ScreenResetSales({ phase = 'sale' }) {
                 </div>
               ))}
             </div>
-            <p className="aps-intro-note srs-intro-note">{s.intro.note}</p>
+            <div className="aps-intro-cta srs-intro-cta">
+              <Buy location="intro" className="aps-btn aps-btn-accent aps-btn-17" />
+              <span className="aps-intro-note">{s.intro.note}</span>
+            </div>
           </div>
         </section>
 
@@ -198,6 +201,9 @@ export default function ScreenResetSales({ phase = 'sale' }) {
               ))}
             </div>
             <p className="srs-weekend-closing">{s.weekend.closing}</p>
+            <div className="srs-weekend-cta">
+              <Buy location="weekend" />
+            </div>
           </div>
         </section>
 
@@ -254,6 +260,9 @@ export default function ScreenResetSales({ phase = 'sale' }) {
             <div className="aps-copy">
               {s.about.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
             </div>
+            <a href={s.about.link.href} className="srs-text-link">
+              {s.about.link.label} <Arrow />
+            </a>
           </div>
         </section>
 

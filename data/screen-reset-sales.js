@@ -272,6 +272,9 @@ export const SCREEN_RESET = {
     ],
     photoAlt: 'Sean Kane speaking on stage',
     photoCaption: 'Sean Kane · Austin, TX',
+    // Not in the copy doc: a plain link to the site's About page (added
+    // 2026-11-18, same wording as the Courses page).
+    link: { label: 'More about Sean', href: '/about/' },
   },
 
   // 10. Price and guarantee
@@ -366,6 +369,8 @@ export const SCREEN_RESET = {
     links: [
       { label: 'Privacy policy', href: '/privacy/' },
       { label: 'Terms & conditions', href: '/terms/' },
+      // Not in the copy doc (added 2026-11-18): a way back to the Courses page.
+      { label: 'All courses', href: '/courses/' },
     ],
   },
 };

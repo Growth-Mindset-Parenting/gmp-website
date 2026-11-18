@@ -17,6 +17,11 @@
   .srs .aps-nav .aps-btn { display: none; }
 }
 
+/* Small capital labels: when one wraps, split it into even lines rather than
+   leaving one word alone on the last line. Kept to this page so the
+   Autopilot page's labels break exactly as they did. */
+.srs .aps-eyebrow { text-wrap: balance; }
+
 /* ── 1. Hero ─────────────────────────────────────────────── */
 
 .srs .srs-hero-support { margin-bottom: 22px !important; }
@@ -104,10 +109,8 @@
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.85);
 }
-.srs .srs-intro-note {
-  display: block;
-  margin-top: clamp(28px, 3.5vw, 40px) !important;
-}
+/* The buy button at the foot of the card, with the small print beside it. */
+.srs-intro-cta { margin-top: clamp(28px, 3.5vw, 40px); }
 
 /* ── 5. What's inside ────────────────────────────────────── */
 
@@ -129,6 +132,8 @@
   line-height: 1.6;
   color: var(--ink-soft);
 }
+
+.srs-weekend-cta { margin-top: clamp(24px, 3vw, 32px); }
 
 /* ── 7. Is this for you? ─────────────────────────────────── */
 
@@ -164,11 +169,48 @@
 }
 .srs-ink-copy p + p { margin-top: 16px; }
 
+/* ── 9. About Sean ───────────────────────────────────────── */
+
+/* "More about Sean": the same link as on the Courses page (.crs-text-link).
+   The padding makes it a full-size tap target; the negative margin stops
+   that padding from pushing anything else around. */
+.srs .srs-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 -12px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: gap 0.18s, color 0.15s;
+}
+.srs .srs-text-link:hover { gap: 12px; color: var(--accent); }
+.srs .srs-text-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 /* ── 10. Price and guarantee ─────────────────────────────── */
 
 /* One price card, not Autopilot's pair. */
 .srs .srs-prices { max-width: 460px; }
 .srs-guarantee { margin-top: clamp(36px, 5vw, 56px); }
+/* Keeps the lines a comfortable length on a wide screen. */
+.srs .aps-guarantee-body p { max-width: 40em; }
+/* The email address in the sage boxes (guarantee, and "Don't see the
+   email?" on the thank-you page): orange on sage is too faint to read
+   easily, so it is ink with an underline. */
+.srs .aps-guarantee .aps-inline-link,
+.srs-thanks-help .aps-inline-link {
+  color: var(--ink) !important;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
 
 /* ── 11. Questions ───────────────────────────────────────── */
 
@@ -190,6 +232,14 @@
   font-size: 18px;
   color: var(--paper);
   margin-left: 2px;
+}
+
+/* Footer links: full-size tap targets. The negative margin cancels the
+   padding, so the footer is no taller than before. */
+.srs .aps-footer-links a {
+  display: inline-block;
+  padding: 14px 0;
+  margin: -14px 0;
 }
 
 /* ── Thank-you page (/screen-reset/thank-you/) ───────────── */

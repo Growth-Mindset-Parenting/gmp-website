@@ -815,10 +815,7 @@
   border-top: 1.5px solid var(--ink);
   margin-bottom: clamp(28px, 4vw, 40px);
 }
-.aps-faq-item {
-  border-bottom: 1px solid var(--rule);
-  padding: 22px 0;
-}
+.aps-faq-item { border-bottom: 1px solid var(--rule); }
 .aps-faq-item:last-child { border-bottom: 1.5px solid var(--ink); }
 .aps-faq-q {
   display: flex;
@@ -827,7 +824,11 @@
   justify-content: space-between;
   list-style: none;
   cursor: pointer;
+  /* The row's spacing is on the question itself, so the whole row can be
+     tapped, not just the line of text. */
+  padding: 22px 0;
 }
+.aps-faq-item[open] .aps-faq-q { padding-bottom: 14px; }
 .aps-faq-q::-webkit-details-marker { display: none; }
 .aps-faq-q h3 { font-size: clamp(19px, 2vw, 23px); }
 .aps-faq-plus {
@@ -842,7 +843,7 @@
   font-size: 16px;
   line-height: 1.6;
   max-width: 46em;
-  margin-top: 14px !important;
+  padding-bottom: 22px;
   color: var(--ink-soft);
 }
 

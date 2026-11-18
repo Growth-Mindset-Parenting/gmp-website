@@ -112,6 +112,7 @@
   font-weight: 600;
   line-height: 1.4;
   color: var(--ink-soft);
+  text-wrap: balance;
 }
 .crs-course-title {
   font-size: clamp(40px, 5.6vw, 76px);
@@ -131,6 +132,8 @@
   max-width: 20em;
   text-wrap: balance;
 }
+/* Orange on the sage card is too faint to read easily: ink there. */
+.crs-course--sage .crs-course-tagline { color: var(--ink); }
 .crs-course .aps-copy p { max-width: 36em; }
 
 .crs-course-side {
@@ -227,16 +230,19 @@
   font-size: 16px;
   line-height: 1.55;
   color: var(--ink-soft);
-  margin-bottom: 20px !important;
+  margin-bottom: 14px !important;
 }
 
-/* A link that reads as a link: bold, underlined, with the arrow. */
+/* A link that reads as a link: bold, underlined, with the arrow. The
+   padding makes it a full-size tap target; the negative bottom margin (and
+   the smaller gaps above it) keep everything where it was. */
 .crs .crs-text-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-top: auto;
-  padding: 6px 0;
+  margin-bottom: -6px;
+  padding: 12px 0;
   font-size: 16px;
   font-weight: 700;
   color: var(--ink);
@@ -297,7 +303,7 @@
 
 /* ── About Sean ──────────────────────────────────────────── */
 
-.crs .crs-about-link { margin-top: 22px; }
+.crs .crs-about-link { margin-top: 16px; }
 
 /* ── Questions ───────────────────────────────────────────── */
 
@@ -318,6 +324,13 @@
   /* Stacked, the list above already ends in a rule: no second one. */
   .crs-course-foot { border-top: 0; padding-top: 0; }
   .crs-faq-split { grid-template-columns: minmax(0, 1fr); }
+}
+/* Phones: the price and button come straight after the description, before
+   the two lists, so they are not three screens down. Only the order on
+   screen changes; the page's HTML order is the same. */
+@media (max-width: 767px) {
+  .crs-course-foot { order: 2; }
+  .crs-course-side { order: 3; }
 }
 @media (max-width: 560px) {
   .crs-course { border-radius: 18px; }

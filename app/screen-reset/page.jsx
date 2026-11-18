@@ -1,5 +1,8 @@
 import { cache } from 'react';
+import JsonLd from '../../components/JsonLd';
 import ScreenResetSales from '../../components/ScreenResetSales';
+import { SCREEN_RESET } from '../../data/screen-reset-sales';
+import { SITE } from '../../data/site';
 import { screenResetPriceAt } from '../../data/launch-schedule';
 import { SCREEN_RESET_METADATA } from '../../lib/screen-reset-metadata';
 
@@ -20,6 +23,31 @@ const currentPrice = cache(() => screenResetPriceAt());
 
 export const metadata = SCREEN_RESET_METADATA;
 
+// Structured data for search engines, the same shape as on /courses/. Only
+// what a visitor can read on the page, and no price: the price changes by
+// date, and a search result must never be left quoting the old one.
+// Sean is the `author`: on schema.org, `instructor` belongs to a scheduled
+// class (CourseInstance), not to a watch-any-time Course.
+const COURSE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: SCREEN_RESET.intro.name,
+  description: SCREEN_RESET.hero.subtitle,
+  url: `${SITE.url}/screen-reset/`,
+  provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  author: {
+    '@type': 'Person',
+    name: SITE.author.name,
+    url: `${SITE.url}/about/`,
+    sameAs: [SITE.author.tiktok, SITE.author.instagram],
+  },
+};
+
 export default function ScreenResetPage() {
-  return <ScreenResetSales phase={currentPrice()} />;
+  return (
+    <>
+      <JsonLd data={COURSE_SCHEMA} />
+      <ScreenResetSales phase={currentPrice()} />
+    </>
+  );
 }
